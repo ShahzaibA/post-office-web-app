@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './Navbar.css';
 
 export default class Navbar extends Component {
@@ -9,10 +10,12 @@ export default class Navbar extends Component {
                     <h1 class="logo">ShipIt</h1>
                     <nav>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Locations</a></li>
-                            <li><a href="#">Login</a></li>
+                            <Router>
+                                <li><a><Link to="/">Home</Link></a></li>
+                                <li><a><Link to="/about">About</Link></a></li>
+                                <li><a><Link to="/location">Locations</Link></a></li>
+                                <li><a><Link to="/login">Login</Link></a></li>
+                            </Router>
                         </ul>
                     </nav>
                 </div>
