@@ -10,13 +10,11 @@ class Navbar extends Component {
                     <h1 class="logo">ShipIt</h1>
                     <nav>
                         <ul>
-                            <Router>
-                                <li><a><Link to="/">Home</Link></a></li>
-                                <li><a><Link to="/about">About</Link></a></li>
-                                <li><a><Link to="/tracking">Tracking</Link></a></li>
-                                <li><a><Link to="/location">Locations</Link></a></li>
-                                <li><a><Link to="/login">Login</Link></a></li>
-                            </Router>
+                            <li><a><Link to="/">Home</Link></a></li>
+                            <li><a><Link to="/about">About</Link></a></li>
+                            <li><a><Link to="/tracking">Tracking</Link></a></li>
+                            <li><a><Link to="/location">Locations</Link></a></li>
+                            <li><a><Link to="/login">Login</Link></a></li>
                         </ul>
                     </nav>
                 </div>
