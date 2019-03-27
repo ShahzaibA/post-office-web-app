@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 import './Navbar.css';
+import logo from './logo.png';
 
 class Navbar extends Component {
     render() {
         return (
             <header>
                 <div class="container">
-                    <h1 class="logo">ShipIt</h1>
+                    <img class='logo' src={logo} alt="ShipIt" />
                     <nav>
                         <ul>
                             <li><a><Link to="/">Home</Link></a></li>

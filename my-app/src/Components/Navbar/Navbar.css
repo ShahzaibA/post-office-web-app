@@ -22,11 +22,11 @@ header::after {
   clear: both;
 }
 
-
 .logo {
   float: left;
   padding: 10px 0;
-  font-size: 18px;
+  width: 120px;
+  height: 45px;
 }
 
 h1 {
