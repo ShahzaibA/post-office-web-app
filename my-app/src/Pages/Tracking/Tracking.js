@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Navbar from '../../Components/Navbar/Navbar';
 import './Tracking.css'
 
 export default class Tracking extends Component {
@@ -9,9 +8,11 @@ export default class Tracking extends Component {
 
     render() {
         return (
-            <div>
-                Tracking
-            </div>
+            <tracking>
+                <div>
+                    Tracking
+                </div>
+            </tracking>
         )
     }
 }
