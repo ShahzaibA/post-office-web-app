@@ -13,6 +13,7 @@ export default class Navbar extends Component {
                             <Router>
                                 <li><a><Link to="/">Home</Link></a></li>
                                 <li><a><Link to="/about">About</Link></a></li>
+                                <li><a><Link to="/tracking">Tracking</Link></a></li>
                                 <li><a><Link to="/location">Locations</Link></a></li>
                                 <li><a><Link to="/login">Login</Link></a></li>
                             </Router>
