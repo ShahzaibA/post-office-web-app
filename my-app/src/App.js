@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 //Pages
 import Home from './Pages/Home/Home';
@@ -13,11 +13,18 @@ import Footer from './Components/Footer/Footer';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Navbar />
-        <Home />
-        <Footer />
-      </div>
+      <Router>
+        <div className="App">
+
+          <Navbar />
+
+          <Route exact path='/' component={Home} />
+          <Route exact path='/tracking' component={Tracking} />
+
+          <Footer />
+
+        </div>
+      </Router>
     );
   }
 }

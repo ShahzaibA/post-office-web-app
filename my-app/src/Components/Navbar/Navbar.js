@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './Navbar.css';
 
-export default class Navbar extends Component {
+class Navbar extends Component {
     render() {
         return (
             <header>
@@ -24,4 +24,4 @@ export default class Navbar extends Component {
         );
     }
 }
-
+export default Navbar;

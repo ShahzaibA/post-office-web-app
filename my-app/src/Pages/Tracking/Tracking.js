@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import './Tracking.css'
 
-export default class Tracking extends Component {
+class Tracking extends Component {
     numState = {
         numRows: 5
     }
 
     render() {
         return (
-            <tracking>
-                <div>
-                    Tracking
-                </div>
-            </tracking>
+            <div>
+                <h1>Tracking Page</h1>
+                <p>We are currently at the tracking.</p>
+            </div>
         )
     }
 }
+export default Tracking;
