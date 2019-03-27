@@ -13,7 +13,6 @@ import Footer from './Components/Footer/Footer';
 class App extends Component {
   render() {
     return (
-
       <Router>
         <div className="App">
 
@@ -23,7 +22,6 @@ class App extends Component {
           <Route exact path='/tracking' component={Tracking} />
 
           <Footer />
-
         </div>
       </Router>
     );
