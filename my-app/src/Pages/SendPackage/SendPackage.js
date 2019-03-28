@@ -73,7 +73,7 @@ class SendPackage extends React.Component {
     receiver_address: "",
     receiver_apartment: "",
     receiver_city: "",
-    receiever_state: "",
+    receiver_state: "",
     receiver_zip: "",
     receiver_country: "",
     packageType: "",
@@ -94,6 +94,21 @@ class SendPackage extends React.Component {
         return <Review />
       default:
         throw new Error('Unknown step');
+    }
+  }
+
+  validateNextButton(step) {
+    switch (step) {
+      case 0:
+        return (this.state.sender_firstName.length > 0 && this.state.sender_lastName.length > 0 && this.state.sender_address1.length > 0 && this.state.sender_city.length > 0 &&
+          this.state.sender_state.length > 0 && this.state.sender_zip.length > 0 && this.state.sender_country.length > 0 && this.state.sender_email.length > 0 && this.state.sender_phone.length > 0);
+      case 1:
+        return (this.state.receiver_firstName.length > 0 && this.state.receiver_lastName.length > 0 && this.state.receiver_address.length > 0 && this.state.receiver_city.length > 0 &&
+          this.state.receiver_state.length > 0 && this.state.receiver_zip.length > 0 && this.state.receiver_country.length > 0);
+      case 2:
+        return (this.state.packageType.length > 0 && this.state.packageWeight.length > 0);
+      default:
+        return true;
     }
   }
 
@@ -161,6 +176,7 @@ class SendPackage extends React.Component {
                       <Button
                         variant="contained"
                         color="primary"
+                        disabled={!this.validateNextButton(activeStep)}
                         onClick={this.handleNext}
                         className={classes.button}
                       >

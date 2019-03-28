@@ -7,7 +7,7 @@ function ShipTo(props) {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                Reciever's Information
+                Receiver's Information
       </Typography>
             <Grid container spacing={24}>
                 <Grid item xs={12} sm={6}>
@@ -38,8 +38,8 @@ function ShipTo(props) {
                     <TextField
                         required
                         id="receiver_address"
-                        name="reciever_address"
-                        value={props.val.receiver_address1}
+                        name="receiver_address"
+                        value={props.val.receiver_address}
                         label="Address line"
                         fullWidth
                         autoComplete="address-line"
@@ -61,7 +61,7 @@ function ShipTo(props) {
                     <TextField
                         required
                         id="receiver_city"
-                        name="reciever_city"
+                        name="receiver_city"
                         value={props.val.receiver_city}
                         label="City"
                         fullWidth
