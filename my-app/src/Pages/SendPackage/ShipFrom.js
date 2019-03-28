@@ -3,7 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-function ShipFrom() {
+
+function ShipFrom(props) {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
@@ -13,99 +14,119 @@ function ShipFrom() {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="firstName"
-                        name="firstName"
+                        id="sender_firstName"
+                        name="sender_firstName"
+                        value={props.val.sender_firstName}
                         label="First name"
                         fullWidth
                         autoComplete="fname"
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="lastName"
-                        name="lastName"
+                        id="sender_lastName"
+                        name="sender_lastName"
+                        value={props.val.sender_lastName}
                         label="Last name"
                         fullWidth
                         autoComplete="lname"
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="address1"
-                        name="address1"
+                        id="sender_address1"
+                        name="sender_address1"
+                        value={props.val.sender_address1}
                         label="Address line 1"
                         fullWidth
                         autoComplete="address-line1"
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        id="apartment"
-                        name="apartment"
+                        id="sender_apartment"
+                        name="sender_apartment"
+                        value={props.val.sender_apartment}
                         label="Apartment, suite, unit, building, floor, etc."
                         fullWidth
                         autoComplete="apartment"
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="city"
-                        name="city"
+                        id="sender_city"
+                        name="sender_city"
+                        value={props.val.sender_city}
                         label="City"
                         fullWidth
                         autoComplete="address-level2"
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="state"
-                        name="state"
+                        id="sender_state"
+                        name="sender_state"
+                        value={props.val.sender_state}
                         label="State/Province/Region"
                         fullWidth
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="zip"
-                        name="zip"
+                        id="sender_zip"
+                        name="sender_zip"
+                        value={props.val.sender_zip}
                         label="Zip / Postal code"
                         fullWidth
                         autoComplete="postal-code"
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="country"
-                        name="country"
+                        id="sender_country"
+                        name="sender_country"
+                        value={props.val.sender_country}
                         label="Country"
                         fullWidth
                         autoComplete="country"
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="email"
-                        name="email"
+                        id="sender_email"
+                        name="sender_email"
+                        value={props.val.sender_email}
                         label="Email"
                         fullWidth
                         autoComplete="email"
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="phone"
-                        name="phone"
+                        id="sender_phone"
+                        name="sender_phone"
+                        value={props.val.sender_phone}
                         label="Phone"
                         fullWidth
                         autoComplete="phone"
+                        onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>
             </Grid>

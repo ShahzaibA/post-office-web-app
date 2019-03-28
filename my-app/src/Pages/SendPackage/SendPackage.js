@@ -14,6 +14,7 @@ import PaymentForm from './PaymentForm';
 import Review from './Review';
 import ShipFrom from './ShipFrom';
 import ShipTo from './ShipTo';
+import PackageInformation from './PackageInformation';
 
 const styles = theme => ({
   appBar: {
@@ -52,24 +53,50 @@ const styles = theme => ({
   },
 });
 
-const steps = ['Ship From', 'Ship To', 'Review your order'];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <ShipFrom />;
-    case 1:
-      return <ShipTo />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
+const steps = ['Ship From', 'Ship To', 'Package Information', 'Review'];
 
 class SendPackage extends React.Component {
   state = {
     activeStep: 0,
+    sender_firstName: "",
+    sender_lastName: "",
+    sender_address1: "",
+    sender_apartment: "",
+    sender_city: "",
+    sender_state: "",
+    sender_zip: "",
+    sender_country: "",
+    sender_email: "",
+    sender_phone: "",
+    receiver_firstName: "",
+    receiver_lastName: "",
+    receiver_address: "",
+    receiver_apartment: "",
+    receiver_city: "",
+    receiever_state: "",
+    receiver_zip: "",
+    receiver_country: "",
+    packageType: "",
+    packageWeight: ""
+  };
+
+  getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <ShipFrom handleChange={this.handleChange} val={this.state} />;
+      case 1:
+        return <ShipTo handleChange={this.handleChange} val={this.state} />;
+      case 2:
+        return <PackageInformation handleChange={this.handleChange} val={this.state} />;
+      case 3:
+        return <Review />
+      default:
+        throw new Error('Unknown step');
+    }
+  }
+
+  handleChange = (name, val) => {
+    this.setState({ [name]: val });
   };
 
   handleNext = () => {
@@ -97,13 +124,6 @@ class SendPackage extends React.Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <AppBar position="absolute" color="default" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              Company name
-            </Typography>
-          </Toolbar>
-        </AppBar>
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Typography component="h1" variant="h4" align="center">
@@ -129,7 +149,7 @@ class SendPackage extends React.Component {
                 </React.Fragment>
               ) : (
                   <React.Fragment>
-                    {getStepContent(activeStep)}
+                    {this.getStepContent(activeStep)}
                     <div className={classes.buttons}>
                       {activeStep !== 0 && (
                         <Button onClick={this.handleBack} className={classes.button}>

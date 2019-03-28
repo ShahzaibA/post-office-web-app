@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import SendPackage from './Pages/SendPackage/SendPackage'
 
 //Pages
 import Home from './Pages/Home/Home';
@@ -20,6 +21,7 @@ class App extends Component {
 
           <Route exact path='/' component={Home} />
           <Route exact path='/tracking' component={Tracking} />
+          <Route exact path='/send_package' component={SendPackage} />
 
           <Footer />
         </div>
