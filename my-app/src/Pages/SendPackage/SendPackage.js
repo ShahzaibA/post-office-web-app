@@ -25,7 +25,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
     [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
-      width: 600,
+      width: 750,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
@@ -53,7 +53,7 @@ const styles = theme => ({
   },
 });
 
-const steps = ['Ship From', 'Ship To', 'Package Information', 'Review'];
+const steps = ['Ship From', 'Ship To', 'Package Information', 'Payment', 'Review'];
 
 class SendPackage extends React.Component {
   state = {
@@ -89,6 +89,8 @@ class SendPackage extends React.Component {
       case 2:
         return <PackageInformation handleChange={this.handleChange} val={this.state} />;
       case 3:
+        return <PaymentForm handleChange={this.handleChange} val={this.state} />;
+      case 4:
         return <Review />
       default:
         throw new Error('Unknown step');
