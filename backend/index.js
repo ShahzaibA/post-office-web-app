@@ -27,7 +27,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     port: '3306',
     user: 'root',
-    password: 'coogs123',
+    password: 'Group2PO',
     database: 'mydb'
 })
 
@@ -35,18 +35,20 @@ connection.connect(err => {
     if (err) {
         return err;
     }
+    else {
+        console.log("Connection successful");
+    }
 });
 
 
 app.use(cors());
 
 app.get('/get_states', (req, res) => {
-    connection.query('SELECT * FROM mydb.States', function (err, results) {
+    connection.query('SELECT * FROM postoffice.States', function (err, results) {
         if (err) {
             res.send(err);
         }
         else {
-            console.log(results)
             return res.json({
                 states: results
             })

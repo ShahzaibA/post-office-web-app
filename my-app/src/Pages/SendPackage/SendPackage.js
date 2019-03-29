@@ -87,8 +87,11 @@ class SendPackage extends React.Component {
   }
 
   getStates() {
-    fetch('http://68.183.131.116:4000/get_states')
+    fetch('localhost:4000/get_states')
       .then(res => this.setState({ states: res.states }))
+      .catch(err => {
+        throw new Error(err)
+      })
     console.log(this.state.states)
   }
 
