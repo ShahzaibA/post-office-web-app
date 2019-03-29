@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -78,8 +76,9 @@ class SendPackage extends React.Component {
     receiver_country: "",
     packageType: "",
     packageWeight: "",
+    quantity: 1,
     price: "",
-    states: "",
+    states: [],
   };
 
   componentDidMount() {
@@ -87,12 +86,11 @@ class SendPackage extends React.Component {
   }
 
   getStates() {
-    fetch('localhost:4000/get_states')
-      .then(res => this.setState({ states: res.states }))
-      .catch(err => {
-        throw new Error(err)
-      })
-    console.log(this.state.states)
+    fetch('http://localhost:4000/get_states'
+    )
+      .then(res => res.json())
+      .then(Response => this.setState({ states: Response.states }))
+      .catch(err => console.log(err))
   }
 
   getStepContent(step) {

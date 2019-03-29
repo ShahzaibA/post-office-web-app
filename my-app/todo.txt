@@ -2,7 +2,6 @@ Send Package Page:
     FRIDAY
     1. Make state and country into a dropdown menu
     2. Fix pricing module
-    3. Default qty to 1
     4. Fix review component layout
     SATURDAY
     1. Set up backend and connect to DB using node

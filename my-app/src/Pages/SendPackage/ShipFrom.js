@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 function ShipFrom(props) {
@@ -74,12 +75,21 @@ function ShipFrom(props) {
                     <TextField
                         required
                         id="sender_state"
+                        select
+                        variant="standard"
                         name="sender_state"
                         value={props.val.sender_state}
                         label="State/Province/Region"
                         fullWidth
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
-                    />
+
+                    >
+                        {props.val.states.map(option => (
+                            <MenuItem key={option.State_Abbr} value={option.State_Abbr}>
+                                {option.State_Abbr}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField

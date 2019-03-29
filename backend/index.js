@@ -22,13 +22,14 @@ const client = mysqlssh.connect(
         database: 'mydb'
     }
 )
+.then()
 */
 const connection = mysql.createConnection({
     host: 'localhost',
     port: '3306',
     user: 'root',
     password: 'Group2PO',
-    database: 'mydb'
+    database: 'postoffice'
 })
 
 connection.connect(err => {
@@ -44,7 +45,7 @@ connection.connect(err => {
 app.use(cors());
 
 app.get('/get_states', (req, res) => {
-    connection.query('SELECT * FROM mydb.States', function (err, results) {
+    connection.query('SELECT * FROM postoffice.States', function (err, results) {
         if (err) {
             res.send(err);
         }
