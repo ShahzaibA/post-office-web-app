@@ -6,6 +6,7 @@ import { Grid } from '@material-ui/core';
 
 class Tracking extends Component {
     GenRows() {
+        //Change numRows to the COUNT(*) of generated TrackingID's per account
         var numRows = 8;
         var rows = [];
         for (var i = 0; i < numRows; i++) {

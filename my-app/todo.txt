@@ -11,3 +11,11 @@ Send Package Page:
     SUNDAY
     1. Add finishing touches on page ui
     2. Start working on user registration/login page
+
+Tracking Page:
+    Tracking.js
+    1. Create Material UI Pagination to link additional tracking every 5 rows
+
+    NewTrackingRow.js
+    1. Create formatted grid for each simulated row tuple
+    2. Clean up appearance for each row
