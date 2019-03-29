@@ -44,7 +44,7 @@ connection.connect(err => {
 app.use(cors());
 
 app.get('/get_states', (req, res) => {
-    connection.query('SELECT * FROM postoffice.States', function (err, results) {
+    connection.query('SELECT * FROM mydb.States', function (err, results) {
         if (err) {
             res.send(err);
         }
