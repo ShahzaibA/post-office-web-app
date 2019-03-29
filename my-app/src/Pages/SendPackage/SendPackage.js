@@ -77,7 +77,8 @@ class SendPackage extends React.Component {
     receiver_zip: "",
     receiver_country: "",
     packageType: "",
-    packageWeight: ""
+    packageWeight: "",
+    price: ""
   };
 
   getStepContent(step) {
@@ -91,7 +92,7 @@ class SendPackage extends React.Component {
       case 3:
         return <PaymentForm handleChange={this.handleChange} val={this.state} />;
       case 4:
-        return <Review />
+        return <Review handleChange={this.handleChange} val={this.state} />
       default:
         throw new Error('Unknown step');
     }

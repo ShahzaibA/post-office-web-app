@@ -39,15 +39,13 @@ function Review(props) {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                Order summary
+                Order Summary
       </Typography>
             <List disablePadding>
-                {products.map(product => (
-                    <ListItem className={classes.listItem} key={product.name}>
-                        <ListItemText primary={product.name} secondary={product.desc} />
-                        <Typography variant="body2">{product.price}</Typography>
-                    </ListItem>
-                ))}
+                <ListItem className={classes.listItem} key={props.val.packageType}>
+                    <ListItemText primary={props.val.packageType} secondary={props.val.packageWeight + "lbs"} />
+                    <Typography variant="body2">{products[0].price}</Typography>
+                </ListItem>
                 <ListItem className={classes.listItem}>
                     <ListItemText primary="Total" />
                     <Typography variant="subtitle1" className={classes.total}>
