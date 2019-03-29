@@ -46,6 +46,7 @@ app.get('/get_states', (req, res) => {
             res.send(err);
         }
         else {
+            console.log(results)
             return res.json({
                 states: results
             })
