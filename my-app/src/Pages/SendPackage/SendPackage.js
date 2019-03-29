@@ -78,8 +78,19 @@ class SendPackage extends React.Component {
     receiver_country: "",
     packageType: "",
     packageWeight: "",
-    price: ""
+    price: "",
+    states: "",
   };
+
+  componentDidMount() {
+    this.getStates();
+  }
+
+  getStates() {
+    fetch('http://68.183.131.116:4000/get_states')
+      .then(res => this.setState({ states: res.states }))
+    console.log(this.state.states)
+  }
 
   getStepContent(step) {
     switch (step) {
