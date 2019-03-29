@@ -77,8 +77,23 @@ class SendPackage extends React.Component {
     receiver_zip: "",
     receiver_country: "",
     packageType: "",
-    packageWeight: ""
+    packageWeight: "",
+    price: "",
+    states: "",
   };
+
+  componentDidMount() {
+    this.getStates();
+  }
+
+  getStates() {
+    fetch('localhost:4000/get_states')
+      .then(res => this.setState({ states: res.states }))
+      .catch(err => {
+        throw new Error(err)
+      })
+    console.log(this.state.states)
+  }
 
   getStepContent(step) {
     switch (step) {
@@ -91,7 +106,7 @@ class SendPackage extends React.Component {
       case 3:
         return <PaymentForm handleChange={this.handleChange} val={this.state} />;
       case 4:
-        return <Review />
+        return <Review handleChange={this.handleChange} val={this.state} />
       default:
         throw new Error('Unknown step');
     }
