@@ -42,12 +42,12 @@ function ShipFrom(props) {
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="sender_address1"
-                        name="sender_address1"
-                        value={props.val.sender_address1}
+                        id="sender_address"
+                        name="sender_address"
+                        value={props.val.sender_address}
                         label="Address line 1"
                         fullWidth
-                        autoComplete="address-line1"
+                        autoComplete="address-line"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
                     />
                 </Grid>

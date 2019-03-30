@@ -58,7 +58,7 @@ class SendPackage extends React.Component {
     activeStep: 0,
     sender_firstName: "",
     sender_lastName: "",
-    sender_address1: "",
+    sender_address: "",
     sender_apartment: "",
     sender_city: "",
     sender_state: "",

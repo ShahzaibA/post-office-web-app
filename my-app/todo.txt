@@ -1,12 +1,11 @@
 Send Package Page:
     FRIDAY
-    1. Make state and country into a dropdown menu
     2. Fix pricing module
-    4. Fix review component layout
     SATURDAY
-    1. Set up backend and connect to DB using node
-    2. Send package data from front-end to backend
-    3. Insert data into appropriate tables in the DB
+    1. Fix review component layout
+    2. Set up backend and connect to DB using node
+    3. Send package data from front-end to backend
+    4. Insert data into appropriate tables in the DB
     SUNDAY
     1. Add finishing touches on page ui
     2. Start working on user registration/login page

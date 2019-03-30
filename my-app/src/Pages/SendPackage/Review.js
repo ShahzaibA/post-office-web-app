@@ -34,6 +34,32 @@ const styles = theme => ({
     },
 });
 
+function calculatePrice(props) {
+    if (props.val.package_type === "Letter") {
+        const weight = parseFloat(props.val.package_weight);
+        props.val.price = ((weight * .85 + 1.99) * 1.0825).toFixed(2)
+        return ((weight * .85 + 1.99).toFixed(2))
+    }
+
+    else if (props.val.package_type === "Small Box") {
+        const weight = parseFloat(props.val.package_weight);
+        props.val.price = ((weight * .85 + 4.99) * 1.0825).toFixed(2)
+        return ((weight * .85 + 4.99).toFixed(2))
+    }
+
+    else if (props.val.package_type === "Medium Box") {
+        const weight = parseFloat(props.val.package_weight);
+        props.val.price = ((weight * .85 + 9.99) * 1.0825).toFixed(2)
+        return ((weight * .85 + 9.99).toFixed(2))
+    }
+
+    else if (props.val.package_type === "Large Box") {
+        const weight = parseFloat(props.val.package_weight);
+        props.val.price = ((weight * .85 + 14.99) * 1.0825).toFixed(2)
+        return ((weight * .85 + 14.99).toFixed(2))
+    }
+}
+
 function Review(props) {
     const { classes } = props;
     return (
@@ -42,15 +68,19 @@ function Review(props) {
                 Order Summary
       </Typography>
             <List disablePadding>
-                <ListItem className={classes.listItem} key={props.val.packageType}>
-                    <ListItemText primary={props.val.packageType} secondary={props.val.packageWeight + "lbs"} />
-                    <Typography variant="body2">{products[0].price}</Typography>
+                <ListItem className={classes.listItem} key={props.val.package_type}>
+                    <ListItemText primary={props.val.package_type} secondary={props.val.package_weight + "lbs"} />
+                    <Typography variant="body2">${calculatePrice(props)}</Typography>
+                </ListItem>
+                <ListItem className={classes.listItem} key="tax">
+                    <ListItemText primary="Tax" />
+                    <Typography variant="subtitle1">${(calculatePrice(props) * .0825).toFixed(2)}</Typography>
                 </ListItem>
                 <ListItem className={classes.listItem}>
                     <ListItemText primary="Total" />
                     <Typography variant="subtitle1" className={classes.total}>
-                        $34.06
-          </Typography>
+                        ${(calculatePrice(props) * 1.0825).toFixed(2)}
+                    </Typography>
                 </ListItem>
             </List>
             <Grid container spacing={16}>
