@@ -103,6 +103,40 @@ class SendPackage extends React.Component {
       .catch(err => console.log(err))
   }
 
+  sendPackageData = () => {
+    fetch('http://localhost:4000/create_order', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sender_firstName: this.state.sender_firstName,
+        sender_lastName: this.state.sender_lastName,
+        sender_address: this.state.sender_address,
+        sender_apartment: this.state.sender_apartment,
+        sender_city: this.state.sender_city,
+        sender_state: this.state.sender_state,
+        sender_zip: this.state.sender_zip,
+        sender_country: this.state.sender_country,
+        sender_email: this.state.sender_email,
+        sender_phone: this.state.sender_phone,
+        receiver_firstName: this.state.receiver_firstName,
+        receiver_lastName: this.state.receiver_lastName,
+        receiver_address: this.state.receiver_address,
+        receiver_apartment: this.state.receiver_apartment,
+        receiver_city: this.state.receiver_city,
+        receiver_state: this.state.receiver_state,
+        receiver_zip: this.state.receiver_zip,
+        receiver_country: this.state.receiver_country,
+        package_type: this.state.package_type,
+        package_weight: this.state.package_weight,
+        quantity: 1,
+        price: this.state.price,
+      })
+    })
+
+  }
+
   getStepContent(step) {
     switch (step) {
       case 0:
@@ -123,7 +157,7 @@ class SendPackage extends React.Component {
   validateNextButton(step) {
     switch (step) {
       case 0:
-        return (this.state.sender_firstName.length > 0 && this.state.sender_lastName.length > 0 && this.state.sender_address1.length > 0 && this.state.sender_city.length > 0 &&
+        return (this.state.sender_firstName.length > 0 && this.state.sender_lastName.length > 0 && this.state.sender_address.length > 0 && this.state.sender_city.length > 0 &&
           this.state.sender_state.length > 0 && this.state.sender_zip.length > 0 && this.state.sender_country.length > 0 && this.state.sender_email.length > 0 && this.state.sender_phone.length > 0);
       case 1:
         return (this.state.receiver_firstName.length > 0 && this.state.receiver_lastName.length > 0 && this.state.receiver_address.length > 0 && this.state.receiver_city.length > 0 &&
@@ -160,6 +194,7 @@ class SendPackage extends React.Component {
   render() {
     const { classes } = this.props;
     const { activeStep } = this.state;
+    console.log(activeStep)
 
     return (
       <React.Fragment>
@@ -178,7 +213,7 @@ class SendPackage extends React.Component {
             </Stepper>
             <React.Fragment>
               {activeStep === steps.length ? (
-                <React.Fragment>
+                < React.Fragment >
                   <Typography variant="h5" gutterBottom>
                     Thank you for your order.
                   </Typography>
@@ -196,15 +231,18 @@ class SendPackage extends React.Component {
                           Back
                       </Button>
                       )}
-                      <Button
+                      {activeStep === steps.length - 1 ? (<Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.sendPackageData}
+                        className={classes.button}
+                      >Create Label</Button>) : (<Button
                         variant="contained"
                         color="primary"
                         disabled={!this.validateNextButton(activeStep)}
                         onClick={this.handleNext}
                         className={classes.button}
-                      >
-                        {activeStep === steps.length - 1 ? 'Create Label' : 'Next'}
-                      </Button>
+                      >Next</Button>)}
                     </div>
                   </React.Fragment>
                 )}

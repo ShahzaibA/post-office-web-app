@@ -12,7 +12,6 @@ class Navbar extends Component {
                     <nav>
                         <ul>
                             <li><a><Link to="/">Home</Link></a></li>
-                            <li><a><Link to="/about">About</Link></a></li>
                             <li><a><Link to="/tracking">Tracking</Link></a></li>
                             <li><a><Link to="/location">Locations</Link></a></li>
                             <li><a><Link to="/send_package">Send Package</Link></a></li>
