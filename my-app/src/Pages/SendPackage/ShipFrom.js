@@ -4,6 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
+const countries = [
+    { country_name: "United States" },
+]
 
 function ShipFrom(props) {
     return (
@@ -107,13 +110,20 @@ function ShipFrom(props) {
                     <TextField
                         required
                         id="sender_country"
+                        select
+                        variant="standard"
                         name="sender_country"
                         value={props.val.sender_country}
                         label="Country"
                         fullWidth
-                        autoComplete="country"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
-                    />
+                    >
+                        {countries.map(option => (
+                            <MenuItem key={option.country_name} value={option.country_name}>
+                                {option.country_name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField

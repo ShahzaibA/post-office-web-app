@@ -4,6 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
+const countries = [
+    { country_name: "United States" },
+]
 
 function ShipTo(props) {
     return (
@@ -112,9 +115,14 @@ function ShipTo(props) {
                         value={props.val.receiver_country}
                         label="Country"
                         fullWidth
-                        autoComplete="country"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
-                    />
+                    >
+                        {countries.map(option => (
+                            <MenuItem key={option.country_name} value={option.country_name}>
+                                {option.country_name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </Grid>
             </Grid>
         </React.Fragment>
