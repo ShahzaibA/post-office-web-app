@@ -1,9 +1,6 @@
 Send Package Page:
-    FRIDAY
-    2. Fix pricing module
     SATURDAY
     1. Fix review component layout
-    2. Set up backend and connect to DB using node
     3. Send package data from front-end to backend
     4. Insert data into appropriate tables in the DB
     SUNDAY
