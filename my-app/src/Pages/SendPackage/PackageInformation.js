@@ -2,6 +2,8 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 function PackageInformation(props) {
     return (
@@ -13,20 +15,28 @@ function PackageInformation(props) {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="packageType"
-                        name="packageType"
-                        value={props.val.packageType}
+                        id="package_type"
+                        select
+                        variant="standard"
+                        name="package_type"
+                        value={props.val.package_type}
                         label="Packaging Type"
                         fullWidth
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
-                    />
+                    >
+                        {props.val.package_types.map(option => (
+                            <MenuItem key={option.ShipForm} value={option.ShipForm}>
+                                {option.ShipForm}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="packageWeight"
-                        name="packageWeight"
-                        value={props.val.packageWeight}
+                        id="package_weight"
+                        name="package_weight"
+                        value={props.val.package_weight}
                         label="Weight (in lbs)"
                         fullWidth
                         onChange={e => props.handleChange(e.target.name, e.target.value)}

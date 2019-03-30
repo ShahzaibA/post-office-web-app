@@ -74,15 +74,17 @@ class SendPackage extends React.Component {
     receiver_state: "",
     receiver_zip: "",
     receiver_country: "",
-    packageType: "",
-    packageWeight: "",
+    package_type: "",
+    package_weight: "",
     quantity: 1,
     price: "",
     states: [],
+    package_types: [],
   };
 
   componentDidMount() {
     this.getStates();
+    this.getPackageTypes();
   }
 
   getStates() {
@@ -90,6 +92,14 @@ class SendPackage extends React.Component {
     )
       .then(res => res.json())
       .then(Response => this.setState({ states: Response.states }))
+      .catch(err => console.log(err))
+  }
+
+  getPackageTypes() {
+    fetch('http://localhost:4000/get_package_types'
+    )
+      .then(res => res.json())
+      .then(Response => this.setState({ package_types: Response.package_types }))
       .catch(err => console.log(err))
   }
 
@@ -119,7 +129,7 @@ class SendPackage extends React.Component {
         return (this.state.receiver_firstName.length > 0 && this.state.receiver_lastName.length > 0 && this.state.receiver_address.length > 0 && this.state.receiver_city.length > 0 &&
           this.state.receiver_state.length > 0 && this.state.receiver_zip.length > 0 && this.state.receiver_country.length > 0);
       case 2:
-        return (this.state.packageType.length > 0 && this.state.packageWeight.length > 0);
+        return (this.state.package_type.length > 0 && this.state.package_weight.length > 0);
       default:
         return true;
     }
