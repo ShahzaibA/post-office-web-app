@@ -11,8 +11,8 @@ header {
 }
 
 .container {
-  width: 93%;
-	margin: 0 auto;
+  width: 93% !important;
+	margin: 0 auto !important;
 }
 
 header::after {
@@ -23,9 +23,9 @@ header::after {
 
 .logo {
   float: left;
-  padding: 10px 0;
-  width: 120px;
-  height: 45px;
+  padding: 10px 0 !important;
+  width: 120px !important;
+  height: 45px !important;
 }
 
 h1 {
@@ -47,7 +47,7 @@ nav li {
   margin-left: 70px;
   padding-top: 23px;
 
-  position: relative;
+  position: relative !important;
 }
 
 nav a {
@@ -63,17 +63,17 @@ nav a:hover {
 
 nav a::before {
   content: '';
-  display: block;
-  height: 5px;
+  display: block !important;
+  height: 5px !important;
   background-color: #444;
 
-  position: absolute;
-  top: 0;
-  width: 0%;
+  position: absolute !important;
+  top: 0 !important ;
+  width: 0% !important ;
 
   transition: all ease-in-out 250ms;
 }
 
 nav a:hover::before {
-  width: 100%;
+  width: 100% !important ;
 }
