@@ -53,6 +53,20 @@ class Tracking extends React.Component {
         data: [],
     }
 
+    componentDidMount() {
+        this.getShipStatus();
+    }
+
+
+    getShipStatus() {
+        fetch('http://localhost:4000/get_shipstatus'
+        )
+            .then(res => res.json())
+            .then(Response => this.setState({ data: Response.data }))
+            //.then(console.log(this.state.data))
+            .catch(err => console.log(err))
+    }
+
     render() {
         const { classes } = this.props;
         return (

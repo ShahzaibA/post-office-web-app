@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
 body {
+  box-sizing: initial;
 	margin: 0;
 	background: rgb(255, 255, 255);
 	font-family: 'Work Sans', sans-serif;
