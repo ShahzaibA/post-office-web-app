@@ -69,15 +69,15 @@ class Tracking extends React.Component {
     }
 
     getShipStatus() {
-        fetch('http://localhost:4000/get_shipstatus')
+        fetch('http://localhost:4000/get_packages')
             .then(res => res.json())
             .then(Response => this.setState({ data: Response.data }))
-            .then(console.log(this.state.data))
             .catch(err => console.log(err))
     }
 
     render() {
         const { classes } = this.props;
+        console.log(this.state.data);
         return (
             <div className={classes.wrapper} width="100%">
                 <Typography variant="h3" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >

@@ -25,8 +25,8 @@ connection.connect(err => {
 app.use(cors());
 app.use(bodyParser.json())
 
-app.get('/get_shipstatus', (req, res) => {
-    connection.query('SELECT * FROM postoffice.Package', function (err, results) {
+app.get('/get_packages', (req, res) => {
+    connection.query('SELECT * FROM postoffice.package', function (err, results) {
         if (err) {
             res.send(err);
         }
