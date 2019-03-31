@@ -13,6 +13,8 @@ import Review from './Review';
 import ShipFrom from './ShipFrom';
 import ShipTo from './ShipTo';
 import PackageInformation from './PackageInformation';
+import { Redirect } from "react-router-dom";
+
 
 const styles = theme => ({
   appBar: {
@@ -80,6 +82,8 @@ class SendPackage extends React.Component {
     price: "",
     states: [],
     package_types: [],
+    invoice_ID: "",
+    tracking_ID: "",
   };
 
   componentDidMount() {
@@ -134,6 +138,10 @@ class SendPackage extends React.Component {
         price: this.state.price,
       })
     })
+      .then(res => res.json())
+      .then(Response => this.setState({ invoice_ID: Response.invoice_ID, tracking_ID: Response.tracking_ID }))
+      .then(this.handleNext)
+      .catch(err => console.log(err))
 
   }
 
@@ -169,6 +177,10 @@ class SendPackage extends React.Component {
     }
   }
 
+  redirectUser() {
+    return <Redirect to={{ pathname: '/' }} />;
+  }
+
   handleChange = (name, val) => {
     this.setState({ [name]: val });
   };
@@ -194,8 +206,6 @@ class SendPackage extends React.Component {
   render() {
     const { classes } = this.props;
     const { activeStep } = this.state;
-    console.log(activeStep)
-
     return (
       <React.Fragment>
         <CssBaseline />
@@ -218,8 +228,8 @@ class SendPackage extends React.Component {
                     Thank you for your order.
                   </Typography>
                   <Typography variant="subtitle1">
-                    Your order number is #2001539. We have emailed your order confirmation, and will
-                    send you an update when your order has shipped.
+                    Your order number is #{this.state.invoice_ID} and your tracking number is #{this.state.tracking_ID}. We have emailed you your order confirmation and shipping label, and will
+                    send you an update when your order has been delivered.
                   </Typography>
                 </React.Fragment>
               ) : (
