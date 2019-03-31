@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 //Pages
 import Home from './Pages/Home/Home';
-import Tracking from './Pages/Tracking/Tracking'
+import Tracking from './Pages/Tracking/Tracking2'
 import SendPackage from './Pages/SendPackage/SendPackage'
 import UserProfile from './Pages/UserProfile/UserProfile'
 

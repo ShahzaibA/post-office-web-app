@@ -25,6 +25,20 @@ connection.connect(err => {
 app.use(cors());
 app.use(bodyParser.json())
 
+
+app.get('/get_tracking', (req, res) => {
+    connection.query('SELECT * FROM postoffice.States', function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json({
+                states: results
+            })
+        }
+    })
+});
+
 app.get('/get_states', (req, res) => {
     connection.query('SELECT * FROM postoffice.States', function (err, results) {
         if (err) {
