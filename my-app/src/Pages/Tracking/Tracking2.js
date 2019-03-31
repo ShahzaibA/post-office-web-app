@@ -40,6 +40,10 @@ const rows = [
 ];
 
 class Tracking extends React.Component {
+    current = {
+        numRows: 5
+    }
+
     state = {
         numRows: 5,
 
@@ -53,17 +57,22 @@ class Tracking extends React.Component {
         data: [],
     }
 
+
+    GenTuples() {
+        for (var i = 0; i < this.current.numRows; i++) {
+            createData(this.state.data[i])
+        }
+    }
+
     componentDidMount() {
         this.getShipStatus();
     }
 
-
     getShipStatus() {
-        fetch('http://localhost:4000/get_shipstatus'
-        )
+        fetch('http://localhost:4000/get_shipstatus')
             .then(res => res.json())
             .then(Response => this.setState({ data: Response.data }))
-            //.then(console.log(this.state.data))
+            .then(console.log(this.state.data))
             .catch(err => console.log(err))
     }
 
