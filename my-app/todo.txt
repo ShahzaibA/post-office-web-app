@@ -1,12 +1,3 @@
-Send Package Page:
-    SATURDAY
-    1. Fix review component layout
-    3. Send package data from front-end to backend
-    4. Insert data into appropriate tables in the DB
-    SUNDAY
-    1. Add finishing touches on page ui
-    2. Start working on user registration/login page
-
 Tracking Page:
     Tracking.js
     1. Create Material UI Pagination to link additional tracking every 5 rows
