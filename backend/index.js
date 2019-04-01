@@ -25,6 +25,21 @@ connection.connect(err => {
 app.use(cors());
 app.use(bodyParser.json())
 
+//Chris Query->
+app.get('/get_shipstatus', (req, res) => {
+    connection.query('SELECT * FROM postoffice.shipstatus', function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json({
+                data: results
+            })
+        }
+    })
+});
+//<-Chris Query
+
 app.get('/get_packages', (req, res) => {
     connection.query('SELECT * FROM postoffice.package', function (err, results) {
         if (err) {

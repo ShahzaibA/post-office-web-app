@@ -9,10 +9,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { spacing } from '@material-ui/system';
+import { Divider } from '@material-ui/core';
 
 const styles = theme => ({
+    overrider: {
+        margin: "5px",
+    },
     wrapper: {
-        width: "100%",
+        width: "70%",
+        margin: "0 auto",
     },
     root: {
         align: "center",
@@ -26,19 +31,6 @@ const styles = theme => ({
     },
 });
 
-let id = 0;
-function createData(DateTime, Location, Status) {
-    id += 1;
-    return { id, DateTime, Location, Status };
-}
-
-const rows = [
-    createData('2/24/19', 'Nice Lane', 'Package Processing'),
-    createData('2/25/19', 'Calhoun Road', 'In Transit'),
-    createData('2/27/19', 'alright location', 'In Transit'),
-    createData('2/30/19', 'Some place', 'Package Arrived'),
-];
-
 class Tracking extends React.Component {
     current = {
         numRows: 5
@@ -47,21 +39,7 @@ class Tracking extends React.Component {
     state = {
         numRows: 5,
 
-        CurrentTracking: 0,
-        NameObject: "NameObject",
-        TrackingID: 0,
-        Status: "Status",
-        Location: "Location",
-        DateTime: "DateTime",
-        Color: "Color",
         data: [],
-    }
-
-
-    GenTuples() {
-        for (var i = 0; i < this.current.numRows; i++) {
-            createData(this.state.data[i])
-        }
     }
 
     componentDidMount() {
@@ -69,7 +47,7 @@ class Tracking extends React.Component {
     }
 
     getShipStatus() {
-        fetch('http://localhost:4000/get_packages')
+        fetch('http://localhost:4000/get_shipstatus')
             .then(res => res.json())
             .then(Response => this.setState({ data: Response.data }))
             .catch(err => console.log(err))
@@ -79,15 +57,13 @@ class Tracking extends React.Component {
         const { classes } = this.props;
         console.log(this.state.data);
         return (
-            <div className={classes.wrapper} width="100%">
-                <Typography variant="h3" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
+            <div className={classes.wrapper}>
+                <Typography variant="h3" as="div" align="left" style={{ padding: 10 }} >
+                    Object Name - TrackingID
+                    </Typography>
+                <Divider className={classes.overrider}></Divider>
+                <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
                     Tracking Details:
-                    </Typography>
-                <Typography variant="h5" as="div" align="left" style={{ padding: 10 }} >
-                    Object Name
-                    </Typography>
-                <Typography variant="h5" as="div" align="left" style={{ padding: 10 }} >
-                    TrackingID
                     </Typography>
 
                 <Paper className={classes.root}>
@@ -100,11 +76,11 @@ class Tracking extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map(row => (
+                            {this.state.data.map(row => (
                                 <TableRow key={row.id}>
                                     <TableCell align="left">{row.DateTime}</TableCell>
-                                    <TableCell align="left">{row.Location}</TableCell>
-                                    <TableCell align="left">{row.Status}</TableCell>
+                                    <TableCell align="left">{row.Hub_ID}</TableCell>
+                                    <TableCell align="left">{row.Status_ID}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
