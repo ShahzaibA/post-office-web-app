@@ -31,19 +31,6 @@ const styles = theme => ({
     },
 });
 
-let id = 0;
-function createData(DateTime, Location, Status) {
-    id += 1;
-    return { id, DateTime, Location, Status };
-}
-
-const rows = [
-    createData('2/24/19', 'Nice Lane', 'Package Processing'),
-    createData('2/25/19', 'Calhoun Road', 'In Transit'),
-    createData('2/27/19', 'alright location', 'In Transit'),
-    createData('2/30/19', 'Some place', 'Package Arrived'),
-];
-
 class Tracking extends React.Component {
     current = {
         numRows: 5
@@ -52,13 +39,6 @@ class Tracking extends React.Component {
     state = {
         numRows: 5,
 
-        CurrentTracking: 0,
-        NameObject: "NameObject",
-        TrackingID: 0,
-        Status: "Status",
-        Location: "Location",
-        DateTime: "DateTime",
-        Color: "Color",
         data: [],
     }
 
