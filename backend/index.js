@@ -38,6 +38,20 @@ app.get('/get_shipstatus', (req, res) => {
         }
     })
 });
+
+
+app.get('/get_status_types', (req, res) => {
+    connection.query('SELECT * FROM postoffice.status', function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json({
+                status_types: results
+            })
+        }
+    })
+});
 //<-Chris Query
 
 app.get('/get_packages', (req, res) => {
