@@ -202,10 +202,11 @@ app.post('/create_user', (req, res) => {
             }
         }
     })
+})
 
-
-
-
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    connection.query(`SELECT * FROM `)
 })
 
 app.listen(4000, () => {
