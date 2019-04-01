@@ -14,10 +14,10 @@ const connection = mysql.createConnection({
 
 connection.connect(err => {
     if (err) {
-        return err;
+        throw err;
     }
     else {
-        console.log("Connection successful");
+        console.log("Mysql connected successful");
     }
 });
 
@@ -39,6 +39,26 @@ app.get('/get_shipstatus', (req, res) => {
     })
 });
 //<-Chris Query
+
+//Victor Query->
+app.get('/get_user', (req, res) => {
+    connection.query('SELECT Username, Email FROM employeecredentials WHERE Email = "test2@test.com";', function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json({
+                data: results
+            })
+        }
+    })
+});
+
+app.get('/test', function(req, res) {
+    res.json({ message: 'hooray! welcome to our api!' });   
+});
+//<-Victor Query
+
 
 app.get('/get_packages', (req, res) => {
     connection.query('SELECT * FROM postoffice.package', function (err, results) {
