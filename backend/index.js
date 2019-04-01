@@ -68,12 +68,6 @@ app.get('/get_user', (req, res) => {
     })
 });
 
-app.get('/test', function (req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
-});
-//<-Victor Query
-
-
 app.get('/get_packages', (req, res) => {
     connection.query('SELECT * FROM postoffice.package', function (err, results) {
         if (err) {
@@ -196,14 +190,14 @@ app.post('/create_user', (req, res) => {
                     }
                     else {
                         res.json({
-                            isAvailable: true
+                            accountCreated: true
                         })
                     }
                 })
             }
             else {
                 res.json({
-                    isAvailable: false
+                    accountCreated: false
                 })
             }
         }

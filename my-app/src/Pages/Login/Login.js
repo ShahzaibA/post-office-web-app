@@ -41,7 +41,7 @@ const styles = theme => ({
     },
 });
 
-function SignIn(props) {
+function Login(props) {
     const { classes } = props;
 
     return (
@@ -84,8 +84,8 @@ function SignIn(props) {
     );
 }
 
-SignIn.propTypes = {
+Login.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+export default withStyles(styles)(Login);
