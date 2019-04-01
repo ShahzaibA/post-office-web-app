@@ -8,11 +8,11 @@ const countries = [
     { country_name: "United States" },
 ]
 
-function LoginDetails(props) {
+function AccountInfo(props) {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                User Registration
+                Enter Your Information
       </Typography>
             <Grid container spacing={24}>
                 <Grid item xs={12} sm={6}>
@@ -154,4 +154,4 @@ function LoginDetails(props) {
     );
 }
 
-export default LoginDetails;
+export default AccountInfo;
