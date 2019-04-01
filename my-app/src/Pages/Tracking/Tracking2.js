@@ -40,10 +40,13 @@ class Tracking extends React.Component {
         numRows: 5,
 
         data: [],
+        hubs: [],
+        status_types: [],
     }
 
     componentDidMount() {
         this.getShipStatus();
+        this.getStatus_Types();
     }
 
     getShipStatus() {
@@ -53,9 +56,38 @@ class Tracking extends React.Component {
             .catch(err => console.log(err))
     }
 
+    getHubs() {
+        fetch('http://localhost:4000/get_hubs')
+            .then(res => res.json())
+            .then(Response => this.setState({ status_types: Response.status_types }))
+            .catch(err => console.log(err))
+
+    }
+
+    getStatus_Types() {
+        fetch('http://localhost:4000/get_status_types')
+            .then(res => res.json())
+            .then(Response => this.setState({ status_types: Response.status_types }))
+            .catch(err => console.log(err))
+
+    }
+
+    translateTime(time) {
+        if (parseInt(time.substring(0, 1)) < 11) {
+            if (parseInt(time.substring(0, 1)) < 10) {
+                return time.substring(1, 5) + " AM"
+            }
+            return time.substring(0, 5) + " AM"
+        }
+        else {
+            return time.substring(0, 5) + " PM"
+        }
+    }
+
     render() {
         const { classes } = this.props;
         console.log(this.state.data);
+        console.log(this.state.status_types);
         return (
             <div className={classes.wrapper}>
                 <Typography variant="h3" as="div" align="left" style={{ padding: 10 }} >
@@ -70,7 +102,8 @@ class Tracking extends React.Component {
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                <TableCell align="left">DateTime</TableCell>
+                                <TableCell align="left">Time</TableCell>
+                                <TableCell align="left">Date</TableCell>
                                 <TableCell align="left">Location</TableCell>
                                 <TableCell align="left">Status</TableCell>
                             </TableRow>
@@ -78,7 +111,8 @@ class Tracking extends React.Component {
                         <TableBody>
                             {this.state.data.map(row => (
                                 <TableRow key={row.id}>
-                                    <TableCell align="left">{row.DateTime}</TableCell>
+                                    <TableCell align="left">{this.translateTime(row.Time)} </TableCell>
+                                    <TableCell align="left">{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                     <TableCell align="left">{row.Hub_ID}</TableCell>
                                     <TableCell align="left">{row.Status_ID}</TableCell>
                                 </TableRow>
