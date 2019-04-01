@@ -8,7 +8,6 @@ Tracking Page:
 
 Login/Registration Page:
     SUNDAY:
-    1. Add account details page to registration page.
     2. Send registration data to the backend.
     3. Insert all data inside of db with proper links to sender_ID
     MONDAY:

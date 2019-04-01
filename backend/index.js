@@ -17,7 +17,7 @@ connection.connect(err => {
         throw err;
     }
     else {
-        console.log("Mysql connected successful");
+        console.log("Connection successful");
     }
 });
 
@@ -68,8 +68,8 @@ app.get('/get_user', (req, res) => {
     })
 });
 
-app.get('/test', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
+app.get('/test', function (req, res) {
+    res.json({ message: 'hooray! welcome to our api!' });
 });
 //<-Victor Query
 
@@ -162,6 +162,56 @@ app.post('/create_order', (req, res) => {
             })
         }
     })
+})
+
+app.post('/create_user', (req, res) => {
+    const { username, password, sender_firstName, sender_lastName, sender_address, sender_apartment, sender_city, sender_state,
+        sender_zip, sender_country, sender_email, sender_phone } = req.body;
+
+    // insert senders city into lookup table if not exists
+    connection.query(`INSERT INTO postoffice.cities (City_Name) SELECT * FROM (SELECT '${sender_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM postoffice.cities WHERE City_Name='${sender_city}') LIMIT 1`, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+    })
+
+    // check to see if that username or email exists in the db
+    connection.query(`SELECT * FROM postoffice.sendercredentials WHERE Username='${username}' OR Email='${sender_email}'`, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            if (results.length === 0) {
+                // add sender to sender table if not exists
+                connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}', '${sender_lastName}', '${sender_address}', (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}'),  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}'), '${sender_zip}', (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}'), '${sender_email}', '${sender_phone}') AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
+
+                // create new account linked to a sender
+                connection.query(`INSERT INTO postoffice.sendercredentials (Username, Password, Email, tSender_ID) VALUES ('${username}', '${password}', '${sender_email}', (SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'))`, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        res.json({
+                            isAvailable: true
+                        })
+                    }
+                })
+            }
+            else {
+                res.json({
+                    isAvailable: false
+                })
+            }
+        }
+    })
+
+
+
+
 })
 
 app.listen(4000, () => {

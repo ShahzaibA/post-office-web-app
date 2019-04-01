@@ -104,6 +104,34 @@ class Register extends React.Component {
         }
     }
 
+    sendRegistrationInfo = () => {
+        fetch('http://localhost:4000/create_user', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password,
+                sender_firstName: this.state.sender_firstName,
+                sender_lastName: this.state.sender_lastName,
+                sender_address: this.state.sender_address,
+                sender_apartment: this.state.sender_apartment,
+                sender_city: this.state.sender_city,
+                sender_state: this.state.sender_state,
+                sender_zip: this.state.sender_zip,
+                sender_country: this.state.sender_country,
+                sender_email: this.state.sender_email,
+                sender_phone: this.state.sender_phone,
+            })
+        })
+            .then(res => res.json())
+            .then(Response => this.setState({ isAvailable: Response.isAvailable }))
+            .then(this.handleNext)
+            .catch(err => console.log(err))
+
+    }
+
     handleChange = (name, val) => {
         this.setState({ [name]: val });
     };
