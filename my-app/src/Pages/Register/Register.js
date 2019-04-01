@@ -8,8 +8,8 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Redirect } from "react-router-dom";
 import LoginDetails from './LoginDetails';
+import AccountInfo from './AccountInfo';
 
 const styles = theme => ({
     appBar: {
@@ -85,6 +85,8 @@ class Register extends React.Component {
         switch (step) {
             case 0:
                 return <LoginDetails handleChange={this.handleChange} val={this.state} />;
+            case 1:
+                return <AccountInfo handleChange={this.handleChange} val={this.state} />
             default:
                 throw new Error('Unknown step');
         }
@@ -94,13 +96,12 @@ class Register extends React.Component {
         switch (step) {
             case 0:
                 return (this.state.username.length > 0 && this.state.password.length > 0)
+            case 1:
+                return (this.state.sender_firstName.length > 0 && this.state.sender_lastName.length > 0 && this.state.sender_address.length > 0 && this.state.sender_city.length > 0 &&
+                    this.state.sender_state.length > 0 && this.state.sender_zip.length > 0 && this.state.sender_country.length > 0 && this.state.sender_email.length > 0 && this.state.sender_phone.length > 0);
             default:
                 return true;
         }
-    }
-
-    redirectUser() {
-        return <Redirect to={{ pathname: '/' }} />;
     }
 
     handleChange = (name, val) => {
@@ -166,9 +167,10 @@ class Register extends React.Component {
                                             {activeStep === steps.length - 1 ? (<Button
                                                 variant="contained"
                                                 color="primary"
-                                                onClick={this.sendPackageData}
+                                                disabled={!this.validateNextButton(activeStep)}
+                                                onClick={this.sendRegistrationInfo}
                                                 className={classes.button}
-                                            >Create Label</Button>) : (<Button
+                                            >Create Account</Button>) : (<Button
                                                 variant="contained"
                                                 color="primary"
                                                 disabled={!this.validateNextButton(activeStep)}
