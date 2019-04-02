@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 
-class ControlledCarousel extends React.Component {
+export default class ControlledCarousel extends React.Component {
     constructor(props, context) {
         super(props, context);
 
