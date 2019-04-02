@@ -108,7 +108,7 @@ class SendPackage extends React.Component {
   }
 
   sendPackageData = () => {
-    fetch('http://localhost:4000/create_user', {
+    fetch('http://localhost:4000/create_order', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

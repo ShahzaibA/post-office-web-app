@@ -41,88 +41,51 @@ const styles = theme => ({
     },
 });
 
-class Login extends React.Component {
-    state = {
-        username: "",
-        password: ""
-    }
+function SignIn(props) {
+    const { classes } = props;
 
-    loginUser = () => {
-        fetch('http://localhost:4000/login', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password,
-            })
-        })
-            .then(res => res.json())
-            .then(Response => this.setState({ accountCreated: Response.accountCreated }))
-            .then(this.handleNext)
-            .catch(err => console.log(err))
-    }
+    return (
+        <main className={classes.main}>
+            <CssBaseline />
+            <Paper className={classes.paper}>
+                <Typography component="h1" variant="h5">
+                    Sign in
+        </Typography>
+                <form className={classes.form}>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="email">Email Address</InputLabel>
+                        <Input id="email" name="email" autoComplete="email" autoFocus />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="password">Password</InputLabel>
 
-    handleChange = (name, val) => {
-        this.setState({ [name]: val });
-    };
-
-    render() {
-        const { classes } = this.props;
-        return (
-            <main className={classes.main}>
-                <CssBaseline />
-                <Paper className={classes.paper}>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
-                    <form className={classes.form}>
-                        <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="email">Username</InputLabel>
-                            <Input
-                                id="username"
-                                name="username"
-                                onChange={e => this.handleChange(e.target.name, e.target.value)}
-                                autoComplete="username"
-                                autoFocus />
-                        </FormControl>
-                        <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input
-                                name="password"
-                                onChange={e => this.handleChange(e.target.name, e.target.value)}
-                                type="password"
-                                id="password"
-                                autoComplete="current-password" />
-                        </FormControl>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            onClick={this.loginUser}
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Sign in
-                        </Button>
-                    </form>
-                </Paper>
-                <Typography style={{ marginTop: '10px' }}>Don't Have an Account?&ensp;
-                <Button
-                        href="/register"
-                        variant="outlined"
+                        <Input name="password" type="password" id="password" autoComplete="current-password" />
+                    </FormControl>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
                         color="primary"
-                        size="small"
-                        style={{ textTransform: 'none' }}
-                    >Register</Button></Typography>
-            </main>
-        );
-    }
+                        className={classes.submit}
+                    >
+                        Sign in
+          </Button>
+                </form>
+            </Paper>
+            <Typography style={{ marginTop: '10px' }}>Don't Have an Account?&ensp;
+                <Button
+                    href="/register"
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    style={{ textTransform: 'none' }}
+                >Register</Button></Typography>
+        </main>
+    );
 }
 
-Login.propTypes = {
+SignIn.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(SignIn);
