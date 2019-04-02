@@ -40,7 +40,6 @@ class Tracking extends React.Component {
         numRows: 5,
 
         data: [],
-        hubs: [],
         status_types: [],
     }
 
@@ -56,12 +55,13 @@ class Tracking extends React.Component {
             .catch(err => console.log(err))
     }
 
-    getHubs() {
-        fetch('http://localhost:4000/get_hubs')
+    getTrackingHub() {
+        let ret = [];
+        fetch('http://localhost:4000/tracking_hubs')
             .then(res => res.json())
-            .then(Response => this.setState({ status_types: Response.status_types }))
+            .then(Response => this.setState({ ret: Response.ret }))
             .catch(err => console.log(err))
-
+        return ret;
     }
 
     getStatus_Types() {
@@ -83,6 +83,24 @@ class Tracking extends React.Component {
             return time.substring(0, 5) + " PM"
         }
     }
+
+    translateStatus(stat) {
+        switch (stat) {
+            case 1:
+                return this.state.status_types[0]
+            case 2:
+                return this.state.status_types[1]
+            case 3:
+                return this.state.status_types[2]
+            case 4:
+                return this.state.status_types[3]
+            case 5:
+                return this.state.status_types[4]
+            default:
+                return ""
+        }
+    }
+    //<TableCell align="left">{this.translateStatus(row.Status_ID)}</TableCell>
 
     render() {
         const { classes } = this.props;
@@ -113,8 +131,8 @@ class Tracking extends React.Component {
                                 <TableRow key={row.id}>
                                     <TableCell align="left">{this.translateTime(row.Time)} </TableCell>
                                     <TableCell align="left">{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                    <TableCell align="left">{row.Hub_ID}</TableCell>
-                                    <TableCell align="left">{row.Status_ID}</TableCell>
+                                    <TableCell align="left">{this.getTrackingHub(row.Hub_ID)}</TableCell>
+                                    <TableCell></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

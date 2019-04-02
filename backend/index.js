@@ -39,6 +39,19 @@ app.get('/get_shipstatus', (req, res) => {
     })
 });
 
+app.get('/get_tracking_hub', (req, res) => {
+    const { Hub_ID, } = req.body;
+    connection.query(`SELECT Addr FROM postoffice.Hub WHERE Hub_ID = ${Hub_ID}`, function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json({
+                data: results
+            })
+        }
+    })
+});
 
 app.get('/get_status_types', (req, res) => {
     connection.query('SELECT * FROM postoffice.status', function (err, results) {
@@ -68,8 +81,8 @@ app.get('/get_user', (req, res) => {
     })
 });
 
-app.get('/test', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
+app.get('/test', function (req, res) {
+    res.json({ message: 'hooray! welcome to our api!' });
 });
 //<-Victor Query
 
