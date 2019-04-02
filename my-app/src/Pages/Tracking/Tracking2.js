@@ -39,7 +39,7 @@ class Tracking extends React.Component {
     state = {
         numRows: 5,
 
-        rowHub: 0,
+        rowHub: "",
         data: [],
         ret: [],
         status_types: [],
@@ -57,18 +57,18 @@ class Tracking extends React.Component {
             .catch(err => console.log(err))
     }
 
-    getTrackingHub = (rowPar) => {
-        this.state.rowHub = rowPar;
-        fetch('http://localhost:4000/tracking_hubs', {
+    getTrackingHub = () => {
+        fetch('http://localhost:4000/get_tracking_hub', {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
-            }, body: JSON.stringify({ Hub_ID: this.state.rowHub })
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ Hub_ID: this.state.rowHub })
         })
             .then(res => res.json())
             .then(Response => this.setState({ ret: Response.ret }))
             .catch(err => console.log(err))
-        return this.state.ret[0];
+        return this.state.ret;
     }
 
 
@@ -93,24 +93,16 @@ class Tracking extends React.Component {
     }
 
     translateStatus(stat) {
-        switch (stat) {
-            case 1:
-                return this.state.status_types[0]
-            case 2:
-                return this.state.status_types[1]
-            case 3:
-                return this.state.status_types[2]
-            case 4:
-                return this.state.status_types[3]
-            case 5:
-                return this.state.status_types[4]
-            default:
-                return ""
-        }
+        if (stat == 1) return "Processing Package";
+        else if (stat == 2) return "Package Processed";
+        else if (stat == 3) return "In Transit";
+        else if (stat == 4) return "Out For Delivery";
+        else if (stat == 5) return "Package Delivered";
     }
     /*
-    <TableCell align="left">{this.getTrackingHub(row.Hub_ID)}</TableCell>
-    <TableCell alighn="left">{this.translateStatus(row.State)}</TableCell>
+    <TableCell align="left">{row.Hub_ID}</TableCell>
+    <TableCell align="left">{this.getTrackingHub(this.state.rowHub = row.Hub_ID)}</TableCell>
+    <TableCell align="left">{this.translateStatus(row.State)}</TableCell>
     */
 
     render() {
@@ -143,7 +135,7 @@ class Tracking extends React.Component {
                                     <TableCell align="left">{this.translateTime(row.Time)} </TableCell>
                                     <TableCell align="left">{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                     <TableCell align="left">{row.Hub_ID}</TableCell>
-                                    <TableCell align="left">{this.translateStatus(row.State)}</TableCell>
+                                    <TableCell align="left">{this.translateStatus(row.Status_ID)}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

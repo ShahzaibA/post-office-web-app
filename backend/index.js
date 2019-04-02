@@ -40,8 +40,9 @@ app.get('/get_shipstatus', (req, res) => {
 });
 
 app.get('/get_tracking_hub', (req, res) => {
+    res.json({ message: 'hooray! welcome to our api!' });
     const { Hub_ID, } = req.body;
-    connection.query(`SELECT Addr FROM postoffice.Hub WHERE Hub_ID = ${Hub_ID}`, function (err, results) {
+    connection.query(`SELECT Addr FROM postoffice.hub WHERE Hub_ID = '${Hub_ID}'`, function (err, results) {
         if (err) {
             res.send(err);
         }
