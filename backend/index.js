@@ -227,7 +227,16 @@ app.post('/create_user', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
-    connection.query(`SELECT * FROM `)
+    connection.query(`SELECT * FROM postoffice.senderCredentials WHERE Username='${username}' AND Password='${password}'`, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.json({
+                sender_id: results.tSender_ID
+            })
+        }
+    })
 })
 
 

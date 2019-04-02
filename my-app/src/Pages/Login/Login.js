@@ -44,7 +44,8 @@ const styles = theme => ({
 class Login extends React.Component {
     state = {
         username: "",
-        password: ""
+        password: "",
+        sender_ID: ""
     }
 
     loginUser = () => {
@@ -59,7 +60,7 @@ class Login extends React.Component {
             })
         })
             .then(res => res.json())
-            .then(Response => this.setState({ accountCreated: Response.accountCreated }))
+            .then(Response => this.setState({ sender_ID: Response.tSender_ID }))
             .then(this.handleNext)
             .catch(err => console.log(err))
     }
