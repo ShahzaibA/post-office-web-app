@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Redirect } from "react-router-dom";
 import LoginDetails from './LoginDetails';
+import AccountInfo from './AccountInfo';
+
 
 const styles = theme => ({
     appBar: {
@@ -66,7 +68,7 @@ class Register extends React.Component {
         states: [],
         username: "",
         password: "",
-        isAvailable: false,
+        accountCreated: false,
     };
 
     componentDidMount() {
@@ -81,10 +83,40 @@ class Register extends React.Component {
             .catch(err => console.log(err))
     }
 
+    sendRegistrationInfo = () => {
+        fetch('http://localhost:4000/create_user', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password,
+                sender_firstName: this.state.sender_firstName,
+                sender_lastName: this.state.sender_lastName,
+                sender_address: this.state.sender_address,
+                sender_apartment: this.state.sender_apartment,
+                sender_city: this.state.sender_city,
+                sender_state: this.state.sender_state,
+                sender_zip: this.state.sender_zip,
+                sender_country: this.state.sender_country,
+                sender_email: this.state.sender_email,
+                sender_phone: this.state.sender_phone,
+            })
+        })
+            .then(res => res.json())
+            .then(Response => this.setState({ accountCreated: Response.accountCreated }))
+            .then(this.handleNext)
+            .catch(err => console.log(err))
+
+    }
+
     getStepContent(step) {
         switch (step) {
             case 0:
                 return <LoginDetails handleChange={this.handleChange} val={this.state} />;
+            case 1:
+                return <AccountInfo handleChange={this.handleChange} val={this.state} />
             default:
                 throw new Error('Unknown step');
         }
@@ -94,6 +126,9 @@ class Register extends React.Component {
         switch (step) {
             case 0:
                 return (this.state.username.length > 0 && this.state.password.length > 0)
+            case 1:
+                return (this.state.sender_firstName.length > 0 && this.state.sender_lastName.length > 0 && this.state.sender_address.length > 0 && this.state.sender_city.length > 0 &&
+                    this.state.sender_state.length > 0 && this.state.sender_zip.length > 0 && this.state.sender_country.length > 0 && this.state.sender_email.length > 0 && this.state.sender_phone.length > 0);
             default:
                 return true;
         }
@@ -145,15 +180,27 @@ class Register extends React.Component {
                         </Stepper>
                         <React.Fragment>
                             {activeStep === steps.length ? (
-                                < React.Fragment >
-                                    <Typography variant="h5" gutterBottom>
-                                        Thank you for your order.
-                                    </Typography>
-                                    <Typography variant="subtitle1">
-                                        Your order number is #{this.state.invoice_ID} and your tracking number is #{this.state.tracking_ID}. We have emailed you your order confirmation and shipping label, and will
-                                        send you an update when your order has been delivered.
-                                    </Typography>
-                                </React.Fragment>
+                                <div>
+                                    {this.state.accountCreated ? (
+                                        < React.Fragment >
+                                            <Typography variant="h5" gutterBottom>
+                                                Your account has been created!
+                                     </Typography>
+                                            <Typography variant="subtitle1">
+                                                You may now log in using your newly created username {this.state.username} and your password.
+                                     </Typography>
+                                        </React.Fragment>
+                                    ) : (
+                                            < React.Fragment >
+                                                <Typography variant="h5" gutterBottom>
+                                                    There was an error creating your account.
+                                     </Typography>
+                                                <Typography variant="subtitle1">
+                                                    Unfortunately, either the entered username is currently in use or an account already exists with that email address.
+                                     </Typography>
+                                            </React.Fragment>
+                                        )}
+                                </div>
                             ) : (
                                     <React.Fragment>
                                         {this.getStepContent(activeStep)}
@@ -166,9 +213,10 @@ class Register extends React.Component {
                                             {activeStep === steps.length - 1 ? (<Button
                                                 variant="contained"
                                                 color="primary"
-                                                onClick={this.sendPackageData}
+                                                disabled={!this.validateNextButton(activeStep)}
+                                                onClick={this.sendRegistrationInfo}
                                                 className={classes.button}
-                                            >Create Label</Button>) : (<Button
+                                            >Create Account</Button>) : (<Button
                                                 variant="contained"
                                                 color="primary"
                                                 disabled={!this.validateNextButton(activeStep)}
