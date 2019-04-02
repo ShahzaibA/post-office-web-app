@@ -6,8 +6,6 @@ export default class Navbar extends Component {
     render() {
         return (
             <footer>
-                <div class="container">
-                </div>
             </footer>
         );
     }
