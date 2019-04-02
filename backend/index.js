@@ -56,20 +56,35 @@ app.get('/get_status_types', (req, res) => {
 
 //Victor Query->
 app.get('/get_user', (req, res) => {
-    connection.query('SELECT Username, Email FROM employeecredentials WHERE Email = "test2@test.com";', function (err, results) {
+    connection.query(`SELECT Username,Email,tSender_ID FROM sendercredentials WHERE Email = "${req.query.email}";`, function (err, results) {
         if (err) {
             res.send(err);
         }
-        else {
-            return res.json({
-                data: results
+        else if (results.length !== 0) {
+            //console.log("Results array not empty");
+            let myusername = results[0].Username
+            let senderId = results[0].tSender_ID
+            //console.log(senderId)
+            connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID, ZIP, Email, Phone FROM sender WHERE Sender_ID = ${senderId}`, function(err, results){
+                //console.log(results);
+                if (err) {
+                    res.send(err);
+                }
+                else if (results.length !==0){
+                    return res.json({
+                        username: myusername,
+                        firstname: results[0].FName,
+                        lastname: results[0].LName,
+                        address1: results[0].Addr1,
+                        address2: results[0].Addr2,
+                        zip: results[0].ZIP,
+                        email: results[0].Email,
+                        phone: results[0].phone,
+                    })
+                }
             })
         }
     })
-});
-
-app.get('/test', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
 });
 //<-Victor Query
 

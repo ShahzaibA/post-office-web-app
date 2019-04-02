@@ -1,77 +1,58 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
-    container: {
-        display: "flex",
-        flexWrap: "wrap"
+    root: {
+        ...theme.mixins.gutters(),
+        paddingTop: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing.unit * 2,
     },
-    formControl: {
-        margin: theme.spacing.unit
-    }
 });
-
 
 function UserInfo(props) {
     const { classes } = props;
 
     return (
         <div>
-          <div>
-                <FormControl className={classes.formControl} disabled>
-                    <InputLabel htmlFor="component-helper">
-                        <b>EMAIL</b>
-                    </InputLabel>
-                    <Input
-                        id="email"
-                        // must make value call database to get correct email
-                        value="my email"
-                    //onChange={this.handleChange}
-                    />
-                </FormControl>
-            </div>
-
-            <div>
-                <FormControl className={classes.formControl} disabled>
-                    <InputLabel htmlFor="component-disabled">
-                        <b>USERNAME</b>
-                    </InputLabel>
-                    <Input
-                        id="username"
-                        // must make value call database to get correct username
-                        value="my username"
-                    //onChange={this.handleChange}
-                    />
-                </FormControl>
-            </div>
-
-            <div>
-                <FormControl className={classes.formControl} disabled>
-                    <InputLabel htmlFor="component-disabled">
-                        <b>PASSWORD</b>
-                    </InputLabel>
-                    <Input
-                        id="password"
-                        // dont show password keep value ******** but allow change in password
-                        value="************"
-                    //onChange={this.handleChange}
-                    />
-                </FormControl>
-            </div>
-
-
+            <Paper className={classes.root} elevation={1}>
+                <Typography variant="h5" component="h3">
+                    User Profile
+                </Typography>
+                
+                <Typography component="p">
+                    Username: {props.username}
+                </Typography>
+                <Typography component="p">
+                    Email: {props.email}
+                </Typography>
+                <Typography component="p">
+                    First Name: {props.firstname}
+                </Typography>
+                <Typography component="p">
+                    Last Name: {props.lastname}
+                </Typography>
+                <Typography component="p">
+                    Address: {props.address1}
+                </Typography>
+                <Typography component="p">
+                    {props.address2}
+                </Typography>
+                <Typography component="p">
+                    ZIP: {props.zip}
+                </Typography>
+                <Typography component="p">
+                Phone: {props.phone}
+                </Typography>
+            </Paper>
         </div>
     );
 }
 
 UserInfo.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(UserInfo);
-
-
