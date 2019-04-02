@@ -287,8 +287,9 @@ app.post('/login', (req, res) => {
             console.log(err);
         }
         else {
-            res.json({
-                sender_id: results.tSender_ID
+            console.log(results)
+            return res.json({
+                data: results
             })
         }
     })

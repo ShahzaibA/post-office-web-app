@@ -45,7 +45,10 @@ class Login extends React.Component {
     state = {
         username: "",
         password: "",
-        sender_ID: ""
+        sender_ID: "",
+        loggedIn: false,
+        info: []
+
     }
 
     loginUser = () => {
@@ -60,67 +63,75 @@ class Login extends React.Component {
             })
         })
             .then(res => res.json())
-            .then(Response => this.setState({ sender_ID: Response.tSender_ID }))
-            .then(this.handleNext)
+            .then(result => {
+                if (result.data.length !== 0) {
+                    localStorage.setItem('sender_ID', result.data[0].tSender_ID);
+                    this.setState({ loggedIn: true })
+                }
+            })
             .catch(err => console.log(err))
     }
 
     handleChange = (name, val) => {
         this.setState({ [name]: val });
-    };
+    }
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.username)
-        return (
-            <main className={classes.main}>
-                <CssBaseline />
-                <Paper className={classes.paper}>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
-                    <form className={classes.form}>
-                        <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="email">Username</InputLabel>
-                            <Input
-                                id="username"
-                                name="username"
-                                onChange={e => this.handleChange(e.target.name, e.target.value)}
-                                autoComplete="username"
-                                autoFocus />
-                        </FormControl>
-                        <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input
-                                name="password"
-                                onChange={e => this.handleChange(e.target.name, e.target.value)}
-                                type="password"
-                                id="password"
-                                autoComplete="current-password" />
-                        </FormControl>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            onClick={this.loginUser}
-                            color="primary"
-                            className={classes.submit}
-                        >
+        console.log(this.state.info);
+        if (this.state.loggedIn) {
+            window.location.replace('/');
+        }
+        else {
+            return (
+                <main className={classes.main}>
+                    <CssBaseline />
+                    <Paper className={classes.paper}>
+                        <Typography component="h1" variant="h5">
                             Sign in
-                        </Button>
-                    </form>
-                </Paper>
-                <Typography style={{ marginTop: '10px' }}>Don't Have an Account?&ensp;
-                <Button
-                        href="/register"
-                        variant="outlined"
-                        color="primary"
-                        size="small"
-                        style={{ textTransform: 'none' }}
-                    >Register</Button></Typography>
-            </main>
-        );
+                        </Typography>
+                        <form className={classes.form}>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="email">Username</InputLabel>
+                                <Input
+                                    id="username"
+                                    name="username"
+                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                    autoComplete="username"
+                                    autoFocus />
+                            </FormControl>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="password">Password</InputLabel>
+                                <Input
+                                    name="password"
+                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password" />
+                            </FormControl>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                onClick={this.loginUser}
+                                color="primary"
+                            >
+                                Sign in
+                            </Button>
+                        </form>
+                    </Paper>
+                    <Typography style={{ marginTop: '10px' }}>Don't Have an Account?&ensp;
+                    <Button
+                            href="/register"
+                            variant="outlined"
+                            color="primary"
+                            size="small"
+                            style={{ textTransform: 'none' }}
+                        >Register</Button></Typography>
+                </main>
+            );
+        }
     }
+
 }
 
 Login.propTypes = {
