@@ -47,14 +47,14 @@ app.get('/get_tracking_hub', (req, res) => {
         }
         else {
             return res.json({
-                data: results
+                ret: results
             })
         }
     })
 });
 
 app.get('/get_status_types', (req, res) => {
-    connection.query('SELECT * FROM postoffice.status', function (err, results) {
+    connection.query('SELECT Status_Type FROM postoffice.status', function (err, results) {
         if (err) {
             res.send(err);
         }

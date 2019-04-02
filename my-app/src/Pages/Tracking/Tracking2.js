@@ -39,7 +39,9 @@ class Tracking extends React.Component {
     state = {
         numRows: 5,
 
+        rowHub: 0,
         data: [],
+        ret: [],
         status_types: [],
     }
 
@@ -55,14 +57,20 @@ class Tracking extends React.Component {
             .catch(err => console.log(err))
     }
 
-    getTrackingHub() {
-        let ret = [];
-        fetch('http://localhost:4000/tracking_hubs')
+    getTrackingHub = (rowPar) => {
+        this.state.rowHub = rowPar;
+        fetch('http://localhost:4000/tracking_hubs', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }, body: JSON.stringify({ Hub_ID: this.state.rowHub })
+        })
             .then(res => res.json())
             .then(Response => this.setState({ ret: Response.ret }))
             .catch(err => console.log(err))
-        return ret;
+        return this.state.ret[0];
     }
+
 
     getStatus_Types() {
         fetch('http://localhost:4000/get_status_types')
@@ -100,7 +108,10 @@ class Tracking extends React.Component {
                 return ""
         }
     }
-    //<TableCell align="left">{this.translateStatus(row.Status_ID)}</TableCell>
+    /*
+    <TableCell align="left">{this.getTrackingHub(row.Hub_ID)}</TableCell>
+    <TableCell alighn="left">{this.translateStatus(row.State)}</TableCell>
+    */
 
     render() {
         const { classes } = this.props;
@@ -128,11 +139,11 @@ class Tracking extends React.Component {
                         </TableHead>
                         <TableBody>
                             {this.state.data.map(row => (
-                                <TableRow key={row.id}>
+                                <TableRow key={row.id} >
                                     <TableCell align="left">{this.translateTime(row.Time)} </TableCell>
                                     <TableCell align="left">{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                    <TableCell align="left">{this.getTrackingHub(row.Hub_ID)}</TableCell>
-                                    <TableCell></TableCell>
+                                    <TableCell align="left">{row.Hub_ID}</TableCell>
+                                    <TableCell align="left">{this.translateStatus(row.State)}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
