@@ -26,32 +26,87 @@ app.use(cors());
 app.use(bodyParser.json())
 
 //Chris Query->
+
 app.get('/get_shipstatus', (req, res) => {
+
     connection.query('SELECT * FROM postoffice.shipstatus', function (err, results) {
+
         if (err) {
+
             res.send(err);
+
         }
+
         else {
+
             return res.json({
+
                 data: results
+
             })
+
         }
+
     })
+
 });
+
+
+
+app.get('/get_tracking_hub', (req, res) => {
+
+    res.json({ message: 'hooray! welcome to our api!' });
+
+    const { Hub_ID, } = req.body;
+
+    connection.query(`SELECT Addr FROM postoffice.hub WHERE Hub_ID = '${Hub_ID}'`, function (err, results) {
+
+        if (err) {
+
+            res.send(err);
+
+        }
+
+        else {
+
+            return res.json({
+
+                ret: results
+
+            })
+
+        }
+
+    })
+
+});
+
 
 
 app.get('/get_status_types', (req, res) => {
-    connection.query('SELECT * FROM postoffice.status', function (err, results) {
+
+    connection.query('SELECT Status_Type FROM postoffice.status', function (err, results) {
+
         if (err) {
+
             res.send(err);
+
         }
+
         else {
+
             return res.json({
+
                 status_types: results
+
             })
+
         }
+
     })
+
 });
+
 //<-Chris Query
 
 //Victor Query->
