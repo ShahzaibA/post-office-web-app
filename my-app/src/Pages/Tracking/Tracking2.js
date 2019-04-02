@@ -18,6 +18,7 @@ const styles = theme => ({
     wrapper: {
         width: "70%",
         margin: "0 auto",
+        padding: "70px 0 0 0"
     },
     root: {
         align: "center",
@@ -111,7 +112,7 @@ class Tracking extends React.Component {
         console.log(this.state.status_types);
         return (
             <div className={classes.wrapper}>
-                <Typography variant="h3" as="div" align="left" style={{ padding: 10 }} >
+                <Typography variant="h3" as="div" align="left" >
                     Object Name - TrackingID
                     </Typography>
                 <Divider className={classes.overrider}></Divider>
