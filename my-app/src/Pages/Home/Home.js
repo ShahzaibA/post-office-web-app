@@ -1,72 +1,118 @@
+// import React, { Component } from 'react';
+// import Image from 'react-bootstrap/Image'
+// class Home extends Component {
+//     render() {
+//         return (
+//             <React.Fragment>
+//             <div>
+//                 <h1></h1>
+//                 <Image src="boxes.jpg" fluid />
+//                 <form>
+//                     <label>
+//                         Tracking:
+//     <input type="text" name="tracking" />
+//                     </label>
+//                     <input type="submit" value="Submit" />
+//                 </form>
+//             </div>
+//             </React.Fragment>
+//         )
+//     }
+// }
+// export default Home;
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
-import Carousel from 'react-bootstrap/Carousel';
+import {
+  Carousel,
+  CarouselItem,
+  CarouselControl,
+  CarouselIndicators,
+  CarouselCaption
+} from 'reactstrap';
 
-class ControlledCarousel extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+const items = [
+  {
+    src: 'boxes.jpg',
+    altText: 'Slide 1',
+    caption: 'Slide 1'
+  },
+  {
+    src: 'boxes4.jpg',
+    altText: 'Slide 2',
+    caption: 'Slide 2'
+  },
+  {
+    src: 'boxes3.jpg',
+    altText: 'Slide 3',
+    caption: 'Slide 3'
+  }
+];
 
-        this.handleSelect = this.handleSelect.bind(this);
+export default class Example extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { activeIndex: 0 };
+    this.next = this.next.bind(this);
+    this.previous = this.previous.bind(this);
+    this.goToIndex = this.goToIndex.bind(this);
+    this.onExiting = this.onExiting.bind(this);
+    this.onExited = this.onExited.bind(this);
+  }
 
-        this.state = {
-            index: 0,
-            direction: null,
-        };
-    }
+  onExiting() {
+    this.animating = true;
+  }
 
-    handleSelect(selectedIndex, e) {
-        this.setState({
-            index: selectedIndex,
-            direction: e.direction,
-        });
-    }
+  onExited() {
+    this.animating = false;
+  }
 
-    render() {
-        const { index, direction } = this.state;
+  next() {
+    if (this.animating) return;
+    const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
+    this.setState({ activeIndex: nextIndex });
+  }
 
-        return (
-            <Carousel
-                activeIndex={index}
-                direction={direction}
-                onSelect={this.handleSelect}
-            >
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=First slide&bg=373940"
-                        alt="First slide"
-                    />
-                    <Carousel.Caption>
-                        <h3>First slide label</h3>
-                        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Second slide&bg=282c34"
-                        alt="Third slide"
-                    />
+  previous() {
+    if (this.animating) return;
+    const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
+    this.setState({ activeIndex: nextIndex });
+  }
 
-                    <Carousel.Caption>
-                        <h3>Second slide label</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Third slide&bg=20232a"
-                        alt="Third slide"
-                    />
+  goToIndex(newIndex) {
+    if (this.animating) return;
+    this.setState({ activeIndex: newIndex });
+  }
 
-                    <Carousel.Caption>
-                        <h3>Third slide label</h3>
-                        <p>
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-              </p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-            </Carousel>
-        );
-    }
+  render() {
+    const { activeIndex } = this.state;
+
+    const slides = items.map((item) => {
+      return (
+        <CarouselItem
+          onExiting={this.onExiting}
+          onExited={this.onExited}
+          key={item.src}
+        >
+          <img src={item.src} alt={item.altText} />
+          <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+        </CarouselItem>
+      );
+    });
+
+    return (
+      <Carousel
+        activeIndex={activeIndex}
+        next={this.next}
+        previous={this.previous}
+      >
+        <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+        {slides}
+        <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
+        <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+      </Carousel>
+    );
+  }
 }
+
+
