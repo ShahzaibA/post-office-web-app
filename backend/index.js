@@ -17,7 +17,7 @@ connection.connect(err => {
         throw err;
     }
     else {
-        console.log("Mysql connected successful");
+        console.log("Connected successfully");
     }
 });
 

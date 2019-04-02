@@ -116,7 +116,9 @@ class Register extends React.Component {
             case 0:
                 return <LoginDetails handleChange={this.handleChange} val={this.state} />;
             case 1:
-                return <AccountInfo handleChange={this.handleChange} val={this.state} />
+                return <AccountInfo handleChange={this.handleChange} val={this.state} />;
+            case 2:
+                return;
             default:
                 throw new Error('Unknown step');
         }
