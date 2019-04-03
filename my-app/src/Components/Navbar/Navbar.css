@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
 body {
-  box-sizing: initial !important;
 	margin: 0;
 	background: rgb(255, 255, 255);
 	font-family: 'Work Sans', sans-serif;
-	font-weight: 800;
+  font-weight: 800;
 }
 
 header {
   background: #00bfa5;
+  height: 65px !important;
 }
 
 .container {
@@ -17,17 +17,19 @@ header {
 }
 
 header::after {
-  box-sizing: initial !important;
   content: '';
   display: table;
   clear: both;
 }
 
 .logo {
+  margin: 10px;
   float: left;
-  padding: 10px 0 !important;
-  width: 120px !important;
-  height: 45px !important;
+  max-width: 120px;
+  max-height: 45px;
+  width: auto;
+  height: auto;
+  display: block;
 }
 
 h1 {

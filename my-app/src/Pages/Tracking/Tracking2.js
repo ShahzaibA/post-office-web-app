@@ -33,17 +33,10 @@ const styles = theme => ({
 });
 
 class Tracking extends React.Component {
-    current = {
-        numRows: 5
-    }
-
     state = {
-        numRows: 5,
+        TrackingID: 1,
 
-        rowHub: "",
         data: [],
-        ret: [],
-        status_types: [],
     }
 
     componentDidMount() {
@@ -78,12 +71,12 @@ class Tracking extends React.Component {
         return (
             <div className={classes.wrapper}>
                 <Typography variant="h3" as="div" align="left" >
-                    TrackingID:
+                    TrackingID - #{this.state.TrackingID}
                 </Typography>
                 <Divider className={classes.overrider}></Divider>
                 <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
                     Tracking Details:
-                    </Typography>
+                </Typography>
 
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
