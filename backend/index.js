@@ -26,85 +26,52 @@ app.use(cors());
 app.use(bodyParser.json())
 
 //Chris Query->
-
 app.get('/get_shipstatus', (req, res) => {
+    const { package_id } = req.body;
 
-    connection.query('SELECT * FROM postoffice.shipstatus', function (err, results) {
-
-        if (err) {
-
-            res.send(err);
-
-        }
-
-        else {
-
-            return res.json({
-
-                data: results
-
-            })
-
-        }
-
-    })
-
+    connection.query(`SELECT postoffice.ShipStatus.Package_ID, postoffice.shipstatus.ShipStatus_ID, postoffice.ShipStatus.Date, postoffice.ShipStatus.Time, postoffice.Hub.Addr, postoffice.Status.Status_ID, postoffice.Status.Status_Type
+    FROM postoffice.ShipStatus
+    LEFT JOIN postoffice.Hub ON postoffice.Hub.Hub_ID = postoffice.ShipStatus.Hub_ID OR postoffice.ShipStatus.Hub_ID = NULL
+    LEFT JOIN postoffice.Status ON postoffice.Status.Status_ID = postoffice.ShipStatus.Status_ID
+    WHERE postoffice.ShipStatus.Package_ID = '${package_id}'`
+        , function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                return res.json({
+                    data: results
+                })
+            }
+        })
 });
-
-
 
 app.get('/get_tracking_hub', (req, res) => {
-
     res.json({ message: 'hooray! welcome to our api!' });
-
     const { Hub_ID, } = req.body;
-
     connection.query(`SELECT Addr FROM postoffice.hub WHERE Hub_ID = '${Hub_ID}'`, function (err, results) {
-
         if (err) {
-
             res.send(err);
-
         }
-
         else {
-
             return res.json({
-
                 ret: results
-
             })
-
         }
-
     })
-
 });
 
-
-
 app.get('/get_status_types', (req, res) => {
-
     connection.query('SELECT Status_Type FROM postoffice.status', function (err, results) {
-
         if (err) {
-
             res.send(err);
-
         }
-
         else {
-
             return res.json({
-
                 status_types: results
-
             })
-
         }
-
     })
-
 });
 
 //<-Chris Query
@@ -280,7 +247,7 @@ app.post('/create_user', (req, res) => {
     })
 })
 
-app.post('/login', (req, res) => {
+app.post('/login_user', (req, res) => {
     const { username, password } = req.body;
     connection.query(`SELECT * FROM postoffice.senderCredentials WHERE Username='${username}' AND Password='${password}'`, function (err, results) {
         if (err) {
@@ -295,6 +262,21 @@ app.post('/login', (req, res) => {
     })
 })
 
+app.post('/login_employee', (req, res) => {
+    const { employee_email, password } = req.body;
+    connection.query(`SELECT * FROM postoffice.EmployeeCredentials WHERE Email='${employee_email}' AND Password='${password}'`, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            if (results.length !== 0) {
+                return res.json({
+                    data: results
+                })
+            }
+        }
+    })
+})
 
 app.listen(4000, () => {
     console.log(`listening on port 4000`)
