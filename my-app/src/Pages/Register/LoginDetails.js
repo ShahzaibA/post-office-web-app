@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Fab from '@material-ui/core/Fab';
 
 export default class LoginDetails extends Component {
     render() {

@@ -78,3 +78,31 @@ nav a::before {
 nav a:hover::before {
   width: 100% !important ;
 }
+
+nav c {
+  color: #444;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+nav Button:hover {
+  color: #000;
+}
+
+nav Button::before {
+  content: '';
+  display: block !important;
+  height: 5px !important;
+  background-color: #444;
+
+  position: absolute !important;
+  top: 0 !important ;
+  width: 0% !important ;
+
+  transition: all ease-in-out 250ms;
+}
+
+nav Button:hover::before {
+  width: 100% !important ;
+}
