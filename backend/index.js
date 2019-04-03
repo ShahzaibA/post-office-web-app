@@ -26,30 +26,20 @@ app.use(cors());
 app.use(bodyParser.json())
 
 //Chris Query->
-
 app.get('/get_shipstatus', (req, res) => {
-    connection.query('SELECT * FROM postoffice.shipstatus', function (err, results) {
-        if (err) {
-            res.send(err);
-        }
-        else {
-            return res.json({
-                data: results
-            })
-        }
-    })
-});
+    const { package_id } = req.body;
 
-app.get('/get_shipstatus2', (req, res) => {
-    connection.query(`
-    SELECT postoffice.ShipStatus.Package_ID, postoffice.ShipStatus.Date, postoffice.ShipStatus.Time, postoffice.Hub.Addr, postoffice.Status.Status_Type
-    FROM postoffice.ShipStatus, postoffice.Hub, postoffice.Status
-    WHERE postoffice.ShipStatus.Package_ID = 1 AND postoffice.Hub.Hub_ID = postoffice.ShipStatus.Hub_ID AND postoffice.ShipStatus.Status_ID = postoffice.Status.Status_ID`
+    connection.query(`SELECT postoffice.ShipStatus.Package_ID, postoffice.shipstatus.ShipStatus_ID, postoffice.ShipStatus.Date, postoffice.ShipStatus.Time, postoffice.Hub.Addr, postoffice.Status.Status_ID, postoffice.Status.Status_Type
+    FROM postoffice.ShipStatus
+    LEFT JOIN postoffice.Hub ON postoffice.Hub.Hub_ID = postoffice.ShipStatus.Hub_ID OR postoffice.ShipStatus.Hub_ID = NULL
+    LEFT JOIN postoffice.Status ON postoffice.Status.Status_ID = postoffice.ShipStatus.Status_ID
+    WHERE postoffice.ShipStatus.Package_ID = '${package_id}'`
         , function (err, results) {
             if (err) {
-                res.send(err);
+                console.log(err);
             }
             else {
+                console.log(results)
                 return res.json({
                     data: results
                 })

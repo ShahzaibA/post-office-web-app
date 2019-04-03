@@ -48,7 +48,6 @@ class Login extends React.Component {
         sender_ID: "",
         loggedIn: false,
         info: []
-
     }
 
     loginUser = () => {

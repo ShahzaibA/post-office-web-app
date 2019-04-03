@@ -34,7 +34,7 @@ const styles = theme => ({
 
 class Tracking extends React.Component {
     state = {
-        TrackingID: 1,
+        TrackingID: "1",
 
         data: [],
     }
@@ -44,9 +44,17 @@ class Tracking extends React.Component {
     }
 
     getShipStatus() {
-        fetch('http://localhost:4000/get_shipstatus2')
+        fetch('http://localhost:4000/get_shipstatus', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                package_id: this.state.TrackingID
+            })
+        })
             .then(res => res.json())
-            .then(Response => this.setState({ data: Response.data }))
+            .then(result => this.setState({ data: result.data }))
             .catch(err => console.log(err))
 
     }
