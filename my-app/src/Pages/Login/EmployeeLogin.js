@@ -43,28 +43,28 @@ const styles = theme => ({
 
 class Login extends React.Component {
     state = {
-        username: "",
+        employee_email: "",
         password: "",
         sender_ID: "",
         loggedIn: false,
         info: []
     }
 
-    loginUser = () => {
-        fetch('http://localhost:4000/login_user', {
+    loginEmployee = () => {
+        fetch('http://localhost:4000/login_employee', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                username: this.state.username,
+                employee_email: this.state.employee_email,
                 password: this.state.password,
             })
         })
             .then(res => res.json())
             .then(result => {
                 if (result.data.length !== 0) {
-                    localStorage.setItem('sender_ID', result.data[0].tSender_ID);
+                    localStorage.setItem('employee_email', result.data[0].Email);
                     this.setState({ loggedIn: true })
                 }
             })
@@ -87,16 +87,16 @@ class Login extends React.Component {
                     <CssBaseline />
                     <Paper className={classes.paper}>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Employee Sign in
                         </Typography>
                         <form className={classes.form}>
                             <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="email">Username</InputLabel>
+                                <InputLabel htmlFor="email">Email</InputLabel>
                                 <Input
-                                    id="username"
-                                    name="username"
+                                    id="employee_email"
+                                    name="employee_email"
                                     onChange={e => this.handleChange(e.target.name, e.target.value)}
-                                    autoComplete="username"
+                                    autoComplete="employee_email"
                                     autoFocus />
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
@@ -111,29 +111,13 @@ class Login extends React.Component {
                             <Button
                                 fullWidth
                                 variant="contained"
-                                onClick={this.loginUser}
+                                onClick={this.loginEmployee}
                                 color="primary"
                             >
                                 Sign in
                             </Button>
                         </form>
                     </Paper>
-                    <Typography style={{ marginTop: '10px' }}>Don't Have an Account?&ensp;
-                    <Button
-                            href="/register"
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            style={{ textTransform: 'none' }}
-                        >Register</Button></Typography>
-                    <Typography style={{ marginTop: '10px' }}>Are You An Employee?&ensp;
-                    <Button
-                            href="/employee_login"
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            style={{ textTransform: 'none' }}
-                        >Log In</Button></Typography>
                 </main>
             );
         }
