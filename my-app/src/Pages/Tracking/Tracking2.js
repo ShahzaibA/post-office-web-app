@@ -48,35 +48,12 @@ class Tracking extends React.Component {
 
     componentDidMount() {
         this.getShipStatus();
-        this.getStatus_Types();
     }
 
     getShipStatus() {
-        fetch('http://localhost:4000/get_shipstatus')
+        fetch('http://localhost:4000/get_shipstatus2')
             .then(res => res.json())
             .then(Response => this.setState({ data: Response.data }))
-            .catch(err => console.log(err))
-    }
-
-    getTrackingHub = () => {
-        fetch('http://localhost:4000/get_tracking_hub', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ Hub_ID: this.state.rowHub })
-        })
-            .then(res => res.json())
-            .then(Response => this.setState({ ret: Response.ret }))
-            .catch(err => console.log(err))
-        return this.state.ret;
-    }
-
-
-    getStatus_Types() {
-        fetch('http://localhost:4000/get_status_types')
-            .then(res => res.json())
-            .then(Response => this.setState({ status_types: Response.status_types }))
             .catch(err => console.log(err))
 
     }
@@ -93,18 +70,6 @@ class Tracking extends React.Component {
         }
     }
 
-    translateStatus(stat) {
-        if (stat == 1) return "Processing Package";
-        else if (stat == 2) return "Package Processed";
-        else if (stat == 3) return "In Transit";
-        else if (stat == 4) return "Out For Delivery";
-        else if (stat == 5) return "Package Delivered";
-    }
-    /*
-    <TableCell align="left">{row.Hub_ID}</TableCell>
-    <TableCell align="left">{this.getTrackingHub(this.state.rowHub = row.Hub_ID)}</TableCell>
-    <TableCell align="left">{this.translateStatus(row.State)}</TableCell>
-    */
 
     render() {
         const { classes } = this.props;
@@ -113,8 +78,8 @@ class Tracking extends React.Component {
         return (
             <div className={classes.wrapper}>
                 <Typography variant="h3" as="div" align="left" >
-                    Object Name - TrackingID
-                    </Typography>
+                    TrackingID:
+                </Typography>
                 <Divider className={classes.overrider}></Divider>
                 <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
                     Tracking Details:
@@ -135,8 +100,8 @@ class Tracking extends React.Component {
                                 <TableRow key={row.id} >
                                     <TableCell align="left">{this.translateTime(row.Time)} </TableCell>
                                     <TableCell align="left">{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                    <TableCell align="left">{row.Hub_ID}</TableCell>
-                                    <TableCell align="left">{this.translateStatus(row.Status_ID)}</TableCell>
+                                    <TableCell align="left">{row.Addr}</TableCell>
+                                    <TableCell align="left">{row.Status_Type}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

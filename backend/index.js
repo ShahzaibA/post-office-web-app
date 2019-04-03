@@ -28,83 +28,61 @@ app.use(bodyParser.json())
 //Chris Query->
 
 app.get('/get_shipstatus', (req, res) => {
-
     connection.query('SELECT * FROM postoffice.shipstatus', function (err, results) {
-
         if (err) {
-
             res.send(err);
-
         }
-
         else {
-
             return res.json({
-
                 data: results
-
             })
-
         }
-
     })
-
 });
 
-
+app.get('/get_shipstatus2', (req, res) => {
+    connection.query(`
+    SELECT postoffice.ShipStatus.Package_ID, postoffice.ShipStatus.Date, postoffice.ShipStatus.Time, postoffice.Hub.Addr, postoffice.Status.Status_Type
+    FROM postoffice.ShipStatus, postoffice.Hub, postoffice.Status
+    WHERE postoffice.ShipStatus.Package_ID = 1 AND postoffice.Hub.Hub_ID = postoffice.ShipStatus.Hub_ID AND postoffice.ShipStatus.Status_ID = postoffice.Status.Status_ID`
+        , function (err, results) {
+            if (err) {
+                res.send(err);
+            }
+            else {
+                return res.json({
+                    data: results
+                })
+            }
+        })
+});
 
 app.get('/get_tracking_hub', (req, res) => {
-
     res.json({ message: 'hooray! welcome to our api!' });
-
     const { Hub_ID, } = req.body;
-
     connection.query(`SELECT Addr FROM postoffice.hub WHERE Hub_ID = '${Hub_ID}'`, function (err, results) {
-
         if (err) {
-
             res.send(err);
-
         }
-
         else {
-
             return res.json({
-
                 ret: results
-
             })
-
         }
-
     })
-
 });
 
-
-
 app.get('/get_status_types', (req, res) => {
-
     connection.query('SELECT Status_Type FROM postoffice.status', function (err, results) {
-
         if (err) {
-
             res.send(err);
-
         }
-
         else {
-
             return res.json({
-
                 status_types: results
-
             })
-
         }
-
     })
-
 });
 
 //<-Chris Query
