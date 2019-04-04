@@ -26,7 +26,7 @@ app.use(cors());
 app.use(bodyParser.json())
 
 //Chris Query->
-app.get('/get_shipstatus', (req, res) => {
+app.post('/get_shipstatus', (req, res) => {
     const { package_id } = req.body;
 
     connection.query(`SELECT postoffice.ShipStatus.Package_ID, postoffice.shipstatus.ShipStatus_ID, postoffice.ShipStatus.Date, postoffice.ShipStatus.Time, postoffice.Hub.Addr, postoffice.Status.Status_ID, postoffice.Status.Status_Type
