@@ -10,7 +10,7 @@ import UserProfile from './Pages/UserProfile/UserProfile';
 import Login from './Pages/Login/Login';
 import Registration from './Pages/Register/Register';
 import EmployeeLogin from './Pages/Login/EmployeeLogin';
-
+import ArrivalScan from './Pages/ArrivalScan/ArrivalScan';
 
 //Components
 import Navbar from './Components/Navbar/Navbar';
@@ -31,6 +31,7 @@ class App extends Component {
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Registration} />
           <Route exact path='/employee_login' component={EmployeeLogin} />
+          <Route exact path='/arrival_scan' component={ArrivalScan} />
 
           <Footer />
         </div>
