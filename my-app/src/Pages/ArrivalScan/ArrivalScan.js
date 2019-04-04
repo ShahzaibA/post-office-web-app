@@ -24,7 +24,7 @@ const styles = theme => ({
     header: {
         position: 'sticky',
         top: 0,
-        backgroundColor: '#00bfa5',
+        backgroundColor: '#F9F4F3',
         color: 'black'
     }
 });
@@ -32,28 +32,35 @@ const styles = theme => ({
 class ArrivalScan extends Component {
 
     state = {
-        packages: [
-            { package_ID: 1, receivers_addr: '1120 Haye Rd', receivers_city: 'Houston', receivers_state: 'TX', receivers_zip: '77546' },
-            { package_ID: 4, receivers_addr: '3242 Memory Ln', receivers_city: 'Friendswood', receivers_state: 'TX', receivers_zip: '77232' },
-            { package_ID: 5, receivers_addr: 'McLovin St.', receivers_city: 'Boulder', receivers_state: 'CO', receivers_zip: '27203' }]
-
+        packages: []
     }
 
-    renderPackageList = ({ package_ID, receivers_addr, receivers_city, receivers_state, receivers_zip }) =>
-        <TableRow key={package_ID}>
-            <TableCell component="th" scope="row">
-                {package_ID}
-            </TableCell>
-            <TableCell align="right">{receivers_addr}</TableCell>
-            <TableCell align="right">{receivers_city}</TableCell>
-            <TableCell align="right">{receivers_state}</TableCell>
-            <TableCell align="right">{receivers_zip}</TableCell>
-            <TableCell align="right"><Button size='sm' variant="outline-danger" onClick={() => this.delUser(package_ID)} >Scan Arrival</Button></TableCell>
+    componentDidMount() {
+        this.getPackagesAwaitingArrival();
+    }
+
+    getPackagesAwaitingArrival() {
+        fetch('http://localhost:4000/get_packages_awaiting_arrival'
+        )
+            .then(res => res.json())
+            .then(result => this.setState({ packages: result.data }))
+            .catch(err => console.log(err))
+    }
+
+    renderPackageList = ({ Package_ID, Shipping_Address, Shipping_City, Shipping_State_Abbr, Shipping_Zip }) =>
+        <TableRow key={Package_ID}>
+            <TableCell component="th" scope="row">{Package_ID}</TableCell>
+            <TableCell align="right">{Shipping_Address}</TableCell>
+            <TableCell align="right">{Shipping_City}</TableCell>
+            <TableCell align="right">{Shipping_State_Abbr}</TableCell>
+            <TableCell align="right">{Shipping_Zip}</TableCell>
+            <TableCell align="right"><Button size='sm' variant="outline-danger" onClick={() => this.delUser(Package_ID)} >Scan Arrival</Button></TableCell>
         </TableRow>
 
     render() {
         const { classes } = this.props;
         const { packages } = this.state;
+        console.log(this.state.packages)
         return (
             <React.Fragment>
                 <Paper className={classes.root}>
