@@ -191,6 +191,7 @@ app.post('/create_order', (req, res) => {
                     console.log(err);
                 }
                 else {
+                    connection.query(`INSERT INTO postoffice.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES ((SELECT Status_ID FROM postoffice.status WHERE Status_Type='Awaiting Arrival'), curdate(), now(), (SELECT Hub_ID from postoffice.Hub WHERE State_ID=(SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}')), ${results.insertId}) `)
                     res.json({
                         invoice_ID: query_res.insertId,
                         tracking_ID: results.insertId
