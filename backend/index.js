@@ -39,7 +39,6 @@ app.post('/get_shipstatus', (req, res) => {
                 console.log(err);
             }
             else {
-                console.log(results)
                 return res.json({
                     data: results
                 })
@@ -192,6 +191,7 @@ app.post('/create_order', (req, res) => {
                     console.log(err);
                 }
                 else {
+                    connection.query(`INSERT INTO postoffice.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES ((SELECT Status_ID FROM postoffice.status WHERE Status_Type='Awaiting Arrival'), curdate(), now(), (SELECT Hub_ID from postoffice.Hub WHERE State_ID=(SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}')), ${results.insertId}) `)
                     res.json({
                         invoice_ID: query_res.insertId,
                         tracking_ID: results.insertId
@@ -248,7 +248,7 @@ app.post('/create_user', (req, res) => {
     })
 })
 
-app.post('/login', (req, res) => {
+app.post('/login_user', (req, res) => {
     const { username, password } = req.body;
     connection.query(`SELECT * FROM postoffice.senderCredentials WHERE Username='${username}' AND Password='${password}'`, function (err, results) {
         if (err) {
@@ -263,6 +263,21 @@ app.post('/login', (req, res) => {
     })
 })
 
+app.post('/login_employee', (req, res) => {
+    const { employee_email, password } = req.body;
+    connection.query(`SELECT * FROM postoffice.EmployeeCredentials WHERE Email='${employee_email}' AND Password='${password}'`, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            if (results.length !== 0) {
+                return res.json({
+                    data: results
+                })
+            }
+        }
+    })
+})
 
 app.listen(4000, () => {
     console.log(`listening on port 4000`)

@@ -95,7 +95,7 @@ export default class Example extends Component {
           key={item.src}
         >
           <img src={item.src} alt={item.altText} />
-          <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+          <CarouselCaption captionText={<form><label>tracking:<input type="text" name="tracking" /></label><input type="submit" value="Submit" /></form>} captionHeader={'Search tracking number'} />
         </CarouselItem>
       );
     });
@@ -111,8 +111,10 @@ export default class Example extends Component {
         <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
         <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
       </Carousel>
+      
     );
   }
 }
+
 
 
