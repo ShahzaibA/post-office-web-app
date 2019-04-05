@@ -54,10 +54,10 @@ export default class HomeCarousel extends Component {
               <InputGroup className="mb-3">
                 <InputGroup.Prepend>
                     <Button onClick={this.buttonConfirm} variant="danger">Search</Button>
-                    <input Input
-                    Tracking_ID="T_ID"
-                    onChange={e => this.handleChange(e.target.name, e.target.value)}/>
                 </InputGroup.Prepend>
+                  <FormControl aria-describedby="basic-addon1" Input
+                    Tracking_ID="T_ID"
+                    onChange={e => this.handleChange(e.target.name, e.target.value)} />
               </InputGroup>
             </Carousel.Caption>
           </Carousel.Item>
