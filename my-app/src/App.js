@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 //Pages
 import Home from './Pages/Home/Home';
 import Tracking from './Pages/Tracking/Tracking2';
+import Invoice from './Pages/Invoice/Invoice';
 import SendPackage from './Pages/SendPackage/SendPackage';
 import UserProfile from './Pages/UserProfile/UserProfile';
 import Login from './Pages/Login/Login';
@@ -32,6 +33,7 @@ class App extends Component {
           <Route exact path='/register' component={Registration} />
           <Route exact path='/employee_login' component={EmployeeLogin} />
           <Route exact path='/arrival_scan' component={ArrivalScan} />
+          <Route exact path='/invoice' component={Invoice} />
 
           <Footer />
         </div>
