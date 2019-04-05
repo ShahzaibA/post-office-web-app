@@ -35,18 +35,17 @@ const styles = theme => ({
 class Tracking extends React.Component {
     state = {
         TrackingID: "1",
-
         data: [],
     }
 
-    getFromLocal() {
+    getFromLocal_Tracking() {
         this.state.TrackingID = localStorage.getItem("Tracking_ID");
         localStorage.removeItem("Tracking_ID");
     }
 
     componentDidMount() {
+        this.getFromLocal_Tracking();
         this.getShipStatus();
-        this.state.TrackingID = this.getFromLocal();
     }
 
     getShipStatus() {

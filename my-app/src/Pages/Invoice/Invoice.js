@@ -38,13 +38,13 @@ class Invoice extends React.Component {
         data: [],
     }
 
-    getFromLocal() {
-        var TID = localStorage.getItem("InvoiceID");
+    getFromLocal_Invoice() {
+        this.state.InvoiceID = localStorage.getItem("InvoiceID");
         localStorage.removeItem("InvoiceID");
-        return TID;
     }
 
     componentDidMount() {
+        this.getFromLocal_Invoice();
         this.getInvoice();
     }
 
