@@ -32,30 +32,30 @@ const styles = theme => ({
     },
 });
 
-class Tracking extends React.Component {
+class Invoice extends React.Component {
     state = {
-        TrackingID: "1",
+        InvoiceID: "7",
         data: [],
     }
 
-    getFromLocal_Tracking() {
-        this.state.TrackingID = localStorage.getItem("Tracking_ID");
-        localStorage.removeItem("Tracking_ID");
+    getFromLocal_Invoice() {
+        this.state.InvoiceID = localStorage.getItem("InvoiceID");
+        localStorage.removeItem("InvoiceID");
     }
 
     componentDidMount() {
-        this.getFromLocal_Tracking();
-        this.getShipStatus();
+        this.getFromLocal_Invoice();
+        this.getInvoice();
     }
 
-    getShipStatus() {
-        fetch('http://localhost:4000/get_shipstatus', {
+    getInvoice() {
+        fetch('http://localhost:4000/get_invoices', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                package_id: this.state.TrackingID
+                sender_id: this.state.InvoiceID
             })
         })
             .then(res => res.json())
@@ -84,30 +84,31 @@ class Tracking extends React.Component {
         return (
             <div className={classes.wrapper}>
                 <Typography variant="h3" as="div" align="left" >
-                    TrackingID - #{this.state.TrackingID}
+                    Invoices for User
                 </Typography>
                 <Divider className={classes.overrider}></Divider>
-                <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
-                    Tracking Details:
-                </Typography>
 
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                <TableCell align="left">Time</TableCell>
                                 <TableCell align="left">Date</TableCell>
-                                <TableCell align="left">Location</TableCell>
-                                <TableCell align="left">Status</TableCell>
+                                <TableCell align="left">Time</TableCell>
+                                <TableCell align="left">Receiver Name</TableCell>
+                                <TableCell align="left">Receiver Address</TableCell>
+                                <TableCell align="left">Price</TableCell>
+                                <TableCell align="left">Weight</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.data.map(row => (
                                 <TableRow key={row.id} >
-                                    <TableCell align="left">{this.translateTime(row.Time)} </TableCell>
                                     <TableCell align="left">{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                    <TableCell align="left">{row.Addr}</TableCell>
-                                    <TableCell align="left">{row.Status_Type}</TableCell>
+                                    <TableCell align="left">{this.translateTime(row.Time)} </TableCell>
+                                    <TableCell align="left">{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
+                                    <TableCell align="left">{row.ReceiverAddr}</TableCell>
+                                    <TableCell align="left">{row.Price}</TableCell>
+                                    <TableCell align="left">{row.Weight} lb</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -118,8 +119,8 @@ class Tracking extends React.Component {
     }
 }
 
-Tracking.propTypes = {
+Invoice.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Tracking);
+export default withStyles(styles)(Invoice);

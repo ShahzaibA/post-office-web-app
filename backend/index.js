@@ -46,19 +46,23 @@ app.post('/get_shipstatus', (req, res) => {
         })
 });
 
-app.get('/get_tracking_hub', (req, res) => {
-    res.json({ message: 'hooray! welcome to our api!' });
-    const { Hub_ID, } = req.body;
-    connection.query(`SELECT Addr FROM postoffice.hub WHERE Hub_ID = '${Hub_ID}'`, function (err, results) {
-        if (err) {
-            res.send(err);
-        }
-        else {
-            return res.json({
-                ret: results
-            })
-        }
-    })
+app.post('/get_invoices', (req, res) => {
+    const { sender_id } = req.body;
+    connection.query(`SELECT postoffice.Invoice.Date, postoffice.Invoice.Time, postoffice.Package.ReceiverFirstName, postoffice.Package.ReceiverLastName, postoffice.Package.ReceiverAddr,  postoffice.Invoice.Price, postoffice.Package.Weight, postoffice.ShipForm.ShipForm
+    FROM postoffice.Invoice
+    INNER JOIN postoffice.Package ON postoffice.Package.Invoice_ID = postoffice.Invoice.Invoice_ID
+    INNER JOIN postoffice.ShipForm ON postoffice.ShipForm.ShipForm_ID = postoffice.Package.ShipForm_ID
+    WHERE postoffice.Invoice.Sender_ID = '${sender_id}'`
+        , function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                return res.json({
+                    data: results
+                })
+            }
+        })
 });
 
 app.get('/get_status_types', (req, res) => {
