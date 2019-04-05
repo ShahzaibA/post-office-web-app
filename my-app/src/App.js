@@ -12,6 +12,7 @@ import Login from './Pages/Login/Login';
 import Registration from './Pages/Register/Register';
 import EmployeeLogin from './Pages/Login/EmployeeLogin';
 import ArrivalScan from './Pages/ArrivalScan/ArrivalScan';
+import RoutePackage from './Pages/RoutePackage/RoutePackage';
 
 //Components
 import Navbar from './Components/Navbar/Navbar';
@@ -34,8 +35,8 @@ class App extends Component {
           <Route exact path='/employee_login' component={EmployeeLogin} />
           <Route exact path='/arrival_scan' component={ArrivalScan} />
           <Route exact path='/invoice' component={Invoice} />
+          <Route exact path='/route_packages' component={RoutePackage} />
 
-          <Footer />
         </div>
       </Router>
     );

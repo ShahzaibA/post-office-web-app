@@ -308,6 +308,30 @@ app.post('/get_packages_awaiting_arrival', (req, res) => {
         })
 })
 
+app.post('/get_arrived_packages', (req, res) => {
+    const { Hub_Location } = req.body;
+    connection.query(`SELECT postoffice.ShipStatus.Package_ID, postoffice.Package.ReceiverAddr as 'Shipping_Address', postoffice.Cities.City_Name as 'Shipping_City', postoffice.States.State_Abbr as 'Shipping_State_Abbr', postoffice.Package.ReceiverZip as 'Shipping_Zip', postoffice.ShipStatus.Hub_ID as 'Hub_ID'
+    FROM postoffice.ShipStatus
+    LEFT JOIN postoffice.Package ON postoffice.Package.Package_ID=postoffice.ShipStatus.Package_ID
+    LEFT JOIN postoffice.Hub ON postoffice.Hub.Hub_ID=postoffice.ShipStatus.Hub_ID or postoffice.ShipStatus.Hub_ID=null
+    LEFT JOIN postoffice.Cities ON postoffice.Cities.City_ID=postoffice.Package.ReceiverCity_ID
+    LEFT JOIN postoffice.States ON postoffice.States.State_ID=postoffice.Package.ReceiverState_ID
+    LEFT JOIN postoffice.Status ON postoffice.ShipStatus.Status_ID=postoffice.Status.Status_ID
+    WHERE postoffice.States.State_Abbr='${Hub_Location}' AND postoffice.Status.Status_Type='Arrival Scan' AND postoffice.ShipStatus.ShipStatus_ID IN (
+	SELECT MAX(postoffice.ShipStatus.ShipStatus_ID)
+    FROM postoffice.ShipStatus
+    GROUP BY postoffice.ShipStatus.Package_ID)`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                return res.json({
+                    data: results
+                })
+            }
+        })
+})
+
 app.post('/arrival_scan', (req, res) => {
     const { Package_ID, Hub_ID } = req.body;
     connection.query(`INSERT INTO postoffice.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES((SELECT Status_ID FROM postoffice.Status WHERE Status_Type='Arrival Scan'), curdate(), now(), ${Hub_ID}, ${Package_ID})`, function (err, results) {
