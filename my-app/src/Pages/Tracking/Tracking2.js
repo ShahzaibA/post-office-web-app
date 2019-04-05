@@ -34,9 +34,15 @@ const styles = theme => ({
 
 class Tracking extends React.Component {
     state = {
-        TrackingID: "1",
+        TrackingID: this.getFromLocal(),
 
         data: [],
+    }
+
+    getFromLocal(){
+        var TID = localStorage.getItem("Tracking_ID");
+        localStorage.removeItem("Tracking_ID");
+        return TID;
     }
 
     componentDidMount() {
