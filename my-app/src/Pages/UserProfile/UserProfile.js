@@ -23,7 +23,7 @@ class UserProfile extends Component {
   getUserInfo() {
 
     var url = new URL("http://localhost:4000/get_user"),
-    params = {email: 'honey@gmail.com'}
+    params = {sender_ID: localStorage.getItem('sender_ID')}//tSender_ID
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     fetch(url)
       .then(res => res.json())

@@ -17,7 +17,7 @@ connection.connect(err => {
         throw err;
     }
     else {
-        console.log("Connected successfully");
+        console.log("Connected successfully to MySQL Database");
     }
 });
 
@@ -82,16 +82,16 @@ app.get('/get_status_types', (req, res) => {
 
 //Victor Query->
 app.get('/get_user', (req, res) => {
-    connection.query(`SELECT Username,Email,tSender_ID FROM sendercredentials WHERE Email = "${req.query.email}";`, function (err, results) {
+    connection.query(`SELECT Username,Email FROM sendercredentials WHERE Sender_ID = "${req.query.sender_ID}";`, function (err, results) {
         if (err) {
             res.send(err);
         }
         else if (results.length !== 0) {
             //console.log("Results array not empty");
             let myusername = results[0].Username
-            let senderId = results[0].tSender_ID
+            let email = results[0].Email
             //console.log(senderId)
-            connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID, ZIP, Email, Phone FROM sender WHERE Sender_ID = ${senderId}`, function (err, results) {
+            connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID, ZIP, Phone FROM sender WHERE Sender_ID = ${req.query.sender_ID}`, function (err, results) {
                 //console.log(results);
                 if (err) {
                     res.send(err);
@@ -99,13 +99,13 @@ app.get('/get_user', (req, res) => {
                 else if (results.length !== 0) {
                     return res.json({
                         username: myusername,
+                        email: email,
                         firstname: results[0].FName,
                         lastname: results[0].LName,
                         address1: results[0].Addr1,
                         address2: results[0].Addr2,
                         zip: results[0].ZIP,
-                        email: results[0].Email,
-                        phone: results[0].phone,
+                        phone: results[0].Phone,
                     })
                 }
             })
