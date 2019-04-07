@@ -64,7 +64,8 @@ class Login extends React.Component {
             .then(res => res.json())
             .then(result => {
                 if (result.data.length !== 0) {
-                    localStorage.setItem('sender_ID', result.data[0].Sender_ID);
+                    console.log(result.data[0].tSender_ID);
+                    localStorage.setItem('sender_ID', result.data[0].tSender_ID);
                     this.setState({ loggedIn: true })
                 }
             })
