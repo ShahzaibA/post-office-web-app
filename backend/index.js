@@ -91,7 +91,7 @@ app.get('/get_user', (req, res) => {
             let myusername = results[0].Username
             let email = results[0].Email
             //console.log(senderId)
-            connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID, ZIP, Phone FROM sender WHERE Sender_ID = ${req.query.sender_ID}`, function (err, results) {
+            connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID,Country_ID, ZIP, Phone, Apt FROM sender WHERE Sender_ID = ${req.query.sender_ID}`, function (err, results) {
                 //console.log(results);
                 if (err) {
                     res.send(err);
@@ -99,13 +99,17 @@ app.get('/get_user', (req, res) => {
                 else if (results.length !== 0) {
                     return res.json({
                         username: myusername,
-                        email: email,
-                        firstname: results[0].FName,
-                        lastname: results[0].LName,
-                        address1: results[0].Addr1,
-                        address2: results[0].Addr2,
-                        zip: results[0].ZIP,
-                        phone: results[0].Phone,
+                        sender_firstName: results[0].FName,
+                        sender_lastName: results[0].LName,
+                        sender_address: results[0].Addr1,
+                        sender_address2: results[0].Addr2,
+                        sender_apartment: results[0].Apt,
+                        sender_city: results[0].City_ID,
+                        sender_state: results[0].State_ID,
+                        sender_zip: results[0].ZIP,
+                        sender_country: results[0].Country_ID,
+                        sender_email: email,
+                        sender_phone: results[0].Phone,
                     })
                 }
             })

@@ -31,7 +31,6 @@ class Navbar extends Component {
 
 
 
-
     render() {
         return (
             <header>
@@ -50,11 +49,7 @@ class Navbar extends Component {
                             ) : (
                                     <li><a href="/"><Link to="/" onClick={this.processLogout}>Logout</Link></a></li>
                                 )}
-                            {this.state.employee_email !== null ? (
-                                <li><a href="/arrival_scan"><Link to="/arrival_scan">Arrival Scan</Link></a></li>
-                            ) : (
-                                    <div></div>
-                                )}
+                            
 
 
                         </ul>
