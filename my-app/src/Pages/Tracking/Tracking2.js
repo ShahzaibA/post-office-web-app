@@ -34,7 +34,7 @@ const styles = theme => ({
 
 class Tracking extends React.Component {
     state = {
-        TrackingID: "1",
+        TrackingID: "0",
         data: [],
     }
 
@@ -55,7 +55,7 @@ class Tracking extends React.Component {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                package_id: 11
+                package_id: this.state.TrackingID
             })
         })
             .then(res => res.json())

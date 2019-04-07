@@ -53,7 +53,8 @@ app.post('/get_invoices', (req, res) => {
     FROM postoffice.Invoice
     INNER JOIN postoffice.Package ON postoffice.Package.Invoice_ID = postoffice.Invoice.Invoice_ID
     INNER JOIN postoffice.ShipForm ON postoffice.ShipForm.ShipForm_ID = postoffice.Package.ShipForm_ID
-    WHERE postoffice.Invoice.Sender_ID = '${sender_id}'`
+    WHERE postoffice.Invoice.Sender_ID = '${sender_id}'
+    ORDER BY postoffice.Invoice.Date DESC, postoffice.Invoice.Time DESC`
         , function (err, results) {
             if (err) {
                 console.log(err);
