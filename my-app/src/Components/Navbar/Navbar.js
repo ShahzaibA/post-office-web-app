@@ -3,7 +3,18 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './Navbar.css';
 import logo from './logo.png';
 import Button from '@material-ui/core/Button';
+import EmployeeNavBarMenu from './EmployeeNavBarMenu'
 
+function EmployeeNavBar(props) {
+    //if (props.employee_email !== null) {
+    
+    if (true) {
+        // return <li><a href="/employee"><Link to="/employee">Employee</Link></a></li>;
+        return <li><EmployeeNavBarMenu/></li>
+    }
+    else 
+        return null;
+}
 
 class Navbar extends Component {
     state = {
@@ -19,6 +30,8 @@ class Navbar extends Component {
     }
 
 
+
+
     render() {
         return (
             <header>
@@ -30,6 +43,8 @@ class Navbar extends Component {
                             <li><a href="/tracking"><Link to="/tracking">Tracking</Link></a></li>
                             <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>
                             <li><a href="/user_profile"><Link to="/user_profile">Profile</Link></a></li>
+                            <EmployeeNavBar employee_email={(this.state.employee_email)}/>
+
                             {this.state.user_ID === null && this.state.employee_email === null ? (
                                 <li><a href="/login"><Link to="/login">Login</Link></a></li>
                             ) : (
@@ -40,6 +55,8 @@ class Navbar extends Component {
                             ) : (
                                     <div></div>
                                 )}
+
+
                         </ul>
                     </nav>
                 </div>
