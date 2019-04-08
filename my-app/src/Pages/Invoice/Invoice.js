@@ -89,6 +89,9 @@ class Invoice extends React.Component {
             //return { fontWeight: 'none', backgroundColor: '#ffffff' };
         }
     }
+    setTrackingID(rowPID) {
+        localStorage.setItem('Tracking_ID', rowPID);
+    }
 
     render() {
         const { classes } = this.props;
@@ -120,7 +123,7 @@ class Invoice extends React.Component {
                                     <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>
-                                        <ul align="left" padding><a href="/tracking"><Link to="/tracking">{row.Package_ID}</Link></a></ul>
+                                        <ul align="left"><a href="/tracking" onClick={this.setTrackingID(row.Package_ID)} ><Link to="/tracking">{row.Package_ID}</Link></a></ul>
                                     </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
