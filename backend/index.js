@@ -146,6 +146,56 @@ app.get('/get_countries', (req, res) => {
     })
 });
 
+app.post('/edit_user', (req, res) => {
+    const { username, password, sender_firstName, sender_lastName, sender_address, sender_address2, sender_apartment, sender_city, sender_state,
+        sender_zip, sender_country, sender_email, sender_phone, sender_id } = req.body;
+
+
+    // insert senders city into lookup table if not exists
+    connection.query(`INSERT INTO postoffice.cities (City_Name) SELECT * FROM (SELECT '${sender_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM postoffice.cities WHERE City_Name='${sender_city}') LIMIT 1`, function (err, results) {
+        if (err) {
+            console.log(err);
+        } else {
+            connection.query(`SELECT City_ID from postoffice.cities WHERE City_Name='${sender_city}'`, function (err, results) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    let city_id = results[0].City_ID
+
+                    connection.query(`SELECT State_ID from postoffice.states WHERE State_Abbr='${sender_state}'`, function (err, results) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            let state_id = results[0].State_ID
+
+                            connection.query(`SELECT Country_ID from postoffice.countries WHERE Country_Name='${sender_country}'`, function (err, results) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    let country_id = results[0].Country_ID
+
+                                    connection.query(`UPDATE postoffice.sender SET Addr1='${sender_address}', Addr2='${sender_address2}', City_ID=${city_id}, State_ID=${state_id}, ZIP=${sender_zip} , Country_ID=${country_id} WHERE Sender_ID = ${sender_id};`, function (err, results) {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            console.log('done');
+                                            return res
+                                            
+
+
+                                        }
+                                    })
+
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
+
 //<-Victor Query
 
 
