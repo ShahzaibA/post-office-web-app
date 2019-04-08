@@ -43,7 +43,7 @@ class Tracking extends React.Component {
 
     getFromLocal_Tracking() {
         this.state.TrackingID = localStorage.getItem("Tracking_ID");
-        localStorage.removeItem("Tracking_ID");
+        //localStorage.removeItem("Tracking_ID");
     }
 
     componentDidMount() {

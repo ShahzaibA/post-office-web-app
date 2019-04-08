@@ -39,7 +39,9 @@ class Invoice extends React.Component {
         numPerRow: 7,
         first: 0,
         FName: "",
-        LName: ""
+        LName: "",
+        curID: 0,
+        trackingIDS: []
     }
 
     getFromLocal_Invoice() {
@@ -68,6 +70,11 @@ class Invoice extends React.Component {
             .then(result => this.setState({ data: result.data, FName: result.FName, LName: result.LName }))
             .catch(err => console.log(err))
 
+    }
+
+    getID() {
+        this.state.curID++;
+        return this.state.curID - 1;
     }
 
     translateTime(time) {
@@ -125,7 +132,7 @@ class Invoice extends React.Component {
                                     <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>
-                                        <ul align="left"><a href="/tracking" onClick={this.setTrackingID(row.Package_ID)} ><Link to="/tracking">{row.Package_ID}</Link></a></ul>
+                                        <ul align="left"><a href="/tracking" data-id={this.getID()} onClick={this.setTrackingID(row.Package_ID)} ><Link to="/tracking">{row.Package_ID}</Link></a></ul>
                                     </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
