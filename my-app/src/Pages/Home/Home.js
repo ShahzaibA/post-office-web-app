@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Carousel } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
