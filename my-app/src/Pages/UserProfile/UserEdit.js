@@ -12,33 +12,9 @@ function UserEdit(props) {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                User Registration
+                Edit Information
       </Typography>
             <Grid container spacing={24}>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="sender_firstName"
-                        name="sender_firstName"
-                        value={props.val.sender_firstName}
-                        label="First name"
-                        fullWidth
-                        autoComplete="fname"
-                        onChange={e => props.handleChange(e.target.name, e.target.value)}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="sender_lastName"
-                        name="sender_lastName"
-                        value={props.val.sender_lastName}
-                        label="Last name"
-                        fullWidth
-                        autoComplete="lname"
-                        onChange={e => props.handleChange(e.target.name, e.target.value)}
-                    />
-                </Grid>
                 <Grid item xs={12}>
                     <TextField
                         required
@@ -136,18 +112,6 @@ function UserEdit(props) {
                             </MenuItem>
                         ))}
                     </TextField>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="sender_email"
-                        name="sender_email"
-                        value={props.val.sender_email}
-                        label="Email"
-                        fullWidth
-                        autoComplete="email"
-                        onChange={e => props.handleChange(e.target.name, e.target.value)}
-                    />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField

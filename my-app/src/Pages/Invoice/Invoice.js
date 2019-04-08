@@ -100,11 +100,12 @@ class Invoice extends React.Component {
     }
     setTrackingID(rowPID) {
         localStorage.setItem('Tracking_ID', rowPID);
+        window.location.replace("/tracking")
     }
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.data);
+        //console.log(this.state.data);
         console.log(this.state.status_types);
         return (
             <div className={classes.wrapper}>
@@ -132,7 +133,7 @@ class Invoice extends React.Component {
                                     <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>
-                                        <ul align="left"><a href="/tracking" data-id={this.getID()} onClick={this.setTrackingID(row.Package_ID)} ><Link to="/tracking">{row.Package_ID}</Link></a></ul>
+                                        <ul align="left"><a href="/tracking" data-id={this.getID()} onClick={() => this.setTrackingID(row.Package_ID)} >{row.Package_ID}</a></ul>
                                     </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
