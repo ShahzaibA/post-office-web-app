@@ -41,7 +41,7 @@ class Invoice extends React.Component {
     }
 
     getFromLocal_Invoice() {
-        this.state.InvoiceID = localStorage.getItem("InvoiceID");
+        this.state.InvoiceID = localStorage.getItem("sender_ID");
         //We do not remove the current "logged in" user here.
         //localStorage.removeItem("InvoiceID");
     }
