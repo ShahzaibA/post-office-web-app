@@ -36,6 +36,8 @@ class Invoice extends React.Component {
     state = {
         InvoiceID: "0",
         data: [],
+        numPerRow: 6,
+        first: 0,
     }
 
     getFromLocal_Invoice() {
@@ -44,6 +46,7 @@ class Invoice extends React.Component {
     }
 
     componentDidMount() {
+        this.state.first = 0;
         this.getFromLocal_Invoice();
         this.getInvoice();
     }
@@ -76,6 +79,15 @@ class Invoice extends React.Component {
         }
     }
 
+    checkFirst() {
+        if (this.state.first < this.state.numPerRow) {
+            this.state.first += 1;
+            return { fontWeight: 'bold' };
+        }
+        else {
+            return { fontWeight: 'none' };
+        }
+    }
 
     render() {
         const { classes } = this.props;
@@ -103,12 +115,12 @@ class Invoice extends React.Component {
                         <TableBody>
                             {this.state.data.map(row => (
                                 <TableRow key={row.id} >
-                                    <TableCell align="left">{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                    <TableCell align="left">{this.translateTime(row.Time)} </TableCell>
-                                    <TableCell align="left">{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
-                                    <TableCell align="left">{row.ReceiverAddr}</TableCell>
-                                    <TableCell align="left">{row.Price}</TableCell>
-                                    <TableCell align="left">{row.Weight} lb</TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>{row.Price}</TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>{row.Weight} lb</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
