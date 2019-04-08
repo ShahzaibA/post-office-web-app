@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { spacing } from '@material-ui/system';
+import { BrowserRouter as Link } from 'react-router-dom';
 import { Divider } from '@material-ui/core';
 
 const styles = theme => ({
@@ -34,7 +35,7 @@ const styles = theme => ({
 
 class Tracking extends React.Component {
     state = {
-        TrackingID: "0",
+        TrackingID: 0,
         data: [],
         numPerRow: 4,
         first: 0,
@@ -42,11 +43,12 @@ class Tracking extends React.Component {
 
     getFromLocal_Tracking() {
         this.state.TrackingID = localStorage.getItem("Tracking_ID");
-        localStorage.removeItem("Tracking_ID");
+        //localStorage.removeItem("Tracking_ID");
     }
 
     componentDidMount() {
         this.state.first = 0;
+        this.state.TrackingID = 0;
         this.getFromLocal_Tracking();
         this.getShipStatus();
     }
@@ -94,37 +96,47 @@ class Tracking extends React.Component {
         console.log(this.state.data);
         console.log(this.state.status_types);
         return (
-            <div className={classes.wrapper}>
-                <Typography variant="h3" as="div" align="left" >
-                    TrackingID - #{this.state.TrackingID}
-                </Typography>
-                <Divider className={classes.overrider}></Divider>
-                <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
-                    Tracking Details:
-                </Typography>
+            < div className={classes.wrapper} >
+                {this.state.TrackingID < 1 ?
+                    ([<Typography variant="h3" as="div" align="center" >
+                        Sorry, we could not find that package.
+                    </Typography>,
 
-                <Paper className={classes.root}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="left">Time</TableCell>
-                                <TableCell align="left">Date</TableCell>
-                                <TableCell align="left">Location</TableCell>
-                                <TableCell align="left">Status</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.state.data.map(row => (
-                                < TableRow>
-                                    <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
-                                    <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                    <TableCell align="left" style={this.checkFirst()}>{row.Addr == "" ? "None" : row.Addr}</TableCell>
-                                    <TableCell align="left" style={this.checkFirst()}>{row.Status_Type}</TableCell>
+                    <Typography variant="h5" as="div" align="center" style={{ padding: 50 }}>
+                        Try your search again from <a href="/"><Link to="/">Home.</Link></a>
+                    </Typography>,]) :
+
+                    ([<Typography variant="h3" as="div" align="left" >
+                        TrackingID - #{this.state.TrackingID}
+                    </Typography>,
+                    <Divider className={classes.overrider}></Divider>,
+                    <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
+                        Tracking Details:
+                </Typography>,
+
+                    <Paper className={classes.root}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="left">Time</TableCell>
+                                    <TableCell align="left">Date</TableCell>
+                                    <TableCell align="left">Location</TableCell>
+                                    <TableCell align="left">Status</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Paper >
+                            </TableHead>
+                            <TableBody>
+                                {this.state.data.map(row => (
+                                    < TableRow>
+                                        <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
+                                        <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
+                                        <TableCell align="left" style={this.checkFirst()}>{row.Addr == "" ? "None" : row.Addr}</TableCell>
+                                        <TableCell align="left" style={this.checkFirst()}>{row.Status_Type}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Paper >])
+                }
             </div >
         )
     }

@@ -8,8 +8,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { spacing } from '@material-ui/system';
 import { Divider } from '@material-ui/core';
+import { BrowserRouter as Link } from 'react-router-dom';
 
 const styles = theme => ({
     overrider: {
@@ -36,12 +36,16 @@ class Invoice extends React.Component {
     state = {
         InvoiceID: "0",
         data: [],
-        numPerRow: 6,
+        numPerRow: 7,
         first: 0,
+        FName: "",
+        LName: "",
+        curID: 0,
+        trackingIDS: []
     }
 
     getFromLocal_Invoice() {
-        this.state.InvoiceID = localStorage.getItem("InvoiceID");
+        this.state.InvoiceID = localStorage.getItem("sender_ID");
         //We do not remove the current "logged in" user here.
         //localStorage.removeItem("InvoiceID");
     }
@@ -63,9 +67,14 @@ class Invoice extends React.Component {
             })
         })
             .then(res => res.json())
-            .then(result => this.setState({ data: result.data }))
+            .then(result => this.setState({ data: result.data, FName: result.FName, LName: result.LName }))
             .catch(err => console.log(err))
 
+    }
+
+    getID() {
+        this.state.curID++;
+        return this.state.curID - 1;
     }
 
     translateTime(time) {
@@ -83,21 +92,25 @@ class Invoice extends React.Component {
     checkFirst() {
         if (this.state.first < this.state.numPerRow) {
             this.state.first += 1;
-            return { fontWeight: 'bold', backgroundColor: '#ededed' };
+            //return { fontWeight: 'bold', backgroundColor: '#ededed' };
         }
         else {
-            return { fontWeight: 'none', backgroundColor: '#ffffff' };
+            //return { fontWeight: 'none', backgroundColor: '#ffffff' };
         }
+    }
+    setTrackingID(rowPID) {
+        localStorage.setItem('Tracking_ID', rowPID);
+        window.location.replace("/tracking")
     }
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.data);
+        //console.log(this.state.data);
         console.log(this.state.status_types);
         return (
             <div className={classes.wrapper}>
                 <Typography variant="h3" as="div" align="left" >
-                    Invoices for User
+                    Invoices for {this.state.FName} {this.state.LName}
                 </Typography>
                 <Divider className={classes.overrider}></Divider>
 
@@ -107,6 +120,7 @@ class Invoice extends React.Component {
                             <TableRow>
                                 <TableCell align="left">Date</TableCell>
                                 <TableCell align="left">Time</TableCell>
+                                <TableCell align="left">TrackingID</TableCell>
                                 <TableCell align="left">Receiver Name</TableCell>
                                 <TableCell align="left">Receiver Address</TableCell>
                                 <TableCell align="left">Price</TableCell>
@@ -118,6 +132,9 @@ class Invoice extends React.Component {
                                 <TableRow key={row.id} >
                                     <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>
+                                        <ul align="left"><a href="/tracking" data-id={this.getID()} onClick={() => this.setTrackingID(row.Package_ID)} >{row.Package_ID}</a></ul>
+                                    </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.Price}</TableCell>

@@ -49,10 +49,12 @@ app.post('/get_shipstatus', (req, res) => {
 
 app.post('/get_invoices', (req, res) => {
     const { sender_id } = req.body;
-    connection.query(`SELECT postoffice.Invoice.Date, postoffice.Invoice.Time, postoffice.Package.ReceiverFirstName, postoffice.Package.ReceiverLastName, postoffice.Package.ReceiverAddr,  postoffice.Invoice.Price, postoffice.Package.Weight, postoffice.ShipForm.ShipForm
+    connection.query(`
+    SELECT postoffice.Sender.FName, postoffice.Sender.LName, postoffice.Invoice.Date, postoffice.Invoice.Time, postoffice.Package.Package_ID, postoffice.Package.ReceiverFirstName, postoffice.Package.ReceiverLastName, postoffice.Package.ReceiverAddr,  postoffice.Invoice.Price, postoffice.Package.Weight, postoffice.ShipForm.ShipForm
     FROM postoffice.Invoice
     INNER JOIN postoffice.Package ON postoffice.Package.Invoice_ID = postoffice.Invoice.Invoice_ID
     INNER JOIN postoffice.ShipForm ON postoffice.ShipForm.ShipForm_ID = postoffice.Package.ShipForm_ID
+    INNER JOIN postoffice.Sender ON postoffice.Sender.Sender_ID = postoffice.Invoice.Sender_ID
     WHERE postoffice.Invoice.Sender_ID = '${sender_id}'
     ORDER BY postoffice.Invoice.Date DESC, postoffice.Invoice.Time DESC`
         , function (err, results) {
@@ -61,7 +63,9 @@ app.post('/get_invoices', (req, res) => {
             }
             else {
                 return res.json({
-                    data: results
+                    data: results,
+                    FName: results[0].FName,
+                    LName: results[0].LName
                 })
             }
         })
@@ -317,7 +321,7 @@ app.post('/create_user', (req, res) => {
                 })
 
                 // create new account linked to a sender
-                connection.query(`INSERT INTO postoffice.sendercredentials (Username, Password, Email, tSender_ID) VALUES ('${username}', '${password}', '${sender_email}', (SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'))`, function (err, results) {
+                connection.query(`INSERT INTO postoffice.sendercredentials (Username, Password, Email, Sender_ID) VALUES ('${username}', '${password}', '${sender_email}', (SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'))`, function (err, results) {
                     if (err) {
                         console.log(err);
                     }
