@@ -8,8 +8,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { spacing } from '@material-ui/system';
 import { Divider } from '@material-ui/core';
+import { BrowserRouter as Link } from 'react-router-dom';
 
 const styles = theme => ({
     overrider: {
@@ -119,7 +119,9 @@ class Invoice extends React.Component {
                                 <TableRow key={row.id} >
                                     <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
-                                    <TableCell align="left" style={this.checkFirst()}> {row.Tracking_ID} </TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>
+                                        <ul align="left" padding><a href="/tracking"><Link to="/tracking">{row.Package_ID}</Link></a></ul>
+                                    </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.Price}</TableCell>
