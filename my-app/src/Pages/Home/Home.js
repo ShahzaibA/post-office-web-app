@@ -40,6 +40,7 @@ export default class HomeCarousel extends Component {
         </div>
 
 
+
       </div>
     );
   }
