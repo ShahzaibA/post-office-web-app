@@ -116,6 +116,34 @@ app.get('/get_user', (req, res) => {
         }
     })
 });
+
+
+app.get('/get_cities', (req, res) => {
+    connection.query('SELECT * FROM postoffice.cities', function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json({
+                cities: results
+            })
+        }
+    })
+});
+
+app.get('/get_countries', (req, res) => {
+    connection.query('SELECT * FROM postoffice.countries', function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json({
+                countries: results
+            })
+        }
+    })
+});
+
 //<-Victor Query
 
 
