@@ -33,7 +33,8 @@ app.post('/get_shipstatus', (req, res) => {
     FROM postoffice.ShipStatus
     LEFT JOIN postoffice.Hub ON postoffice.Hub.Hub_ID = postoffice.ShipStatus.Hub_ID OR postoffice.ShipStatus.Hub_ID = NULL
     LEFT JOIN postoffice.Status ON postoffice.Status.Status_ID = postoffice.ShipStatus.Status_ID
-    WHERE postoffice.ShipStatus.Package_ID = '${package_id}'`
+    WHERE postoffice.ShipStatus.Package_ID = '${package_id}'
+    ORDER BY postoffice.ShipStatus.Date DESC, postoffice.ShipStatus.Time DESC, postoffice.Status.Status_ID DESC`
         , function (err, results) {
             if (err) {
                 console.log(err);
@@ -52,7 +53,8 @@ app.post('/get_invoices', (req, res) => {
     FROM postoffice.Invoice
     INNER JOIN postoffice.Package ON postoffice.Package.Invoice_ID = postoffice.Invoice.Invoice_ID
     INNER JOIN postoffice.ShipForm ON postoffice.ShipForm.ShipForm_ID = postoffice.Package.ShipForm_ID
-    WHERE postoffice.Invoice.Sender_ID = '${sender_id}'`
+    WHERE postoffice.Invoice.Sender_ID = '${sender_id}'
+    ORDER BY postoffice.Invoice.Date DESC, postoffice.Invoice.Time DESC`
         , function (err, results) {
             if (err) {
                 console.log(err);
@@ -354,6 +356,32 @@ app.post('/get_arrived_packages', (req, res) => {
     LEFT JOIN postoffice.States AS Receiver_State ON Receiver_State.State_ID=postoffice.Package.ReceiverState_ID
     LEFT JOIN postoffice.Status ON postoffice.ShipStatus.Status_ID=postoffice.Status.Status_ID
     WHERE Hub_State.State_Abbr='${Hub_Location}' AND Receiver_State.State_Abbr!='${Hub_Location}' AND postoffice.Status.Status_Type='Arrival Scan' AND postoffice.ShipStatus.ShipStatus_ID IN (
+        SELECT MAX(postoffice.ShipStatus.ShipStatus_ID)
+        FROM postoffice.ShipStatus
+        GROUP BY postoffice.ShipStatus.Package_ID)`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                return res.json({
+                    data: results
+                })
+            }
+        })
+})
+
+app.post('/get_packages_to_deliver', (req, res) => {
+    const { Hub_Location } = req.body;
+    connection.query(`SELECT postoffice.ShipStatus.Package_ID, postoffice.Package.ReceiverAddr as 'Shipping_Address', Receiver_City.City_Name as 'Shipping_City', Receiver_State.State_Abbr as 'Shipping_State_Abbr', postoffice.Package.ReceiverZip as 'Shipping_Zip', postoffice.ShipStatus.Hub_ID as 'Hub_ID'
+    FROM postoffice.ShipStatus
+    LEFT JOIN postoffice.Package ON postoffice.Package.Package_ID=postoffice.ShipStatus.Package_ID
+    LEFT JOIN postoffice.Hub ON postoffice.Hub.Hub_ID=postoffice.ShipStatus.Hub_ID or postoffice.ShipStatus.Hub_ID=null
+    LEFT JOIN postoffice.Cities as Hub_City ON Hub_City.City_ID=postoffice.Hub.City_ID
+    LEFT JOIN postoffice.Cities as Receiver_City ON Receiver_City.City_ID=postoffice.Package.ReceiverCity_ID
+    LEFT JOIN postoffice.States as Hub_State ON Hub_State.State_ID=postoffice.Hub.State_ID
+    LEFT JOIN postoffice.States AS Receiver_State ON Receiver_State.State_ID=postoffice.Package.ReceiverState_ID
+    LEFT JOIN postoffice.Status ON postoffice.ShipStatus.Status_ID=postoffice.Status.Status_ID
+    WHERE Hub_State.State_Abbr='${Hub_Location}' AND Receiver_State.State_Abbr='${Hub_Location}' AND postoffice.Status.Status_Type='Arrival Scan' AND postoffice.ShipStatus.ShipStatus_ID IN (
         SELECT MAX(postoffice.ShipStatus.ShipStatus_ID)
         FROM postoffice.ShipStatus
         GROUP BY postoffice.ShipStatus.Package_ID)`, function (err, results) {

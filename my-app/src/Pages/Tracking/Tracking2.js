@@ -34,7 +34,7 @@ const styles = theme => ({
 
 class Tracking extends React.Component {
     state = {
-        TrackingID: "1",
+        TrackingID: "0",
         data: [],
     }
 

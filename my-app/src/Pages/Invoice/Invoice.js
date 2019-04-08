@@ -34,7 +34,7 @@ const styles = theme => ({
 
 class Invoice extends React.Component {
     state = {
-        InvoiceID: "7",
+        InvoiceID: "0",
         data: [],
     }
 
