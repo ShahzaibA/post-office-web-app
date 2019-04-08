@@ -53,7 +53,7 @@ export default class HomeCarousel extends Component {
               <h1>Tracking number</h1>
               <InputGroup className="mb-3">
                 <InputGroup.Prepend>
-                  <Button onClick={() => this.buttonConfirm()} variant="danger">Search</Button>
+                  <Button onClick={() => this.buttonConfirm()} href='/tracking' variant="danger">Search</Button>
                 </InputGroup.Prepend>
                 <FormControl aria-describedby="basic-addon1" Input
                   name="Tracking_ID"
