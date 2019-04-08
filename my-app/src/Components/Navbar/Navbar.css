@@ -6,6 +6,11 @@ body {
   font-weight: 800;
 }
 
+LoginNav{
+  color:rgb(255, 255, 255);
+  font-weight: 800;
+}
+
 header {
   background: #00bfa5;
   height: 65px !important;
