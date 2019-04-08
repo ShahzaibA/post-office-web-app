@@ -39,7 +39,6 @@ class Navbar extends Component {
                     <nav>
                         <ul>
                             <li><a href="/"><Link to="/">Home</Link></a></li>
-                            <li><a href="/tracking"><Link to="/tracking">Tracking</Link></a></li>
                             <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>
 
                             {this.state.user_ID === null && this.state.employee_email === null ? (

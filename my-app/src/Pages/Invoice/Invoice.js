@@ -36,7 +36,7 @@ class Invoice extends React.Component {
     state = {
         InvoiceID: "0",
         data: [],
-        numPerRow: 6,
+        numPerRow: 7,
         first: 0,
     }
 
@@ -83,10 +83,10 @@ class Invoice extends React.Component {
     checkFirst() {
         if (this.state.first < this.state.numPerRow) {
             this.state.first += 1;
-            return { fontWeight: 'bold', backgroundColor: '#ededed' };
+            //return { fontWeight: 'bold', backgroundColor: '#ededed' };
         }
         else {
-            return { fontWeight: 'none', backgroundColor: '#ffffff' };
+            //return { fontWeight: 'none', backgroundColor: '#ffffff' };
         }
     }
 
@@ -107,6 +107,7 @@ class Invoice extends React.Component {
                             <TableRow>
                                 <TableCell align="left">Date</TableCell>
                                 <TableCell align="left">Time</TableCell>
+                                <TableCell align="left">TrackingID</TableCell>
                                 <TableCell align="left">Receiver Name</TableCell>
                                 <TableCell align="left">Receiver Address</TableCell>
                                 <TableCell align="left">Price</TableCell>
@@ -118,6 +119,7 @@ class Invoice extends React.Component {
                                 <TableRow key={row.id} >
                                     <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}> {row.Tracking_ID} </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.Price}</TableCell>

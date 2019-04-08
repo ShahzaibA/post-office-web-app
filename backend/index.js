@@ -49,7 +49,7 @@ app.post('/get_shipstatus', (req, res) => {
 
 app.post('/get_invoices', (req, res) => {
     const { sender_id } = req.body;
-    connection.query(`SELECT postoffice.Invoice.Date, postoffice.Invoice.Time, postoffice.Package.ReceiverFirstName, postoffice.Package.ReceiverLastName, postoffice.Package.ReceiverAddr,  postoffice.Invoice.Price, postoffice.Package.Weight, postoffice.ShipForm.ShipForm
+    connection.query(`SELECT postoffice.Invoice.Date, postoffice.Invoice.Time, postoffice.Package.Package_ID, postoffice.Package.ReceiverFirstName, postoffice.Package.ReceiverLastName, postoffice.Package.ReceiverAddr,  postoffice.Invoice.Price, postoffice.Package.Weight, postoffice.ShipForm.ShipForm
     FROM postoffice.Invoice
     INNER JOIN postoffice.Package ON postoffice.Package.Invoice_ID = postoffice.Invoice.Invoice_ID
     INNER JOIN postoffice.ShipForm ON postoffice.ShipForm.ShipForm_ID = postoffice.Package.ShipForm_ID
