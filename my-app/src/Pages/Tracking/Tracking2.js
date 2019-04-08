@@ -36,6 +36,8 @@ class Tracking extends React.Component {
     state = {
         TrackingID: "0",
         data: [],
+        numPerRow: 4,
+        first: 0,
     }
 
     getFromLocal_Tracking() {
@@ -44,6 +46,7 @@ class Tracking extends React.Component {
     }
 
     componentDidMount() {
+        this.state.first = 0;
         this.getFromLocal_Tracking();
         this.getShipStatus();
     }
@@ -76,6 +79,15 @@ class Tracking extends React.Component {
         }
     }
 
+    checkFirst() {
+        if (this.state.first < this.state.numPerRow) {
+            this.state.first += 1;
+            return { fontWeight: 'bold' };
+        }
+        else {
+            return { fontWeight: 'none' };
+        }
+    }
 
     render() {
         const { classes } = this.props;
@@ -103,17 +115,17 @@ class Tracking extends React.Component {
                         </TableHead>
                         <TableBody>
                             {this.state.data.map(row => (
-                                <TableRow key={row.id} >
-                                    <TableCell align="left">{this.translateTime(row.Time)} </TableCell>
-                                    <TableCell align="left">{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                    <TableCell align="left">{row.Addr}</TableCell>
-                                    <TableCell align="left">{row.Status_Type}</TableCell>
+                                < TableRow>
+                                    <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>{row.Addr == "" ? "None" : row.Addr}</TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>{row.Status_Type}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </Paper >
-            </div>
+            </div >
         )
     }
 }
