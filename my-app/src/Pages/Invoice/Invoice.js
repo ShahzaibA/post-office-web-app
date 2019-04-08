@@ -38,6 +38,8 @@ class Invoice extends React.Component {
         data: [],
         numPerRow: 7,
         first: 0,
+        FName: "",
+        LName: ""
     }
 
     getFromLocal_Invoice() {
@@ -63,7 +65,7 @@ class Invoice extends React.Component {
             })
         })
             .then(res => res.json())
-            .then(result => this.setState({ data: result.data }))
+            .then(result => this.setState({ data: result.data, FName: result.FName, LName: result.LName }))
             .catch(err => console.log(err))
 
     }
@@ -100,7 +102,7 @@ class Invoice extends React.Component {
         return (
             <div className={classes.wrapper}>
                 <Typography variant="h3" as="div" align="left" >
-                    Invoices for User
+                    Invoices for {this.state.FName} {this.state.LName}
                 </Typography>
                 <Divider className={classes.overrider}></Divider>
 

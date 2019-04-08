@@ -63,7 +63,9 @@ app.post('/get_invoices', (req, res) => {
             }
             else {
                 return res.json({
-                    data: results
+                    data: results,
+                    FName: results[0].FName,
+                    LName: results[0].LName
                 })
             }
         })
