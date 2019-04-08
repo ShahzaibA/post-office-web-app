@@ -32,12 +32,12 @@ export default class HomeCarousel extends Component {
   }
 
   buttonConfirm() {
-    localStorage.setItem('Tracking_ID', 1);
+    localStorage.setItem('Tracking_ID', this.state.Tracking_ID);
   }
 
   handleChange = (name, val) => {
     this.setState({ [name]: val });
-}
+  }
 
   render() {
     return (
@@ -53,11 +53,12 @@ export default class HomeCarousel extends Component {
               <h1>Tracking number</h1>
               <InputGroup className="mb-3">
                 <InputGroup.Prepend>
-                    <Button onClick={this.buttonConfirm} variant="danger">Search</Button>
+                  <Button onClick={() => this.buttonConfirm()} variant="danger">Search</Button>
                 </InputGroup.Prepend>
-                  <FormControl aria-describedby="basic-addon1" Input
-                    Tracking_ID="T_ID"
-                    onChange={e => this.handleChange(e.target.name, e.target.value)} />
+                <FormControl aria-describedby="basic-addon1" Input
+                  name="Tracking_ID"
+                  value={this.state.Tracking_ID}
+                  onChange={e => this.handleChange(e.target.name, e.target.value)} />
               </InputGroup>
             </Carousel.Caption>
           </Carousel.Item>
@@ -66,10 +67,10 @@ export default class HomeCarousel extends Component {
 
 
       </div>
-        );
-      }
-    }
-    
-    
-    
-    
+    );
+  }
+}
+
+
+
+
