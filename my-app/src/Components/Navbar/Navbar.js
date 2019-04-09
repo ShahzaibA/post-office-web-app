@@ -22,6 +22,7 @@ class Navbar extends Component {
     state = {
         user_ID: localStorage.getItem('sender_ID'),
         employee_email: localStorage.getItem('employee_email'),
+        job_title: localStorage.getItem('job_title'),
         width: 0,
         height: 0,
         anchorEl: null,
@@ -53,6 +54,8 @@ class Navbar extends Component {
         this.setState({ user_ID: null });
         localStorage.removeItem('employee_email');
         this.setState({ employee_email: null });
+        localStorage.removeItem('job_title');
+        this.setState({ job_title: null });
     }
 
     render() {
