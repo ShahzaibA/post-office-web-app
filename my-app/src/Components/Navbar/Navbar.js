@@ -35,7 +35,7 @@ class Navbar extends Component {
         return (
             <header>
                 <div class="container">
-                    <img class='logo' src={logo} alt="ShipIt" />
+                    <a href="/"><Link to="/"><img class='logo' src={logo} alt="ShipIt" /></Link></a>
                     <nav>
                         <ul>
                             <li><a href="/"><Link to="/">Home</Link></a></li>
