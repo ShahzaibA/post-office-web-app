@@ -137,7 +137,7 @@ class Invoice extends React.Component {
                                     </TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
-                                    <TableCell align="left" style={this.checkFirst()}>{row.Price}</TableCell>
+                                    <TableCell align="left" style={this.checkFirst()}>${row.Price}</TableCell>
                                     <TableCell align="left" style={this.checkFirst()}>{row.Weight} lb</TableCell>
                                 </TableRow>
                             ))}

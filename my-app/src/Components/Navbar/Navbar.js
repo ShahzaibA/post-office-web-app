@@ -62,13 +62,19 @@ class Navbar extends Component {
                 {this.state.width < 1200 ? (
                     <div class="container" style={{ alignContent: 'center', margin: '0 auto' }}>
                         <a href="/"><Link to="/"><img class='logo' src={logo} alt="ShipIt" /></Link></a>
-                        <Button
-                            aria-owns={anchorEl ? 'simple-menu' : undefined}
-                            aria-haspopup="true"
-                            onClick={this.handleClick}
-                        >
-                            ShipIt Menu
-                        </Button>
+                        <div class='ShipItMenu'>
+                            <Button
+                                aria-owns={anchorEl ? 'simple-menu' : undefined}
+                                aria-haspopup="true"
+                                onClick={this.handleClick}
+                                style={{
+                                    paddingTop: '23px',
+                                    fontSize: '22px !important'
+                                }}
+                            >
+                                ShipIt Menu
+                            </Button>
+                        </div>
                         <Menu
                             id="simple-menu"
                             anchorEl={anchorEl}
