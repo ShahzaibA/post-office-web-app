@@ -97,7 +97,7 @@ class Tracking extends React.Component {
         console.log(this.state.status_types);
         return (
             < div className={classes.wrapper} >
-                {this.state.TrackingID < 1 ?
+                {this.state.TrackingID < 1 || this.state.data.length < 1 ?
                     ([<Typography variant="h3" as="div" align="center" >
                         Sorry, we could not find that package.
                     </Typography>,
