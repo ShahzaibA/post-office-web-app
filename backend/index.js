@@ -29,10 +29,12 @@ app.use(bodyParser.json())
 app.post('/get_shipstatus', (req, res) => {
     const { package_id } = req.body;
 
-    connection.query(`SELECT postoffice.ShipStatus.Package_ID, postoffice.shipstatus.ShipStatus_ID, postoffice.ShipStatus.Date, postoffice.ShipStatus.Time, postoffice.Hub.Addr, postoffice.Status.Status_ID, postoffice.Status.Status_Type
+    connection.query(`
+    SELECT postoffice.ShipStatus.Package_ID, postoffice.shipstatus.ShipStatus_ID, postoffice.ShipStatus.Date, postoffice.ShipStatus.Time, postoffice.Hub.Addr, postoffice.Status.Status_ID, postoffice.Status.Status_Type, postoffice.Package.ReceiverAddr
     FROM postoffice.ShipStatus
     LEFT JOIN postoffice.Hub ON postoffice.Hub.Hub_ID = postoffice.ShipStatus.Hub_ID OR postoffice.ShipStatus.Hub_ID = NULL
     LEFT JOIN postoffice.Status ON postoffice.Status.Status_ID = postoffice.ShipStatus.Status_ID
+    LEFT JOIN postoffice.Package ON postoffice.Package.Package_ID = postoffice.ShipStatus.Package_ID
     WHERE postoffice.ShipStatus.Package_ID = '${package_id}'
     ORDER BY postoffice.ShipStatus.Date DESC, postoffice.ShipStatus.Time DESC, postoffice.Status.Status_ID DESC`
         , function (err, results) {
@@ -184,7 +186,7 @@ app.post('/edit_user', (req, res) => {
                                         } else {
                                             console.log('done');
                                             return res
-                                            
+
 
 
                                         }

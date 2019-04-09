@@ -85,7 +85,7 @@ class UserProfile extends Component {
 
 
     var url = new URL("http://localhost:4000/get_user"),
-    params = { sender_ID: localStorage.getItem('sender_ID') }
+      params = { sender_ID: localStorage.getItem('sender_ID') }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     fetch(url)
       .then(res => res.json())
@@ -108,7 +108,7 @@ class UserProfile extends Component {
                     tempState.sender_country = tempState.countries[tempState.sender_country - 1].Country_Name;
 
                     // cleanup nulls from backend
-                    Object.keys(tempState).map(function(key, index) {
+                    Object.keys(tempState).map(function (key, index) {
                       if (tempState[key] === null || tempState[key] === 'null') {
                         tempState[key] = '';
                       }
