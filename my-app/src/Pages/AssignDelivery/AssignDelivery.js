@@ -124,6 +124,19 @@ class AssignDelivery extends Component {
             .catch(err => console.log(err))
     }
 
+    sendOutForDelivery = () => {
+        fetch('http://localhost:4000/send_out_for_delivery', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                Package_ID: this.state.Package_ID,
+                Hub_ID: this.state.hub_location,
+                Driver_ID: this.state.driver_ID,
+            })
+        })
+    }
     postRoutedPackage = () => {
         fetch('http://localhost:4000/in_transit_scan', {
             method: "POST",
@@ -183,7 +196,7 @@ class AssignDelivery extends Component {
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={this.postRoutedPackage} color="secondary">
+                        <Button onClick={this.sendOutForDelivery} color="secondary">
                             Send Out For Delivery
                         </Button>
                     </DialogActions>
