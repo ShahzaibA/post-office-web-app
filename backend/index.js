@@ -360,18 +360,23 @@ app.post('/login_user', (req, res) => {
 
 app.post('/login_employee', (req, res) => {
     const { employee_email, password } = req.body;
-    connection.query(`SELECT * FROM postoffice.EmployeeCredentials WHERE Email='${employee_email}' AND Password='${password}'`, function (err, results) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            if (results.length !== 0) {
-                return res.json({
-                    data: results
-                })
+    connection.query(`SELECT postoffice.EmployeeCredentials.Email, postoffice.JobTitles.JobTitle
+    FROM postoffice.EmployeeCredentials 
+    LEFT JOIN postoffice.Employee ON postoffice.EmployeeCredentials.Email=postoffice.Employee.Email 
+    LEFT JOIN postoffice.JobTitles ON postoffice.JobTitles.Jobtitle_ID=postoffice.Employee.JobTitles_ID
+    WHERE postoffice.EmployeeCredentials.Email='${employee_email}' AND postoffice.EmployeeCredentials.Password='${password}'`, function (err, results) {
+            if (err) {
+                console.log(err);
             }
-        }
-    })
+            else {
+                console.log(results)
+                if (results.length !== 0) {
+                    return res.json({
+                        data: results
+                    })
+                }
+            }
+        })
 })
 
 app.post('/get_packages_awaiting_arrival', (req, res) => {

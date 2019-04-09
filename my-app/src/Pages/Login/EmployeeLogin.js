@@ -45,7 +45,6 @@ class Login extends React.Component {
     state = {
         employee_email: "",
         password: "",
-        sender_ID: "",
         loggedIn: false,
         info: []
     }
@@ -65,6 +64,7 @@ class Login extends React.Component {
             .then(result => {
                 if (result.data.length !== 0) {
                     localStorage.setItem('employee_email', result.data[0].Email);
+                    localStorage.setItem('job_title', result.data[0].JobTitle)
                     this.setState({ loggedIn: true })
                 }
             })
