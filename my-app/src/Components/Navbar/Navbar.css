@@ -7,8 +7,17 @@ body {
 }
 
 .LoginNav{
-  color:rgb(255, 255, 255);
+  color:rgb(0, 0, 0);
+	background: rgb(255, 255, 255);
   font-weight: 800;
+  text-align: left;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  padding: 16px;
+  padding: 16px;
+  width: auto;
+  line-height: 1.5em;
+  white-space: nowrap;
+  box-sizing: content-box;
 }
 
 header {
