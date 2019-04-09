@@ -162,24 +162,6 @@ class AssignDelivery extends Component {
                         />
                         <TextField
                             required
-                            id="route_to_state"
-                            select
-                            variant="standard"
-                            name="route_to_state"
-                            value={this.state.route_to_state}
-                            label="Route to"
-                            fullWidth
-                            onChange={e => this.handleChange(e.target.name, e.target.value)}
-
-                        >
-                            {this.state.states.map(option => (
-                                <MenuItem key={option.State_Abbr} value={option.State_Abbr}>
-                                    {option.State_Abbr}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                        <TextField
-                            required
                             id="driver_ID"
                             select
                             variant="standard"
@@ -202,7 +184,7 @@ class AssignDelivery extends Component {
                             Cancel
                         </Button>
                         <Button onClick={this.postRoutedPackage} color="secondary">
-                            Route
+                            Send Out For Delivery
                         </Button>
                     </DialogActions>
                 </Dialog>

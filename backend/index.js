@@ -350,7 +350,6 @@ app.post('/login_user', (req, res) => {
             console.log(err);
         }
         else {
-            console.log(results)
             return res.json({
                 data: results
             })
@@ -369,7 +368,6 @@ app.post('/login_employee', (req, res) => {
                 console.log(err);
             }
             else {
-                console.log(results)
                 if (results.length !== 0) {
                     return res.json({
                         data: results
@@ -507,6 +505,10 @@ app.post('/in_transit_scan', (req, res) => {
             })
         }
     })
+})
+
+app.post('/send_out_for_delivery', (req, res) => {
+    const { Package_ID, Hub_ID, Driver_ID } = req.body;
 })
 
 
