@@ -101,11 +101,11 @@ class Navbar extends Component {
                                 <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>
 
                                 {this.state.user_ID === null && this.state.employee_email === null ? (
-                                    <li class='LoginNav' ><a href="/login"><Link to="/login">Login</Link></a></li>
+                                    <li class='LoginNav' ><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
                                 ) : ([
                                     <li><a href="/invoice"><Link to="/invoice">Invoice</Link></a></li>,
                                     <li><a href="/user_profile"><Link to="/user_profile">Profile</Link></a></li>,
-                                    <li><a href="/"><Link to="/" onClick={this.processLogout}>Logout</Link></a></li>,
+                                    <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>,
                                 ])}
                                 {this.state.employee_email !== null ? (
                                     <EmployeeNavBar employee_email={(this.state.employee_email)} />
