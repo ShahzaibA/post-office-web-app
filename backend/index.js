@@ -509,8 +509,13 @@ app.post('/in_transit_scan', (req, res) => {
 
 app.post('/send_out_for_delivery', (req, res) => {
     const { Package_ID, Hub_ID, Driver_ID } = req.body;
+    connection.query(`INSERT INTO postoffice.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID, Driver_ID) VALUES((SELECT Status_ID FROM postoffice.Status WHERE Status_Type='Out For Delivery'), curdate(), now(), (SELECT Hub_ID FROM postoffice.Hub LEFT JOIN postoffice.States ON postoffice.Hub.State_ID=postoffice.States.State_ID WHERE postoffice.States.State_Abbr='${Hub_ID}'), ${Package_ID}, ${Driver_ID})`, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        res.send('success');
+    })
 })
-
 
 app.listen(4000, () => {
     console.log(`listening on port 4000`)

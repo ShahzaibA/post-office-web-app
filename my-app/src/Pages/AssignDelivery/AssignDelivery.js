@@ -136,22 +136,9 @@ class AssignDelivery extends Component {
                 Driver_ID: this.state.driver_ID,
             })
         })
-    }
-    postRoutedPackage = () => {
-        fetch('http://localhost:4000/in_transit_scan', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                Package_ID: this.state.Package_ID,
-                Hub_ID: this.state.hub_location,
-                Next_Hub: this.state.route_to_state,
-                Driver_ID: this.state.driver_ID,
-            })
-        })
             .then(this.handleClose)
             .then(() => this.getPackagesToDeliver())
+            .then(this.handleClose)
     }
 
     renderDialogComponent() {
