@@ -51,11 +51,11 @@ class Navbar extends Component {
 
     processLogout = () => {
         localStorage.removeItem('sender_ID');
-        this.setState({ user_ID: null });
+        this.setState({user_ID: null})
         localStorage.removeItem('employee_email');
-        this.setState({ employee_email: null });
+        this.setState({employee_email: null})
         localStorage.removeItem('job_title');
-        this.setState({ job_title: null });
+        this.setState({job_title: null})
     }
 
     render() {
@@ -87,14 +87,14 @@ class Navbar extends Component {
                             <a href="/"><Link to="/"><MenuItem onClick={this.handleClose}>Home</MenuItem></Link></a>
                             <a href="/send_package"><Link to="/send_package"><MenuItem onClick={this.handleClose}>Send Package</MenuItem></Link></a>
 
-                            {this.state.user_ID === null && this.state.employee_email === null ? (
+                            {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
                                 <a href="/login"><Link to="/login"><MenuItem onClick={this.handleClose} class='LoginNav'>Login</MenuItem></Link></a>
                             ) : ([
                                 <a href="/invoice"><Link to="/invoice"><MenuItem onClick={this.handleClose}>Invoice</MenuItem></Link></a>,
                                 <a href="/user_profile"><Link to="/user_profile"><MenuItem onClick={this.handleClose}>Profile</MenuItem></Link></a>,
                                 <a href="/"><Link to="/" onClick={this.processLogout}><MenuItem onClick={this.handleClose} class='LoginNav'>Logout</MenuItem></Link></a>,
                             ])}
-                            {this.state.employee_email !== null ? (
+                            {localStorage.getItem('employee_email') !== null ? (
                                 <EmployeeNavBar employee_email={(this.state.employee_email)} />
                             ) : (
                                     <div></div>
@@ -109,14 +109,14 @@ class Navbar extends Component {
                                 <li><a href="/"><Link to="/">Home</Link></a></li>
                                 <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>
 
-                                {this.state.user_ID === null && this.state.employee_email === null ? (
+                                {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
                                     <li class='LoginNav' ><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
                                 ) : ([
                                     <li><a href="/invoice"><Link to="/invoice">Invoice</Link></a></li>,
                                     <li><a href="/user_profile"><Link to="/user_profile">Profile</Link></a></li>,
                                     <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>,
                                 ])}
-                                {this.state.employee_email !== null ? (
+                                {localStorage.getItem('employee_email') !== null ? (
                                     <EmployeeNavBar employee_email={(this.state.employee_email)} />
                                 ) : (
                                         <div></div>
