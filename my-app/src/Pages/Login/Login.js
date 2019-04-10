@@ -13,6 +13,7 @@ const styles = theme => ({
     main: {
         width: 'auto',
         display: 'block', // Fix IE 11 issue.
+        paddingTop: theme.spacing.unit * 8,
         marginLeft: theme.spacing.unit * 3,
         marginRight: theme.spacing.unit * 3,
         [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -22,7 +23,6 @@ const styles = theme => ({
         },
     },
     paper: {
-        marginTop: theme.spacing.unit * 8,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -83,58 +83,60 @@ class Login extends React.Component {
         }
         else {
             return (
-                <main className={classes.main}>
-                    <CssBaseline />
-                    <Paper className={classes.paper}>
-                        <Typography component="h1" variant="h5">
-                            Sign in
-                        </Typography>
-                        <form className={classes.form}>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="email">Username</InputLabel>
-                                <Input
-                                    id="username"
-                                    name="username"
-                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
-                                    autoComplete="username"
-                                    autoFocus />
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="password">Password</InputLabel>
-                                <Input
-                                    name="password"
-                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password" />
-                            </FormControl>
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                onClick={this.loginUser}
-                                color="primary"
-                            >
+                <div className="bg">
+                    <main className={classes.main}>
+                        <CssBaseline />
+                        <Paper className={classes.paper}>
+                            <Typography component="h1" variant="h5">
                                 Sign in
+                        </Typography>
+                            <form className={classes.form}>
+                                <FormControl margin="normal" required fullWidth>
+                                    <InputLabel htmlFor="email">Username</InputLabel>
+                                    <Input
+                                        id="username"
+                                        name="username"
+                                        onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                        autoComplete="username"
+                                        autoFocus />
+                                </FormControl>
+                                <FormControl margin="normal" required fullWidth>
+                                    <InputLabel htmlFor="password">Password</InputLabel>
+                                    <Input
+                                        name="password"
+                                        onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                        type="password"
+                                        id="password"
+                                        autoComplete="current-password" />
+                                </FormControl>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    onClick={this.loginUser}
+                                    color="primary"
+                                >
+                                    Sign in
                             </Button>
-                        </form>
-                    </Paper>
-                    <Typography style={{ marginTop: '10px' }}>Don't Have an Account?&ensp;
+                            </form>
+                        </Paper>
+                        <Typography style={{ marginTop: '10px' }}>Don't Have an Account?&ensp;
                     <Button
-                            href="/register"
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            style={{ textTransform: 'none' }}
-                        >Register</Button></Typography>
-                    <Typography style={{ marginTop: '10px' }}>Are You An Employee?&ensp;
+                                href="/register"
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                style={{ textTransform: 'none' }}
+                            >Register</Button></Typography>
+                        <Typography style={{ marginTop: '10px' }}>Are You An Employee?&ensp;
                     <Button
-                            href="/employee_login"
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            style={{ textTransform: 'none' }}
-                        >Log In</Button></Typography>
-                </main>
+                                href="/employee_login"
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                style={{ textTransform: 'none' }}
+                            >Log In</Button></Typography>
+                    </main>
+                </div>
             );
         }
     }
