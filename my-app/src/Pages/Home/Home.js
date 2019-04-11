@@ -24,9 +24,6 @@ export default class HomeCarousel extends Component {
         <div flex style={{ position: "relative", padding: "20px", margin: "0 auto", width: "85%", top: '10%' }}>
           <h1 fluid style={{ color: "black", fontWeight: 700, fontSize: '3.5vw' }}>Tracking number</h1>
           <InputGroup className="mb-3" size="lg">
-            <InputGroup.Prepend>
-              <Button onClick={() => this.buttonConfirm()} href="/tracking" variant="danger" style={{ fontSize: '1.5vw', }}>Search</Button>
-            </InputGroup.Prepend>
             <FormControl placeholder="Tracking ID"
               style={{ fontSize: '1.5vw' }}
               aria-label="Tracking ID"
@@ -35,6 +32,9 @@ export default class HomeCarousel extends Component {
               name="Tracking_ID"
               value={this.state.Tracking_ID}
               onChange={e => this.handleChange(e.target.name, e.target.value)} />
+            <InputGroup.Prepend>
+              <Button onClick={() => this.buttonConfirm()} href="/tracking" variant="danger" style={{ fontSize: '1.5vw', }}>Search</Button>
+            </InputGroup.Prepend>
           </InputGroup>
         </div>
       </div >

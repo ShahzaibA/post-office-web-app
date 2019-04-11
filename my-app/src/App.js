@@ -15,6 +15,7 @@ import ArrivalScan from './Pages/ArrivalScan/ArrivalScan';
 import RoutePackage from './Pages/RoutePackage/RoutePackage';
 import AssignDelivery from './Pages/AssignDelivery/AssignDelivery';
 import Delivered from './Pages/Delivered/Delivered';
+import ManageEmployees from './Pages/ManageEmployees/ManageEmployees';
 
 
 //Components
@@ -41,6 +42,7 @@ class App extends Component {
           <Route exact path='/route_packages' component={RoutePackage} />
           <Route exact path='/assign_delivery' component={AssignDelivery} />
           <Route exact path='/deliveries' component={Delivered} />
+          <Route exact path='/manage_employees' component={ManageEmployees} />
         </div>
       </Router>
     );
