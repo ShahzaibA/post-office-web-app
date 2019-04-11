@@ -517,6 +517,36 @@ app.post('/send_out_for_delivery', (req, res) => {
     })
 })
 
+app.post('/get_deliveries', (req, res) => {
+    const { Employee_Email } = req.body;
+    console.log(Employee_Email);
+    connection.query(`SELECT postoffice.ShipStatus.Package_ID, postoffice.Package.ReceiverAddr as 'Shipping_Address', Receiver_City.City_Name as 'Shipping_City', Receiver_State.State_Abbr as 'Shipping_State_Abbr', postoffice.Package.ReceiverZip as 'Shipping_Zip', postoffice.ShipStatus.Hub_ID as 'Hub_ID'
+    FROM postoffice.ShipStatus
+    lEFT JOIN postoffice.Employee ON postoffice.Employee.ID=postoffice.ShipStatus.Driver_ID
+    LEFT JOIN postoffice.Package ON postoffice.Package.Package_ID=postoffice.ShipStatus.Package_ID
+    LEFT JOIN postoffice.Hub ON postoffice.Hub.Hub_ID=postoffice.ShipStatus.Hub_ID or postoffice.ShipStatus.Hub_ID=null
+    LEFT JOIN postoffice.Cities as Hub_City ON Hub_City.City_ID=postoffice.Hub.City_ID
+    LEFT JOIN postoffice.Cities as Receiver_City ON Receiver_City.City_ID=postoffice.Package.ReceiverCity_ID
+    LEFT JOIN postoffice.States as Hub_State ON Hub_State.State_ID=postoffice.Hub.State_ID
+    LEFT JOIN postoffice.States AS Receiver_State ON Receiver_State.State_ID=postoffice.Package.ReceiverState_ID
+    LEFT JOIN postoffice.Status ON postoffice.ShipStatus.Status_ID=postoffice.Status.Status_ID
+    WHERE postoffice.Employee.Email='${Employee_Email}' AND postoffice.Status.Status_Type='Out For Delivery' AND postoffice.ShipStatus.ShipStatus_ID IN (
+        SELECT MAX(postoffice.ShipStatus.ShipStatus_ID)
+        FROM postoffice.ShipStatus
+        GROUP BY postoffice.ShipStatus.Package_ID)`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log(results)
+                return res.json({
+                    data: results
+                })
+            }
+        })
+
+})
+
 app.listen(4000, () => {
     console.log(`listening on port 4000`)
 });
