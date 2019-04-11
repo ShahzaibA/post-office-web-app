@@ -58,7 +58,7 @@ class Delivered extends Component {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                Employee_Email: "shahzaibsa98@gmail.com",
+                Employee_Email: localStorage.getItem('employee_email'),
             })
         })
             .then(res => res.json())
@@ -66,18 +66,18 @@ class Delivered extends Component {
             .catch(err => console.log(err))
     }
 
-    arrivalScan(Package_ID, Hub_ID) {
-        fetch('http://localhost:4000/arrival_scan', {
+    deliver(Package_ID) {
+        fetch('http://localhost:4000/delivered', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 Package_ID: Package_ID,
-                Hub_ID: Hub_ID,
+                Employee_Email: localStorage.getItem('employee_email'),
             })
         })
-            .then(() => this.getPackagesAwaitingArrival())
+            .then(() => this.getPackagesToDeliver())
             .catch(err => console.log(err))
     }
 
@@ -88,7 +88,7 @@ class Delivered extends Component {
             <TableCell align="right">{Shipping_City}</TableCell>
             <TableCell align="right">{Shipping_State_Abbr}</TableCell>
             <TableCell align="right">{Shipping_Zip}</TableCell>
-            <TableCell align="right"><Button size='sm' variant="outline-danger" onClick={() => this.arrivalScan(Package_ID, Hub_ID)} >Delivered</Button></TableCell>
+            <TableCell align="right"><Button size='sm' variant="outline-danger" onClick={() => this.deliver(Package_ID)} >Delivered</Button></TableCell>
         </TableRow>
 
     render() {

@@ -519,7 +519,6 @@ app.post('/send_out_for_delivery', (req, res) => {
 
 app.post('/get_deliveries', (req, res) => {
     const { Employee_Email } = req.body;
-    console.log(Employee_Email);
     connection.query(`SELECT postoffice.ShipStatus.Package_ID, postoffice.Package.ReceiverAddr as 'Shipping_Address', Receiver_City.City_Name as 'Shipping_City', Receiver_State.State_Abbr as 'Shipping_State_Abbr', postoffice.Package.ReceiverZip as 'Shipping_Zip', postoffice.ShipStatus.Hub_ID as 'Hub_ID'
     FROM postoffice.ShipStatus
     lEFT JOIN postoffice.Employee ON postoffice.Employee.ID=postoffice.ShipStatus.Driver_ID
@@ -538,13 +537,22 @@ app.post('/get_deliveries', (req, res) => {
                 console.log(err);
             }
             else {
-                console.log(results)
                 return res.json({
                     data: results
                 })
             }
         })
 
+})
+
+app.post('/delivered', (req, res) => {
+    const { Package_ID, Employee_Email } = req.body;
+    connection.query(`INSERT INTO postoffice.ShipStatus (Status_ID, Date, Time, Package_ID, Driver_ID) VALUES((SELECT Status_ID FROM postoffice.Status WHERE Status_Type='Delivered'), curdate(), now(), ${Package_ID}, (SELECT ID FROM postoffice.Employee WHERE Email='${Employee_Email}'))`, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        res.send('success');
+    })
 })
 
 app.listen(4000, () => {
