@@ -555,19 +555,36 @@ app.post('/delivered', (req, res) => {
     })
 })
 
-app.listen(4000, () => {
-    console.log(`listening on port 4000`)
-});
+app.post('/get_employees', (req, res) => {
+    const { Employee_Email } = req.body;
+    connection.query(`SELECT ID, FName, LName, Email, JobTitle FROM postoffice.Employee
+    LEFT JOIN postoffice.JobTitles ON postoffice.JobTitles.JobTitle_ID=postoffice.Employee.JobTitles_ID
+    WHERE Hub_ID=(SELECT Hub_ID FROM postoffice.Employee WHERE Email='${Employee_Email}')`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log(results);
+                return res.json({
+                    data: results
+                })
+            }
+        })
+})
 
-
-
-/*
-UNUSED QUERIES:
-
-connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) VALUES('${sender_firstName}', '${sender_lastName}', '${sender_address}', (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}'),  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}'), '${sender_zip}', (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}'), '${sender_email}', '${sender_phone}') WHERE `, function (err, results) {
+app.get('/get_job_titles', (req, res) => {
+    connection.query(`SELECT * FROM postoffice.JobTitles`, function (err, results) {
         if (err) {
             console.log(err);
         }
+        else {
+            return res.json({
+                data: results
+            })
+        }
     })
+})
 
-*/
+app.listen(4000, () => {
+    console.log(`listening on port 4000`)
+});
