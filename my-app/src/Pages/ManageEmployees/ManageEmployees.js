@@ -9,8 +9,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -38,6 +36,11 @@ const styles = theme => ({
     },
     button: {
         margin: theme.spacing.unit,
+    },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 200,
     },
 });
 
@@ -85,6 +88,24 @@ class ManageEmployees extends React.Component {
 
     }
 
+    createEmployee = () => {
+        fetch('http://localhost:4000/create_employee', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                FName: this.state.FName,
+                LName: this.state.LName,
+                Email: this.state.Email,
+                JobTitle: this.state.JobTitle
+            })
+        })
+            .then(res => res.json())
+            .catch(err => console.log(err))
+
+    }
+
     getJobTitles() {
         fetch('http://localhost:4000/get_job_titles')
             .then(res => res.json())
@@ -105,6 +126,7 @@ class ManageEmployees extends React.Component {
                             autoFocus
                             id="FName"
                             label="First Name"
+                            name="FName"
                             value={this.state.FName}
                             type="FName"
                             fullWidth
@@ -114,6 +136,7 @@ class ManageEmployees extends React.Component {
                             autoFocus
                             id="LName"
                             label="Last Name"
+                            name="LName"
                             value={this.state.LName}
                             type="LName"
                             fullWidth
@@ -123,6 +146,7 @@ class ManageEmployees extends React.Component {
                             autoFocus
                             id="Email"
                             label="Email"
+                            name="Email"
                             value={this.state.Email}
                             type="Email"
                             fullWidth
@@ -138,7 +162,6 @@ class ManageEmployees extends React.Component {
                             label="Job Title"
                             fullWidth
                             onChange={e => this.handleChange(e.target.name, e.target.value)}
-
                         >
                             {this.state.job_titles.map(title => (
                                 <MenuItem key={title.JobTitle_ID} value={title.JobTitle_ID}>
@@ -151,7 +174,7 @@ class ManageEmployees extends React.Component {
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={this.sendOutForDelivery} color="secondary">
+                        <Button onClick={this.createEmployee} color="secondary">
                             Add Employee
                         </Button>
                     </DialogActions>
