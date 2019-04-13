@@ -90,6 +90,7 @@ class SendPackage extends React.Component {
   componentDidMount() {
     this.getStates();
     this.getPackageTypes();
+    this.getSenderInformation()
   }
 
   getStates() {
@@ -106,6 +107,22 @@ class SendPackage extends React.Component {
       .then(res => res.json())
       .then(Response => this.setState({ package_types: Response.package_types }))
       .catch(err => console.log(err))
+  }
+
+  getSenderInformation() {
+    if (localStorage.getItem('sender_ID') !== null) {
+      fetch('http://localhost:4000/get_sender_information', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Sender_ID: localStorage.getItem('sender_ID'),
+        })
+      })
+        .then(res => res.json())
+        .catch(err => console.log(err))
+    }
   }
 
   sendPackageData = () => {

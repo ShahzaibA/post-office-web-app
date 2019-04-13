@@ -675,6 +675,26 @@ app.post('/create_driver_employee', (req, res) => {
         })
 })
 
+app.post('/get_sender_information', (req, res) => {
+    const { Sender_ID } = req.body;
+    connection.query(`SELECT FName, LName, Addr1, City_Name, State_Abbr, Zip, Country_Name, Email, Phone
+    FROM postoffice.Sender
+    LEFT JOIN postoffice.Cities ON postoffice.Cities.City_ID=postoffice.Sender.City_ID
+    LEFT JOIN postoffice.States ON postoffice.States.State_ID=postoffice.Sender.State_ID
+    LEFT JOIN postoffice.Countries ON postoffice.Countries.Country_ID=postoffice.Sender.Country_ID
+    WHERE Sender_ID='${Sender_ID}'`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log(results);
+                return res.json({
+                    data: results
+                })
+            }
+        })
+})
+
 app.listen(4000, () => {
     console.log(`listening on port 4000`)
 });
