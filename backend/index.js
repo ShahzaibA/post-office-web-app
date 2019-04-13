@@ -687,7 +687,10 @@ app.post('/get_sender_information', (req, res) => {
                 console.log(err);
             }
             else {
+<<<<<<< HEAD
                 console.log(results);
+=======
+>>>>>>> dac4884b6c7e82203ab12b79546c24f510eed810
                 return res.json({
                     data: results
                 })
