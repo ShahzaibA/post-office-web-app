@@ -20,7 +20,7 @@ export default class HomeCarousel extends Component {
 
   render() {
     return (
-      <div class='container' flex style={{ margin: "0 auto", position: 'absolute', top: '65px', left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div class='container' style={{ padding: "5vw", margin: "0 auto" }}>
         <div flex style={{ position: "relative", padding: "20px", margin: "0 auto", width: "85%", top: '10%' }}>
           <h1 fluid style={{ color: "black", fontWeight: 700, fontSize: '3.5vw' }}>Tracking number</h1>
           <InputGroup className="mb-3" size="lg">

@@ -45,6 +45,7 @@ body {
 
 header {
   background: #00bfa5;
+  z-index: 99999999;
 }
 
 .container {
