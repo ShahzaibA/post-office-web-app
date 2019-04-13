@@ -66,8 +66,6 @@ app.post('/get_invoices', (req, res) => {
             else {
                 return res.json({
                     data: results,
-                    FName: results[0].FName,
-                    LName: results[0].LName
                 })
             }
         })
@@ -202,13 +200,13 @@ app.post('/edit_user', (req, res) => {
     })
 })
 
-app.get('/get_report', function(req, res) {
+app.get('/get_report', function (req, res) {
 
     let date1 = req.query.date1;
     let date2 = req.query.date2;
     let status_type = req.query.status_type;
 
-    let q = 
+    let q =
         `SELECT 
             shipstatus.Hub_ID,
             hub.Addr,
@@ -223,7 +221,7 @@ app.get('/get_report', function(req, res) {
         WHERE (status.Status_Type = '${status_type}') AND (shipstatus.Date BETWEEN '${date1}' AND '${date2}')
         GROUP BY postoffice.shipstatus.Hub_ID
         `;
-    connection.query(q, function(err, results) {
+    connection.query(q, function (err, results) {
         if (err) {
             res.send(err);
         }
