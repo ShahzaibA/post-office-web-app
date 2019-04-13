@@ -55,7 +55,8 @@ class Navbar extends Component {
         localStorage.removeItem('employee_email');
         this.setState({ employee_email: null })
         localStorage.removeItem('job_title');
-        this.setState({ job_title: null })
+        this.setState({ job_title: null });
+        localStorage.removeItem('Tracking_ID');
     }
 
     render() {
