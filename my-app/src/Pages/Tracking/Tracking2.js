@@ -68,14 +68,14 @@ class Tracking extends React.Component {
     }
 
     translateTime(time) {
-        if (parseInt(time.substring(0, 1)) < 11) {
-            if (parseInt(time.substring(0, 1)) < 10) {
+        if (parseInt(time.substring(0, 2)) < 12) {
+            if (parseInt(time.substring(0, 2)) < 10) {
                 return time.substring(1, 5) + " AM"
             }
             return time.substring(0, 5) + " AM"
         }
         else {
-            return time.substring(0, 5) + " PM"
+            return (parseInt(time.substring(0, 2)) - 12).toString() + time.substring(2, 5) + " PM"
         }
     }
 
