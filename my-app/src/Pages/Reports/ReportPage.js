@@ -3,6 +3,8 @@ import DatePickers from './Components/DatePickers'
 import SimpleSelect from './Components/SimpleSelect'
 import SimpleTable from './Components/SimpleTable'
 import ContainedButtons from './Components/ContainedButtons'
+import { Paper, Divider } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 
 
 
@@ -32,7 +34,7 @@ class ReportPage extends Component {
     }
     handleButton(e) {
         if (this.state.status_type !== null && this.state.date1 !== null && this.state.date2 !== null) {
-            
+
             var url = new URL("http://localhost:4000/get_report"),
                 params = {
                     status_type: this.state.status_type,
@@ -42,34 +44,39 @@ class ReportPage extends Component {
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
             fetch(url)
                 .then(res => res.json())
-                .then(res => this.setState({results: res}))
+                .then(res => this.setState({ results: res }))
 
         }
     }
 
 
     render() {
-
         return (
             <Fragment>
-                <DatePickers
-                    name="Begin Date"
-                    onChange={this.handleDate1}
-                />
-                <DatePickers
-                    name="End Date"
-                    onChange={this.handleDate2}
-                />
-                <SimpleSelect
-                    handleStatus={this.handleStatus}
-                />
-                <ContainedButtons 
-                    onClick={this.handleButton}
-                />
-                <SimpleTable 
-                    results={this.state.results}
-                />
-
+                <div class="container" style={{ paddingTop: "40px" }}>
+                    <Paper>
+                        <h1 style={{ padding: "20px" }}>Reports</h1>
+                        <Grid style={{ padding: "20px" }}>
+                            <DatePickers
+                                name="Begin Date"
+                                onChange={this.handleDate1}
+                            />
+                            <DatePickers
+                                name="End Date"
+                                onChange={this.handleDate2}
+                            />
+                            <SimpleSelect
+                                handleStatus={this.handleStatus}
+                            />
+                            <ContainedButtons
+                                onClick={this.handleButton}
+                            />
+                            <SimpleTable
+                                results={this.state.results}
+                            />
+                        </Grid>
+                    </Paper>
+                </div>
             </Fragment>
         )
     }

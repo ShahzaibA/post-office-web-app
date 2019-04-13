@@ -43,7 +43,6 @@ class Tracking extends React.Component {
 
     getFromLocal_Tracking() {
         this.state.TrackingID = localStorage.getItem("Tracking_ID");
-        localStorage.removeItem("Tracking_ID");
     }
 
     componentDidMount() {
@@ -93,8 +92,6 @@ class Tracking extends React.Component {
 
     render() {
         const { classes } = this.props;
-        //console.log(this.state.data);
-        //console.log(this.state.status_types);
         return (
             < div className={classes.wrapper} >
                 {this.state.TrackingID < 1 || this.state.data.length < 1 ?
@@ -129,7 +126,7 @@ class Tracking extends React.Component {
                                     < TableRow>
                                         <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
                                         <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                        <TableCell align="left" style={this.checkFirst()}>{row.Status_Type == "Package Delivered" ? row.ReceiverAddr : row.Addr}</TableCell>
+                                        <TableCell align="left" style={this.checkFirst()}>{row.Status_Type == "Delivered" ? row.ReceiverAddr : row.Addr}</TableCell>
                                         <TableCell align="left" style={this.checkFirst()}>{row.Status_Type}</TableCell>
                                     </TableRow>
                                 ))}

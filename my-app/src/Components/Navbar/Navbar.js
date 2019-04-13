@@ -111,11 +111,12 @@ class Navbar extends Component {
                         <nav>
                             <ul>
                                 <li><a href="/"><Link to="/">Home</Link></a></li>
-                                <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>
 
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
+                                    <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li> ,
                                     <li class='LoginNav' ><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
                                 ) : ([
+                                    <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>,
                                     <li><a href="/invoice"><Link to="/invoice">Invoice</Link></a></li>,
                                     <li><a href="/user_profile"><Link to="/user_profile">Profile</Link></a></li>,
                                     <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>,
