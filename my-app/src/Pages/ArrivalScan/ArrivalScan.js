@@ -112,42 +112,46 @@ class ArrivalScan extends Component {
         console.log(this.state.hub_location)
         return (
             <React.Fragment>
-                <h1>Arrival Scan</h1>
-                <Paper className={classes.root}>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="hub_location">Hub Location</InputLabel>
-                        <Select
-                            inputProps={{
-                                name: 'hub_location',
-                                id: 'hub_location',
-                            }}
-                            value={this.state.hub_location}
-                            onChange={e => this.handleChange(e.target.name, e.target.value)}
-                        >
-                            {this.state.states.map(option => (
-                                <MenuItem key={option.State_Abbr} value={option.State_Abbr}>
-                                    {option.State_Abbr}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        <Button onClick={() => this.getPackagesAwaitingArrival()}>Go</Button>
-                    </FormControl>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell className={classes.header}>Package #</TableCell>
-                                <TableCell align="right" className={classes.header}>Shipping Address</TableCell>
-                                <TableCell align="right" className={classes.header}>Shipping City</TableCell>
-                                <TableCell align="right" className={classes.header}>Shipping State</TableCell>
-                                <TableCell align="right" className={classes.header}>Shipping Zip</TableCell>
-                                <TableCell align="right" className={classes.header}>Scan Arrival</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody >
-                            {packages.map(this.renderPackageList)}
-                        </TableBody>
-                    </Table>
-                </Paper>
+                <div class="container" style={{ padding: 50 }}>
+                    <Paper className={classes.root} style={{ padding: 50 }}>
+                        <h1>Arrival Scan</h1>
+                        <div class="container" style={{ paddingBottom: 20 }}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel htmlFor="hub_location">Hub Location</InputLabel>
+                                <Select
+                                    inputProps={{
+                                        name: 'hub_location',
+                                        id: 'hub_location',
+                                    }}
+                                    value={this.state.hub_location}
+                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                >
+                                    {this.state.states.map(option => (
+                                        <MenuItem key={option.State_Abbr} value={option.State_Abbr}>
+                                            {option.State_Abbr}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                                <Button onClick={() => this.getPackagesAwaitingArrival()}>Go</Button>
+                            </FormControl>
+                        </div>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell className={classes.header}>Package #</TableCell>
+                                    <TableCell align="right" className={classes.header}>Shipping Address</TableCell>
+                                    <TableCell align="right" className={classes.header}>Shipping City</TableCell>
+                                    <TableCell align="right" className={classes.header}>Shipping State</TableCell>
+                                    <TableCell align="right" className={classes.header}>Shipping Zip</TableCell>
+                                    <TableCell align="right" className={classes.header}>Scan Arrival</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody >
+                                {packages.map(this.renderPackageList)}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </div>
             </React.Fragment>
         );
     }

@@ -278,12 +278,12 @@ class ManageEmployees extends React.Component {
         const { classes } = this.props;
         console.log(this.state.JobTitle_ID)
         return (
-            < div className={classes.wrapper} >
-                {this.renderDialogComponent()}
-                <Button variant="contained" className={classes.button} onClick={this.handleClickOpen}>
-                    Add Employee
-                </Button>
-                <Paper className={classes.root}>
+            < div className={classes.wrapper} style={{ padding: 50 }}>
+                <Paper className={classes.root} style={{ padding: 50 }}>
+                    {this.renderDialogComponent()}
+                    <Button variant="contained" className={classes.button} onClick={this.handleClickOpen}>
+                        Add Employee
+                    </Button>
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
