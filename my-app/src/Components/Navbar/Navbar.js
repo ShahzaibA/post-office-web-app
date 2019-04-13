@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './Navbar.css';
 import logo from './logo.png';
@@ -51,11 +51,11 @@ class Navbar extends Component {
 
     processLogout = () => {
         localStorage.removeItem('sender_ID');
-        this.setState({user_ID: null})
+        this.setState({ user_ID: null })
         localStorage.removeItem('employee_email');
-        this.setState({employee_email: null})
+        this.setState({ employee_email: null })
         localStorage.removeItem('job_title');
-        this.setState({job_title: null})
+        this.setState({ job_title: null })
     }
 
     render() {
@@ -95,7 +95,10 @@ class Navbar extends Component {
                                 <a href="/"><Link to="/" onClick={this.processLogout}><MenuItem onClick={this.handleClose} class='LoginNav'>Logout</MenuItem></Link></a>,
                             ])}
                             {localStorage.getItem('employee_email') !== null ? (
-                                <EmployeeNavBar employee_email={(this.state.employee_email)} />
+                                <Fragment>
+                                    <EmployeeNavBar employee_email={(this.state.employee_email)} />
+                                </Fragment>
+
                             ) : (
                                     <div></div>
                                 )}
@@ -117,7 +120,9 @@ class Navbar extends Component {
                                     <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>,
                                 ])}
                                 {localStorage.getItem('employee_email') !== null ? (
-                                    <EmployeeNavBar employee_email={(this.state.employee_email)} />
+                                    <Fragment>
+                                        <EmployeeNavBar employee_email={(this.state.employee_email)} />
+                                    </Fragment>
                                 ) : (
                                         <div></div>
                                     )}

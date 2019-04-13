@@ -45,6 +45,7 @@ class EmployeeNavBarMenu extends React.Component {
           <MenuItem onClick={this.handleClose}><a href="/assign_delivery"><Link to="/assign_delivery">Assign Delivery</Link></a></MenuItem>
           <MenuItem onClick={this.handleClose}><a href="/deliveries"><Link to="/deliveries">Deliveries</Link></a></MenuItem>
           <MenuItem onClick={this.handleClose}><a href="/manage_employees"><Link to="/manage_employees">Manage Employees</Link></a></MenuItem>
+          <MenuItem onClick={this.handleClose}><a href="/reports"><Link to="/reports">Reports</Link></a></MenuItem>
         </Menu>
       </div>
     );
