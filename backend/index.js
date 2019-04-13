@@ -557,14 +557,17 @@ app.post('/delivered', (req, res) => {
 
 app.post('/get_employees', (req, res) => {
     const { Employee_Email } = req.body;
-    connection.query(`SELECT ID, FName, LName, Email, JobTitle FROM postoffice.Employee
+    connection.query(`SELECT ID, FName, LName, Email, JobTitle, postoffice.Hub.Addr, postoffice.Cities.City_Name, postoffice.States.State_Abbr, postoffice.Hub.Zip
+    FROM postoffice.Employee
     LEFT JOIN postoffice.JobTitles ON postoffice.JobTitles.JobTitle_ID=postoffice.Employee.JobTitles_ID
-    WHERE Hub_ID=(SELECT Hub_ID FROM postoffice.Employee WHERE Email='${Employee_Email}')`, function (err, results) {
+    LEFT JOIN postoffice.Hub ON postoffice.Hub.Hub_ID=postoffice.Employee.Hub_ID
+    LEFT JOIN postoffice.Cities ON postoffice.Hub.City_ID=postoffice.Cities.City_ID
+    LEFT JOIN postoffice.States ON postoffice.Hub.State_ID=postoffice.States.State_ID
+    WHERE postoffice.Employee.Hub_ID=(SELECT Hub_ID FROM postoffice.Employee WHERE Email='${Employee_Email}')`, function (err, results) {
             if (err) {
                 console.log(err);
             }
             else {
-                console.log(results);
                 return res.json({
                     data: results
                 })
@@ -583,6 +586,59 @@ app.get('/get_job_titles', (req, res) => {
             })
         }
     })
+})
+
+app.get('/get_hubs', (req, res) => {
+    connection.query(`SELECT postoffice.Hub.Hub_ID, postoffice.Hub.Addr, postoffice.Cities.City_Name, postoffice.States.State_Abbr, postoffice.Hub.Zip
+    FROM postoffice.Hub
+    LEFT JOIN postoffice.Cities ON postoffice.Hub.City_ID=postoffice.Cities.City_ID
+    LEFT JOIN postoffice.States ON postoffice.Hub.State_ID=postoffice.States.State_ID`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                return res.json({
+                    data: results
+                })
+            }
+        })
+})
+
+app.post('/create_employee', (req, res) => {
+    console.log("Im in here")
+    const { FName, LName, Email, JobTitle_ID, Hub_ID } = req.body;
+    connection.query(`INSERT INTO postoffice.Employee
+    (FName, LName, Email, Hub_ID, JobTitles_ID)
+    VALUES ('${FName}', '${LName}', '${Email}', ${Hub_ID}, ${JobTitle_ID})`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                res.send('success')
+            }
+        })
+})
+
+app.post('/create_driver_employee', (req, res) => {
+    const { FName, LName, Email, JobTitle_ID, Hub_ID, VIN } = req.body;
+    connection.query(`INSERT INTO postoffice.Employee
+    (FName, LName, Email, Hub_ID, JobTitles_ID)
+    VALUES ('${FName}', '${LName}', '${Email}', ${Hub_ID}, ${JobTitle_ID})`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                connection.query(`INSERT INTO postoffice.Vehicles (VIN, Vehicle_Hub_Location_ID, Driver_Employee_ID)
+                VALUES ('${VIN}', '${Hub_ID}', ${results.insertId})`, function (err, results) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            res.send('success')
+                        }
+                    })
+            }
+        })
 })
 
 app.listen(4000, () => {
