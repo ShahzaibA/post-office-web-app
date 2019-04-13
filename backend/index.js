@@ -202,6 +202,42 @@ app.post('/edit_user', (req, res) => {
     })
 })
 
+app.get('/get_report', function(req, res) {
+
+    let date1 = req.query.date1;
+    let date2 = req.query.date2;
+    let status_type = req.query.status_type;
+
+    let q = 
+        `SELECT 
+            shipstatus.Hub_ID,
+            hub.Addr,
+            hub.Zip,
+            COUNT(*) AS Total_Packages
+        FROM
+            postoffice.shipstatus
+                JOIN
+            postoffice.status ON shipstatus.Status_ID = status.Status_ID
+                JOIN
+            postoffice.hub ON shipstatus.Hub_ID = hub.Hub_ID
+        WHERE (status.Status_Type = '${status_type}') AND (shipstatus.Date BETWEEN '${date1}' AND '${date2}')
+        GROUP BY postoffice.shipstatus.Hub_ID
+        `;
+    connection.query(q, function(err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json(results);
+        }
+    })
+});
+
+
+
+
+
+
 //<-Victor Query
 
 

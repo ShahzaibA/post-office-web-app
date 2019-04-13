@@ -24,11 +24,11 @@ function DatePickers(props) {
         id="date"
         label={props.name}
         type="date"
-        defaultValue="2017-05-24"
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
         }}
+        onChange={props.onChange}
       />
     </form>
   );

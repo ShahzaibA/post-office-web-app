@@ -26,19 +26,37 @@ const styles = theme => ({
 });
 
 class SimpleSelect extends React.Component {
-  state = {
-    status: '',
-    labelWidth: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      status: '',
+      labelWidth: 0,
+      status_types: [],
+      handleStatus: props.handleStatus,
+    };
+  }
+
+  
 
   componentDidMount() {
     this.setState({
       labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
     });
+
+    //get_status_types
+    fetch('http://localhost:4000/get_status_types')
+      .then(res => res.json())
+      .then(res => {
+        let newstate = res.status_types.map(x => x.Status_Type);
+        this.setState({status_types: newstate})
+      })
+
+
   }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    this.state.handleStatus(event)
   };
 
   render() {
@@ -46,7 +64,7 @@ class SimpleSelect extends React.Component {
 
     return (
       <form className={classes.root} autoComplete="off">
-        
+
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel
             ref={ref => {
@@ -67,15 +85,13 @@ class SimpleSelect extends React.Component {
               />
             }
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+
+
+            {this.state.status_types.map(x => <MenuItem value={x}>{x}</MenuItem>)}
+
           </Select>
         </FormControl>
-        
+
       </form>
     );
   }
