@@ -105,8 +105,6 @@ class Invoice extends React.Component {
 
     render() {
         const { classes } = this.props;
-        //console.log(this.state.data);
-        console.log(this.state.status_types);
         return (
             this.state.InvoiceID === "0" ? (<div className={classes.wrapper}>
                 <Typography variant="h1" as="div" align="center" >
