@@ -12,7 +12,6 @@ body {
   font-size: 18px !important;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   padding: 16px;
-  padding: 16px;
   width: auto;
   line-height: 1.5em;
   white-space: nowrap;
@@ -31,8 +30,22 @@ body {
   height: 65px !important;
 }
 
+.MenuContents{
+  height: 24px !important;
+  line-height: 1.5em;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-weight: 400;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  box-sizing: content-box;
+  padding-left:16px;
+  padding-right:16px;
+  display: flex;
+}
+
 header {
   background: #00bfa5;
+  z-index: 99999999;
 }
 
 .container {

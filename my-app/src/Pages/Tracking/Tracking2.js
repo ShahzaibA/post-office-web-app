@@ -94,23 +94,24 @@ class Tracking extends React.Component {
         return (
             < div className={classes.wrapper} >
                 {this.state.TrackingID < 1 || this.state.data.length < 1 ?
-                    ([<Typography variant="h3" as="div" align="center" >
-                        Sorry, we could not find that package.
-                    </Typography>,
+                    (<Paper>
+                        <Typography variant="h3" as="div" align="center" style={{ padding: 50 }} >
+                            Sorry, we could not find that package.
+                    </Typography>
 
-                    <Typography variant="h5" as="div" align="center" style={{ padding: 50 }}>
-                        Try your search again from <a href="/"><Link to="/">Home.</Link></a>
-                    </Typography>,]) :
+                        <Typography variant="h5" as="div" align="center" style={{ padding: 50 }}>
+                            Try your search again from <a href="/"><Link to="/">Home.</Link></a>
+                        </Typography>
+                    </Paper>) :
 
-                    ([<Typography variant="h3" as="div" align="left" >
-                        TrackingID - #{this.state.TrackingID}
-                    </Typography>,
-                    <Divider className={classes.overrider}></Divider>,
-                    <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
-                        Tracking Details:
-                </Typography>,
-
-                    <Paper className={classes.root}>
+                    (<Paper className={classes.root} style={{ padding: 50 }}>
+                        <Typography variant="h3" as="div" align="left" >
+                            TrackingID - #{this.state.TrackingID}
+                        </Typography>
+                        <Divider className={classes.overrider}></Divider>
+                        <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
+                            Tracking Details:
+                            </Typography>
                         <Table className={classes.table}>
                             <TableHead>
                                 <TableRow>
@@ -131,7 +132,7 @@ class Tracking extends React.Component {
                                 ))}
                             </TableBody>
                         </Table>
-                    </Paper >])
+                    </Paper >)
                 }
             </div >
         )

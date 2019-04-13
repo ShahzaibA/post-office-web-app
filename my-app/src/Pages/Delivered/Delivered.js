@@ -97,24 +97,26 @@ class Delivered extends Component {
         console.log(packages);
         return (
             <React.Fragment>
-                <h1>Deliveries</h1>
-                <Paper className={classes.root}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell className={classes.header}>Package #</TableCell>
-                                <TableCell align="right" className={classes.header}>Shipping Address</TableCell>
-                                <TableCell align="right" className={classes.header}>Shipping City</TableCell>
-                                <TableCell align="right" className={classes.header}>Shipping State</TableCell>
-                                <TableCell align="right" className={classes.header}>Shipping Zip</TableCell>
-                                <TableCell align="right" className={classes.header}>Mark Delivered</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody >
-                            {packages.map(this.renderPackageList)}
-                        </TableBody>
-                    </Table>
-                </Paper>
+                <div class="container" style={{ padding: 50 }}>
+                    <Paper className={classes.root} style={{ padding: 50 }}>
+                        <h1>Deliveries</h1>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell className={classes.header}>Package #</TableCell>
+                                    <TableCell align="right" className={classes.header}>Shipping Address</TableCell>
+                                    <TableCell align="right" className={classes.header}>Shipping City</TableCell>
+                                    <TableCell align="right" className={classes.header}>Shipping State</TableCell>
+                                    <TableCell align="right" className={classes.header}>Shipping Zip</TableCell>
+                                    <TableCell align="right" className={classes.header}>Mark Delivered</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody >
+                                {packages.map(this.renderPackageList)}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </div>
             </React.Fragment>
         );
     }

@@ -106,18 +106,18 @@ class Invoice extends React.Component {
         const { classes } = this.props;
         return (
             this.state.InvoiceID === "0" ? (<div className={classes.wrapper}>
-                <Typography variant="h1" as="div" align="center" >
-                    No invoices could be found.
-                </Typography>
-            </div>) :
-
-                (<div className={classes.wrapper}>
-                    <Typography variant="h3" as="div" align="left" >
-                        Invoices for {this.state.FName} {this.state.LName}
+                <Paper style={{ padding: 50 }}>
+                    <Typography variant="h1" as="div" align="center" >
+                        No invoices could be found.
                     </Typography>
-                    <Divider className={classes.overrider}></Divider>
-
-                    <Paper className={classes.root}>
+                </Paper>
+            </div>) :
+                (<div className={classes.wrapper}>
+                    <Paper className={classes.root} style={{ padding: 50 }}>
+                        <Typography variant="h3" as="div" align="left" >
+                            Invoices for {this.state.FName} {this.state.LName}
+                        </Typography>
+                        <Divider className={classes.overrider}></Divider>
                         <Table className={classes.table}>
                             <TableHead>
                                 <TableRow>
