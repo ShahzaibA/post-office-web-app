@@ -687,7 +687,6 @@ app.post('/get_sender_information', (req, res) => {
                 console.log(err);
             }
             else {
-                console.log(results);
                 return res.json({
                     data: results
                 })
