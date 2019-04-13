@@ -22,9 +22,9 @@ export default class HomeCarousel extends Component {
   render() {
     return (
       <div className='home-page-bg'>
-        <div class='container' style={{ padding: "5vw", margin: "0 auto" }}>
+        <div class='container' style={{ padding: "5vw", paddingTop: "170px", margin: "0 auto" }}>
           <div flex style={{ position: "relative", padding: "20px", margin: "0 auto", width: "85%", top: '10%' }}>
-            <h1 fluid style={{ color: "black", fontWeight: 700, fontSize: '3.5vw' }}>Tracking number</h1>
+            <h1 fluid style={{ color: "black", fontWeight: 700, fontSize: '3.5vw' }}>Check Package Status</h1>
             <InputGroup className="mb-3" size="lg">
               <FormControl placeholder="Tracking ID"
                 style={{ fontSize: '1.5vw' }}
