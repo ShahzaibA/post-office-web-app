@@ -61,9 +61,9 @@ class Navbar extends Component {
     render() {
         const { anchorEl } = this.state;
         return (
-            <header>
+            <header style={{ width: '100%' }}>
                 {this.state.width < 1200 ? (
-                    <div class="container" style={{ alignContent: 'center', margin: '0 auto' }}>
+                    <div class="container" style={{ alignContent: 'center', margin: '0 auto', maxWidth: '100%' }}>
                         <a href="/"><Link to="/"><img class='logo' src={logo} alt="ShipIt" /></Link></a>
                         <div class='ShipItMenu'>
                             <Button
@@ -105,7 +105,7 @@ class Navbar extends Component {
                         </Menu>
                     </div>) :
 
-                    (<div class="container">
+                    (<div class="container" style={{ alignContent: 'center', margin: '0 auto', maxWidth: '100%' }}>
                         <a href="/"><Link to="/"><img class='logo' src={logo} alt="ShipIt" /></Link></a>
                         <nav>
                             <ul>
