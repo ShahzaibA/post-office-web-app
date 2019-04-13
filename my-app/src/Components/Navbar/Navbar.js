@@ -88,23 +88,23 @@ class Navbar extends Component {
                                 <a href="/"><Link to="/"><MenuItem onClick={this.handleClose}>Home</MenuItem></Link></a>
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
                                     <Fragment>
-                                        <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>
+                                        <li><a href="/send_package" class="MenuContents"><Link to="/send_package">Send Package</Link></a></li>
                                         <li class='LoginNav' ><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
                                     </Fragment>
                                 ) : ([<Fragment></Fragment>
                                 ])}
                                 {localStorage.getItem('sender_ID') != null && localStorage.getItem('employee_email') == null ? (
-                                    [
-                                        <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>,
-                                        <li><a href="/invoice"><Link to="/invoice">Invoice</Link></a></li>,
-                                        <li><a href="/user_profile"><Link to="/user_profile">Profile</Link></a></li>,
-                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>,
-                                    ]
+                                    <Fragment>
+                                        <li><a href="/send_package" class="MenuContents"><Link to="/send_package">Send Package</Link></a></li>
+                                        <li><a href="/invoice" class="MenuContents"><Link to="/invoice">Invoice</Link></a></li>
+                                        <li><a href="/user_profile" class="MenuContents"><Link to="/user_profile">Profile</Link></a></li>
+                                        <li class='LoginNav' ><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
+                                    </Fragment>
                                 ) : (<Fragment></Fragment>)}
                                 {localStorage.getItem('sender_ID') == null && localStorage.getItem('employee_email') != null ? (
                                     <Fragment>
                                         <EmployeeNavBar employee_email={(this.state.employee_email)} />
-                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
+                                        <li class='LoginNav' ><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
                                     </Fragment>
                                 ) : (<Fragment></Fragment>)}
 
