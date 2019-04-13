@@ -280,6 +280,7 @@ class ManageEmployees extends React.Component {
         return (
             < div className={classes.wrapper} style={{ padding: 50 }}>
                 <Paper className={classes.root} style={{ padding: 50 }}>
+                    <h1>Manage Employees</h1>
                     {this.renderDialogComponent()}
                     <Button variant="contained" className={classes.button} onClick={this.handleClickOpen}>
                         Add Employee

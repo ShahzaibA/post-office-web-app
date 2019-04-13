@@ -53,24 +53,30 @@ class ReportPage extends Component {
     render() {
         return (
             <Fragment>
-                <div class="container" style={{ paddingTop: "40px" }}>
-                    <Paper>
-                        <h1 style={{ padding: "20px" }}>Reports</h1>
-                        <Grid style={{ padding: "20px" }}>
-                            <DatePickers
-                                name="Begin Date"
-                                onChange={this.handleDate1}
-                            />
-                            <DatePickers
-                                name="End Date"
-                                onChange={this.handleDate2}
-                            />
-                            <SimpleSelect
-                                handleStatus={this.handleStatus}
-                            />
-                            <ContainedButtons
-                                onClick={this.handleButton}
-                            />
+                <div class="container" style={{ padding: 50 }}>
+                    <Paper style={{ padding: 50 }}>
+                        <h1>Reports</h1>
+                        <Grid container justify="center" style={{ textAlign: 'center' }}>
+                            <Grid style={{ padding: "20px" }} item>
+                                <DatePickers
+                                    name="Begin Date"
+                                    onChange={this.handleDate1}
+                                />
+                                <DatePickers
+                                    name="End Date"
+                                    onChange={this.handleDate2}
+                                />
+                                <SimpleSelect
+                                    handleStatus={this.handleStatus}
+                                />
+                            </Grid>
+                            <Grid container justify="center" style={{ textAlign: 'center', alignItems: 'center' }}>
+                                <ContainedButtons
+                                    onClick={this.handleButton}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid>
                             <SimpleTable
                                 results={this.state.results}
                             />
