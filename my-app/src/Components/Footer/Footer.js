@@ -10,8 +10,8 @@ import Grid from '@material-ui/core/Grid';
 const styles = {
     foot: {
         position: 'absolute',
-        height: '12rem',
         fontWeight: 100,
+        height: '200px',
         bottom: 0,
         left: 0,
         right: 0,
