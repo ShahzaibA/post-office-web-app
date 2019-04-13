@@ -14,6 +14,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 
 const styles = theme => ({
     overrider: {
@@ -48,16 +51,20 @@ class ManageEmployees extends React.Component {
     state = {
         employees: [],
         job_titles: [],
+        hubs: [],
         open: false,
         FName: "",
         LName: "",
         Email: "",
-        JobTitle: "",
+        JobTitle_ID: "",
+        Hub_ID: "",
+        VIN: "",
     }
 
     componentDidMount() {
         this.getEmployees()
         this.getJobTitles()
+        this.getHubs()
     }
 
     handleClickOpen = () => {
@@ -89,6 +96,7 @@ class ManageEmployees extends React.Component {
     }
 
     createEmployee = () => {
+        console.log("Creating Employee");
         fetch('http://localhost:4000/create_employee', {
             method: "POST",
             headers: {
@@ -98,10 +106,33 @@ class ManageEmployees extends React.Component {
                 FName: this.state.FName,
                 LName: this.state.LName,
                 Email: this.state.Email,
-                JobTitle: this.state.JobTitle
+                JobTitle_ID: this.state.JobTitle_ID,
+                Hub_ID: this.state.Hub_ID,
             })
         })
-            .then(res => res.json())
+            .then(this.handleClose)
+            .then(this.getEmployees())
+            .catch(err => console.log(err))
+
+    }
+
+    createDriverEmployee = () => {
+        fetch('http://localhost:4000/create_driver_employee', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                FName: this.state.FName,
+                LName: this.state.LName,
+                Email: this.state.Email,
+                JobTitle_ID: this.state.JobTitle_ID,
+                Hub_ID: this.state.Hub_ID,
+                VIN: this.state.VIN
+            })
+        })
+            .then(this.handleClose)
+            .then(this.getEmployees())
             .catch(err => console.log(err))
 
     }
@@ -110,6 +141,12 @@ class ManageEmployees extends React.Component {
         fetch('http://localhost:4000/get_job_titles')
             .then(res => res.json())
             .then(result => this.setState({ job_titles: result.data }))
+    }
+
+    getHubs() {
+        fetch('http://localhost:4000/get_hubs')
+            .then(res => res.json())
+            .then(result => this.setState({ hubs: result.data }))
     }
 
     renderDialogComponent() {
@@ -122,59 +159,113 @@ class ManageEmployees extends React.Component {
                 >
                     <DialogTitle id="form-dialog-title"></DialogTitle>
                     <DialogContent>
-                        <TextField
-                            autoFocus
-                            id="FName"
-                            label="First Name"
-                            name="FName"
-                            value={this.state.FName}
-                            type="FName"
-                            fullWidth
-                            onChange={e => this.handleChange(e.target.name, e.target.value)}
-                        />
-                        <TextField
-                            autoFocus
-                            id="LName"
-                            label="Last Name"
-                            name="LName"
-                            value={this.state.LName}
-                            type="LName"
-                            fullWidth
-                            onChange={e => this.handleChange(e.target.name, e.target.value)}
-                        />
-                        <TextField
-                            autoFocus
-                            id="Email"
-                            label="Email"
-                            name="Email"
-                            value={this.state.Email}
-                            type="Email"
-                            fullWidth
-                            onChange={e => this.handleChange(e.target.name, e.target.value)}
-                        />
-                        <TextField
-                            required
-                            id="JobTitle"
-                            select
-                            variant="standard"
-                            name="JobTitle"
-                            value={this.state.JobTitle}
-                            label="Job Title"
-                            fullWidth
-                            onChange={e => this.handleChange(e.target.name, e.target.value)}
-                        >
-                            {this.state.job_titles.map(title => (
-                                <MenuItem key={title.JobTitle_ID} value={title.JobTitle_ID}>
-                                    {title.JobTitle}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                        <Grid container spacing={24}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoFocus
+                                    id="FName"
+                                    label="First Name"
+                                    name="FName"
+                                    value={this.state.FName}
+                                    type="FName"
+                                    fullWidth
+                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoFocus
+                                    id="LName"
+                                    label="Last Name"
+                                    name="LName"
+                                    value={this.state.LName}
+                                    type="LName"
+                                    fullWidth
+                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoFocus
+                                    id="Email"
+                                    label="Email"
+                                    name="Email"
+                                    value={this.state.Email}
+                                    type="Email"
+                                    fullWidth
+                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    id="JobTitle_ID"
+                                    select
+                                    variant="standard"
+                                    name="JobTitle_ID"
+                                    value={this.state.JobTitle_ID}
+                                    label="Job Title"
+                                    fullWidth
+                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                >
+                                    {this.state.job_titles.map(title => (
+                                        <MenuItem key={title.JobTitle_ID} value={title.JobTitle_ID}>
+                                            {title.JobTitle}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    id="Hub_ID"
+                                    select
+                                    variant="standard"
+                                    name="Hub_ID"
+                                    value={this.state.Hub_ID}
+                                    label="Select Location"
+                                    fullWidth
+                                    onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                >
+                                    {this.state.hubs.map(hub => (
+                                        <MenuItem key={hub.Hub_ID} value={hub.Hub_ID}>
+                                            {hub.Addr + ", " + hub.City_Name + ", " + hub.State_Abbr + ", " + hub.Zip}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            {this.state.JobTitle_ID === 2 ? (
+                                <Grid item xs={12}>
+                                    <Typography variant="h6" align="center" gutterBottom>
+                                        Enter Vehicle Details
+                                    </Typography>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            autoFocus
+                                            id="VIN"
+                                            label="VIN # (17 Characters)"
+                                            inputProps={{
+                                                maxLength: 17,
+                                            }}
+                                            name="VIN"
+                                            value={this.state.VIN}
+                                            fullWidth
+                                            onChange={e => this.handleChange(e.target.name, e.target.value)}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            ) : (
+                                    <div></div>
+                                )}
+                        </Grid>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={this.createEmployee} color="secondary">
+                        <Button
+                            onClick={this.state.JobTitle_ID === 2 ? (this.createDriverEmployee) : (this.createEmployee)}
+                            color="secondary">
                             Add Employee
                         </Button>
                     </DialogActions>
@@ -185,7 +276,7 @@ class ManageEmployees extends React.Component {
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.job_titles);
+        console.log(this.state.JobTitle_ID)
         return (
             < div className={classes.wrapper} >
                 {this.renderDialogComponent()}
@@ -200,6 +291,7 @@ class ManageEmployees extends React.Component {
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell align="left">Email</TableCell>
                                 <TableCell align="left">Job Title</TableCell>
+                                <TableCell align="left">Location</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -209,6 +301,7 @@ class ManageEmployees extends React.Component {
                                     <TableCell align="left">{employee.FName + " " + employee.LName}</TableCell>
                                     <TableCell align="left">{employee.Email}</TableCell>
                                     <TableCell align="left">{employee.JobTitle}</TableCell>
+                                    <TableCell align="left">{employee.Addr + ", " + employee.City_Name + ", " + employee.State_Abbr + ", " + employee.Zip}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
