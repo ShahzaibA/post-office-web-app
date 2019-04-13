@@ -62,7 +62,7 @@ class Navbar extends Component {
     render() {
         const { anchorEl } = this.state;
         return (
-            <header style={{ width: '100%' }}>
+            <header style={{ maxWidth: '100%' }}>
                 {this.state.width < 1200 ? (
                     <div class="container" style={{ alignContent: 'center', margin: '0 auto', maxWidth: '100%' }}>
                         <a href="/"><Link to="/"><img class='logo' src={logo} alt="ShipIt" /></Link></a>
@@ -78,35 +78,37 @@ class Navbar extends Component {
                             >
                                 ShipIt Menu
                             </Button>
+
+                            <Menu
+                                id="simple-menu"
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={this.handleClose}
+                            >
+                                <a href="/"><Link to="/"><MenuItem onClick={this.handleClose}>Home</MenuItem></Link></a>
+                                <a href="/send_package"><Link to="/send_package"><MenuItem onClick={this.handleClose}>Send Package</MenuItem></Link></a>
+
+                                {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
+                                    <a href="/login"><Link to="/login"><MenuItem onClick={this.handleClose} class='LoginNav'>Login</MenuItem></Link></a>
+                                ) : ([
+                                    <a href="/invoice"><Link to="/invoice"><MenuItem onClick={this.handleClose}>Invoice</MenuItem></Link></a>,
+                                    <a href="/user_profile"><Link to="/user_profile"><MenuItem onClick={this.handleClose}>Profile</MenuItem></Link></a>,
+                                    <a href="/"><Link to="/" onClick={this.processLogout}><MenuItem onClick={this.handleClose} class='LoginNav'>Logout</MenuItem></Link></a>,
+                                ])}
+                                {localStorage.getItem('employee_email') !== null ? (
+                                    <Fragment>
+                                        <EmployeeNavBar employee_email={(this.state.employee_email)} />
+                                    </Fragment>
+
+                                ) : (
+                                        <div></div>
+                                    )}
+
+                            </Menu>
                         </div>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={this.handleClose}
-                        >
-                            <a href="/"><Link to="/"><MenuItem onClick={this.handleClose}>Home</MenuItem></Link></a>
-                            <a href="/send_package"><Link to="/send_package"><MenuItem onClick={this.handleClose}>Send Package</MenuItem></Link></a>
-
-                            {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
-                                <a href="/login"><Link to="/login"><MenuItem onClick={this.handleClose} class='LoginNav'>Login</MenuItem></Link></a>
-                            ) : ([
-                                <a href="/invoice"><Link to="/invoice"><MenuItem onClick={this.handleClose}>Invoice</MenuItem></Link></a>,
-                                <a href="/user_profile"><Link to="/user_profile"><MenuItem onClick={this.handleClose}>Profile</MenuItem></Link></a>,
-                                <a href="/"><Link to="/" onClick={this.processLogout}><MenuItem onClick={this.handleClose} class='LoginNav'>Logout</MenuItem></Link></a>,
-                            ])}
-                            {localStorage.getItem('employee_email') !== null ? (
-                                <Fragment>
-                                    <EmployeeNavBar employee_email={(this.state.employee_email)} />
-                                </Fragment>
-
-                            ) : (
-                                    <div></div>
-                                )}
-                        </Menu>
                     </div>) :
 
-                    (<div class="container" style={{ alignContent: 'center', margin: '0 auto', maxWidth: '100%' }}>
+                    (<div class="container" style={{ alignContent: 'center', margin: '0 auto', maxWidth: '100%', }}>
                         <a href="/"><Link to="/"><img class='logo' src={logo} alt="ShipIt" /></Link></a>
                         <nav>
                             <ul>
@@ -128,8 +130,6 @@ class Navbar extends Component {
                                 ) : (
                                         <div></div>
                                     )}
-
-
                             </ul>
                         </nav>
                     </div>)
