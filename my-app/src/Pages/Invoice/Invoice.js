@@ -77,7 +77,7 @@ class Invoice extends React.Component {
     }
 
     translateTime(time) {
-        if (parseInt(time.substring(0, 2)) < 12) {
+        if (parseInt(time.substring(0, 2)) < 13) {
             if (parseInt(time.substring(0, 2)) < 10) {
                 return time.substring(1, 5) + " AM"
             }
