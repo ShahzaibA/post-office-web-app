@@ -27,24 +27,24 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
-
+        <div>
           <Navbar />
-
-          <Route exact path='/' component={Home} />
-          <Route exact path='/tracking' component={Tracking} />
-          <Route exact path='/send_package' component={SendPackage} />
-          <Route exact path='/user_profile' component={UserProfile} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/register' component={Registration} />
-          <Route exact path='/employee_login' component={EmployeeLogin} />
-          <Route exact path='/arrival_scan' component={ArrivalScan} />
-          <Route exact path='/invoice' component={Invoice} />
-          <Route exact path='/route_packages' component={RoutePackage} />
-          <Route exact path='/assign_delivery' component={AssignDelivery} />
-          <Route exact path='/deliveries' component={Delivered} />
-          <Route exact path='/manage_employees' component={ManageEmployees} />
-          <Route exact path='/reports' component={Reports} />
+          <div className="App">
+            <Route exact path='/' component={Home} />
+            <Route exact path='/tracking' component={Tracking} />
+            <Route exact path='/send_package' component={SendPackage} />
+            <Route exact path='/user_profile' component={UserProfile} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Registration} />
+            <Route exact path='/employee_login' component={EmployeeLogin} />
+            <Route exact path='/arrival_scan' component={ArrivalScan} />
+            <Route exact path='/invoice' component={Invoice} />
+            <Route exact path='/route_packages' component={RoutePackage} />
+            <Route exact path='/assign_delivery' component={AssignDelivery} />
+            <Route exact path='/deliveries' component={Delivered} />
+            <Route exact path='/manage_employees' component={ManageEmployees} />
+            <Route exact path='/reports' component={Reports} />
+          </div>
         </div>
       </Router>
     );
