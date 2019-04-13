@@ -86,23 +86,27 @@ class Navbar extends Component {
                                 onClose={this.handleClose}
                             >
                                 <a href="/"><Link to="/"><MenuItem onClick={this.handleClose}>Home</MenuItem></Link></a>
-                                <a href="/send_package"><Link to="/send_package"><MenuItem onClick={this.handleClose}>Send Package</MenuItem></Link></a>
-
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
-                                    <a href="/login"><Link to="/login"><MenuItem onClick={this.handleClose} class='LoginNav'>Login</MenuItem></Link></a>
-                                ) : ([
-                                    <a href="/invoice"><Link to="/invoice"><MenuItem onClick={this.handleClose}>Invoice</MenuItem></Link></a>,
-                                    <a href="/user_profile"><Link to="/user_profile"><MenuItem onClick={this.handleClose}>Profile</MenuItem></Link></a>,
-                                    <a href="/"><Link to="/" onClick={this.processLogout}><MenuItem onClick={this.handleClose} class='LoginNav'>Logout</MenuItem></Link></a>,
+                                    <Fragment>
+                                        <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>
+                                        <li class='LoginNav' ><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
+                                    </Fragment>
+                                ) : ([<Fragment></Fragment>
                                 ])}
-                                {localStorage.getItem('employee_email') !== null ? (
+                                {localStorage.getItem('sender_ID') != null && localStorage.getItem('employee_email') == null ? (
+                                    [
+                                        <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>,
+                                        <li><a href="/invoice"><Link to="/invoice">Invoice</Link></a></li>,
+                                        <li><a href="/user_profile"><Link to="/user_profile">Profile</Link></a></li>,
+                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>,
+                                    ]
+                                ) : (<Fragment></Fragment>)}
+                                {localStorage.getItem('sender_ID') == null && localStorage.getItem('employee_email') != null ? (
                                     <Fragment>
                                         <EmployeeNavBar employee_email={(this.state.employee_email)} />
+                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
                                     </Fragment>
-
-                                ) : (
-                                        <div></div>
-                                    )}
+                                ) : (<Fragment></Fragment>)}
 
                             </Menu>
                         </div>
@@ -113,23 +117,27 @@ class Navbar extends Component {
                         <nav>
                             <ul>
                                 <li><a href="/"><Link to="/">Home</Link></a></li>
-
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
-                                    <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li> ,
-                                    <li class='LoginNav' ><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
-                                ) : ([
-                                    <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>,
-                                    <li><a href="/invoice"><Link to="/invoice">Invoice</Link></a></li>,
-                                    <li><a href="/user_profile"><Link to="/user_profile">Profile</Link></a></li>,
-                                    <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>,
+                                    <Fragment>
+                                        <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>
+                                        <li class='LoginNav' ><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
+                                    </Fragment>
+                                ) : ([<Fragment></Fragment>
                                 ])}
-                                {localStorage.getItem('employee_email') !== null ? (
+                                {localStorage.getItem('sender_ID') != null && localStorage.getItem('employee_email') == null ? (
+                                    [
+                                        <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>,
+                                        <li><a href="/invoice"><Link to="/invoice">Invoice</Link></a></li>,
+                                        <li><a href="/user_profile"><Link to="/user_profile">Profile</Link></a></li>,
+                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>,
+                                    ]
+                                ) : (<Fragment></Fragment>)}
+                                {localStorage.getItem('sender_ID') == null && localStorage.getItem('employee_email') != null ? (
                                     <Fragment>
                                         <EmployeeNavBar employee_email={(this.state.employee_email)} />
+                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
                                     </Fragment>
-                                ) : (
-                                        <div></div>
-                                    )}
+                                ) : (<Fragment></Fragment>)}
                             </ul>
                         </nav>
                     </div>)
