@@ -27,7 +27,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
+        <div className="App" style={{ height: '100%' }}>
           <Navbar />
           <Route exact path='/' component={Home} />
           <Route exact path='/tracking' component={Tracking} />
