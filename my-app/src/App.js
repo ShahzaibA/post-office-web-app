@@ -43,6 +43,7 @@ class App extends Component {
           <Route exact path='/deliveries' component={Delivered} />
           <Route exact path='/manage_employees' component={ManageEmployees} />
           <Route exact path='/reports' component={Reports} />
+          <Footer />
         </div>
       </Router>
     );
