@@ -300,7 +300,7 @@ app.post('/create_order', (req, res) => {
     })
 
     // add sender to sender table if not exists
-    connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}', '${sender_lastName}', '${sender_address}', (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}'),  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}'), '${sender_zip}', (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}'), '${sender_email}', '${sender_phone}') AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+    connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
         if (err) {
             console.log(err);
         }
@@ -687,6 +687,7 @@ app.post('/get_sender_information', (req, res) => {
                 console.log(err);
             }
             else {
+                console.log(results)
                 return res.json({
                     data: results
                 })
