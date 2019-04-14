@@ -15,6 +15,7 @@ import ShipFrom from './ShipFrom';
 import ShipTo from './ShipTo';
 import PackageInformation from './PackageInformation';
 import { Redirect } from "react-router-dom";
+import './SendPackage.css';
 
 
 const styles = theme => ({
@@ -23,6 +24,7 @@ const styles = theme => ({
   },
   layout: {
     width: 'auto',
+    paddingTop: theme.spacing.unit * 3,
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
     [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
@@ -32,11 +34,10 @@ const styles = theme => ({
     },
   },
   paper: {
-    marginTop: theme.spacing.unit * 3,
     marginBottom: theme.spacing.unit * 3,
     padding: theme.spacing.unit * 2,
     [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-      marginTop: theme.spacing.unit * 6,
+      paddingTop: theme.spacing.unit * 6,
       marginBottom: theme.spacing.unit * 6,
       padding: theme.spacing.unit * 3,
     },
@@ -237,59 +238,61 @@ class SendPackage extends React.Component {
     const { classes } = this.props;
     const { activeStep } = this.state;
     return (
-      <React.Fragment>
-        <CssBaseline />
-        <main className={classes.layout}>
-          <Paper className={classes.paper}>
-            <Typography component="h1" variant="h4" align="center">
-              Send Package
+      <div className='send-package-page-bg'>
+        <React.Fragment>
+          <CssBaseline />
+          <main className={classes.layout}>
+            <Paper className={classes.paper}>
+              <Typography component="h1" variant="h4" align="center">
+                Send Package
             </Typography>
-            <Stepper activeStep={activeStep} className={classes.stepper}>
-              {steps.map(label => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <React.Fragment>
-              {activeStep === steps.length ? (
-                < React.Fragment >
-                  <Typography variant="h5" gutterBottom>
-                    Thank you for your order.
+              <Stepper activeStep={activeStep} className={classes.stepper}>
+                {steps.map(label => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+              <React.Fragment>
+                {activeStep === steps.length ? (
+                  < React.Fragment >
+                    <Typography variant="h5" gutterBottom>
+                      Thank you for your order.
                   </Typography>
-                  <Typography variant="subtitle1">
-                    Your order number is #{this.state.invoice_ID} and your tracking number is #{this.state.tracking_ID}. We have emailed you your order confirmation and shipping label, and will
-                    send you an update when your order has been delivered.
+                    <Typography variant="subtitle1">
+                      Your order number is #{this.state.invoice_ID} and your tracking number is #{this.state.tracking_ID}. We have emailed you your order confirmation and shipping label, and will
+                      send you an update when your order has been delivered.
                   </Typography>
-                </React.Fragment>
-              ) : (
-                  <React.Fragment>
-                    {this.getStepContent(activeStep)}
-                    <div className={classes.buttons}>
-                      {activeStep !== 0 && (
-                        <Button onClick={this.handleBack} className={classes.button}>
-                          Back
-                      </Button>
-                      )}
-                      {activeStep === steps.length - 1 ? (<Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.sendPackageData}
-                        className={classes.button}
-                      >Create Label</Button>) : (<Button
-                        variant="contained"
-                        color="primary"
-                        disabled={!this.validateNextButton(activeStep)}
-                        onClick={this.handleNext}
-                        className={classes.button}
-                      >Next</Button>)}
-                    </div>
                   </React.Fragment>
-                )}
-            </React.Fragment>
-          </Paper>
-        </main>
-      </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                      {this.getStepContent(activeStep)}
+                      <div className={classes.buttons}>
+                        {activeStep !== 0 && (
+                          <Button onClick={this.handleBack} className={classes.button}>
+                            Back
+                      </Button>
+                        )}
+                        {activeStep === steps.length - 1 ? (<Button
+                          variant="contained"
+                          color="primary"
+                          onClick={this.sendPackageData}
+                          className={classes.button}
+                        >Create Label</Button>) : (<Button
+                          variant="contained"
+                          color="primary"
+                          disabled={!this.validateNextButton(activeStep)}
+                          onClick={this.handleNext}
+                          className={classes.button}
+                        >Next</Button>)}
+                      </div>
+                    </React.Fragment>
+                  )}
+              </React.Fragment>
+            </Paper>
+          </main>
+        </React.Fragment>
+      </div>
     );
   }
 }

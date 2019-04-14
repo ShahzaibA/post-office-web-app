@@ -1,0 +1,13 @@
+.send-package-page-bg {
+    /* The image used */
+    background-image: url("send-package-min.jpg");
+  
+    
+    /* Full height */
+    height: 100vh; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
