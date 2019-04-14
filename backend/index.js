@@ -96,13 +96,14 @@ app.get('/get_user', (req, res) => {
             //console.log("Results array not empty");
             let myusername = results[0].Username
             let email = results[0].Email
-            //console.log(senderId)
+            console.log(senderId)
             connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID,Country_ID, ZIP, Phone, Apt FROM sender WHERE Sender_ID = ${req.query.sender_ID}`, function (err, results) {
                 //console.log(results);
                 if (err) {
                     res.send(err);
                 }
                 else if (results.length !== 0) {
+                    console.log(results)
                     return res.json({
                         username: myusername,
                         sender_firstName: results[0].FName,
@@ -596,8 +597,7 @@ app.post('/get_employees', (req, res) => {
     LEFT JOIN postoffice.JobTitles ON postoffice.JobTitles.JobTitle_ID=postoffice.Employee.JobTitles_ID
     LEFT JOIN postoffice.Hub ON postoffice.Hub.Hub_ID=postoffice.Employee.Hub_ID
     LEFT JOIN postoffice.Cities ON postoffice.Hub.City_ID=postoffice.Cities.City_ID
-    LEFT JOIN postoffice.States ON postoffice.Hub.State_ID=postoffice.States.State_ID
-    WHERE postoffice.Employee.Hub_ID=(SELECT Hub_ID FROM postoffice.Employee WHERE Email='${Employee_Email}')`, function (err, results) {
+    LEFT JOIN postoffice.States ON postoffice.Hub.State_ID=postoffice.States.State_ID`, function (err, results) {
             if (err) {
                 console.log(err);
             }
@@ -687,7 +687,6 @@ app.post('/get_sender_information', (req, res) => {
                 console.log(err);
             }
             else {
-                console.log(results)
                 return res.json({
                     data: results
                 })
