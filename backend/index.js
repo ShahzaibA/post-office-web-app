@@ -343,7 +343,7 @@ app.post('/create_user', (req, res) => {
     })
 
     // check to see if that username or email exists in the db
-    connection.query(`SELECT * FROM postoffice.sendercredentials WHERE Username='${username}' OR Email='${sender_email}'`, function (err, results) {
+    connection.query(`SELECT * FROM postoffice.sendercredentials WHERE Username='${username}'`, function (err, results) {
         if (err) {
             console.log(err);
         }
@@ -357,7 +357,7 @@ app.post('/create_user', (req, res) => {
                 })
 
                 // create new account linked to a sender
-                connection.query(`INSERT INTO postoffice.sendercredentials (Username, Password, Sender_ID) VALUES ('${username}', '${password}', '${sender_email}', (SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'))`, function (err, results) {
+                connection.query(`INSERT INTO postoffice.sendercredentials (Username, Password, Sender_ID) VALUES ('${username}', '${password}', (SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'))`, function (err, results) {
                     if (err) {
                         console.log(err);
                     }
