@@ -1,0 +1,13 @@
+.invoice-page-bg {
+    /* The image used */
+    background-image: url("invoice-page-bg-min.jpgs");
+  
+    
+    /* Full height */
+    height: 100vh; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
