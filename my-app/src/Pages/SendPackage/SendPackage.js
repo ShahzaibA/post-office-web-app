@@ -127,11 +127,7 @@ class SendPackage extends React.Component {
           sender_address: Response.data[0].Addr1,
           sender_city: Response.data[0].City_Name,
           sender_state: Response.data[0].State_Abbr,
-<<<<<<< HEAD
-          sender_zip: Response.data[0].Zip,
-=======
           sender_zip: Response.data[0].Zip.toString(),
->>>>>>> 0d49a2ee2a7cd9a429171db6fb5802f66879f8b1
           sender_country: Response.data[0].Country_Name,
           sender_email: Response.data[0].Email,
           sender_phone: Response.data[0].Phone,
