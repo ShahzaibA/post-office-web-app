@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     port: '3306',
     user: 'root',
-    password: 'Group2PO',
+    password: 'abcd',
     database: 'postoffice'
 })
 
@@ -96,7 +96,6 @@ app.get('/get_user', (req, res) => {
             //console.log("Results array not empty");
             let myusername = results[0].Username
             let email = results[0].Email
-            console.log(senderId)
             connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID,Country_ID, ZIP, Phone, Apt FROM sender WHERE Sender_ID = ${req.query.sender_ID}`, function (err, results) {
                 //console.log(results);
                 if (err) {
