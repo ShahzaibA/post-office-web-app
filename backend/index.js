@@ -3,6 +3,8 @@ const cors = require('cors');
 const mysql = require('mysql');
 const app = express();
 const bodyParser = require('body-parser')
+const nodemailer = require('nodemailer');
+
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -21,6 +23,13 @@ connection.connect(err => {
     }
 });
 
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'Group2PO@gmail.com',
+        pass: 'Group2PO123!'
+    }
+});
 
 app.use(cors());
 app.use(bodyParser.json())
@@ -586,7 +595,35 @@ app.post('/delivered', (req, res) => {
         if (err) {
             console.log(err);
         }
-        res.send('success');
+        else {
+            connection.query(`SELECT Email, Package_ID
+            FROM postoffice.Sender
+            LEFT JOIN postoffice.Package ON postoffice.Package.Sender_ID=postoffice.Sender.Sender_ID
+            WHERE postoffice.Package.Package_ID=(SELECT Package_ID FROM postoffice.ShipStatus WHERE ShipStatus_ID=${results.insertId})`, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else if (results.length !== 0) {
+                        var mailOptions = {
+                            from: 'Group2PO@gmail.com',
+                            to: results[0].Email,
+                            subject: 'The Package You Sent Has Been Delivered!',
+                            text: 'Your package #' + results[0].Package_ID + ' has been delivered to the recepients address.'
+                        };
+
+                        transporter.sendMail(mailOptions, function (error, info) {
+                            if (error) {
+                                console.log(error);
+                            }
+                        });
+
+                        res.send('success');
+                    }
+                    else {
+                        res.send('success')
+                    }
+                })
+        }
     })
 })
 
