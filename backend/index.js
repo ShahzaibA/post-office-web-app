@@ -97,15 +97,14 @@ app.get('/get_status_types', (req, res) => {
 
 //Victor Query->
 app.get('/get_user', (req, res) => {
-    connection.query(`SELECT Username,Email FROM sendercredentials WHERE Sender_ID = "${req.query.sender_ID}";`, function (err, results) {
+    connection.query(`SELECT Username FROM sendercredentials WHERE Sender_ID = "${req.query.sender_ID}";`, function (err, results) {
         if (err) {
             res.send(err);
         }
         else if (results.length !== 0) {
             //console.log("Results array not empty");
             let myusername = results[0].Username
-            let email = results[0].Email
-            connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID,Country_ID, ZIP, Phone, Apt FROM sender WHERE Sender_ID = ${req.query.sender_ID}`, function (err, results) {
+            connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID,Country_ID, ZIP, Phone, Apt, Email FROM sender WHERE Sender_ID = ${req.query.sender_ID}`, function (err, results) {
                 //console.log(results);
                 if (err) {
                     res.send(err);
@@ -123,7 +122,7 @@ app.get('/get_user', (req, res) => {
                         sender_state: results[0].State_ID,
                         sender_zip: results[0].ZIP,
                         sender_country: results[0].Country_ID,
-                        sender_email: email,
+                        sender_email: results[0].Email,
                         sender_phone: results[0].Phone,
                     })
                 }
