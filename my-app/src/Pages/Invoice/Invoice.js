@@ -73,7 +73,7 @@ class Invoice extends React.Component {
     }
 
     getID() {
-        this.setState({curID:this.state.curID+1});
+        this.state.curID = this.state.curID+1;
         return this.state.curID - 1;
     }
 
@@ -138,7 +138,7 @@ class Invoice extends React.Component {
                                                 <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                                 <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
                                                 <TableCell align="left" style={this.checkFirst()}>
-                                                    <ul align="left"><a href="/tracking" data-id={this.getID()} onClick={() => this.setTrackingID(row.Package_ID)} >{row.Package_ID}</a></ul>
+                                                    <ul align="left"><a href="/tracking" onClick={() => this.setTrackingID(row.Package_ID)} >{row.Package_ID}</a></ul>
                                                 </TableCell>
                                                 <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
                                                 <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>

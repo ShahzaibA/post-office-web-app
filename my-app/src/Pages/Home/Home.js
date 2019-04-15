@@ -49,22 +49,22 @@ export default class HomeCarousel extends Component {
           <Grid container spacing={24} justify="center" style = {{width: '100%', alignContent: 'center', textAlign: 'center', padding: '30px'}}>
               <Grid item xs={3}>
                   Send us a package 
-                  <Grid>
+                  <Grid style = {{padding: '20px'}}>
                   <MarkunreadMailbox></MarkunreadMailbox>
                   </Grid>
               </Grid>
               <Typography
                 type="title"
-                color="grey"
-                style={{ borderRight: '0.1em solid black', padding: '0.5em' }}
+                color="#c6c6c6"
+                style={{ borderRight: '0.1em solid #c6c6c6', padding: '0.5em' }}
                 ></Typography>
             <Grid item xs={3}>
                 Track your package
             </Grid>
               <Typography
                 type="title"
-                color="grey"
-                style={{ borderRight: '0.1em solid black', padding: '0.5em' }}
+                color="#c6c6c6"
+                style={{ borderRight: '0.1em solid #c6c6c6', padding: '0.5em' }}
                 ></Typography>
             <Grid item xs={3}>
                 Receieve your package
