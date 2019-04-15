@@ -44,11 +44,11 @@ export default class HomeCarousel extends Component {
             </div>
           </div >
         </div>
-        <div class = "container" style = {{width: '100%', alignContent: 'center', textAlign: 'center', paddingTop: '50px', paddingBottom: '50px'}}>
-          <h1 style = {{fontSize: '3em'}}>HOW DO I SHIPIT?</h1>
+        <div class = "container" style = {{width: '100%', alignContent: 'center', textAlign: 'center', paddingTop: '100px', paddingBottom: '100px'}}>
+          <h1 style = {{fontSize: '4em'}}>HOW DO I SHIPIT?</h1>
           <Grid container spacing={24} justify="center" style = {{width: '100%', alignContent: 'center', textAlign: 'center', padding: '30px'}}>
-              <Grid item xs={3}>
-                  Send us a package 
+              <Grid item xs={3} style = {{fontSize: '1em'}}>
+                  Send Us A Package 
                   <Grid style = {{padding: '20px'}}>
                   <MarkunreadMailbox></MarkunreadMailbox>
                   </Grid>
@@ -58,16 +58,16 @@ export default class HomeCarousel extends Component {
                 color="#c6c6c6"
                 style={{ borderRight: '0.1em solid #c6c6c6', padding: '0.5em' }}
                 ></Typography>
-            <Grid item xs={3}>
-                Track your package
+            <Grid item xs={3} style = {{fontSize: '1em'}}>
+                Track Your Package
             </Grid>
               <Typography
                 type="title"
                 color="#c6c6c6"
                 style={{ borderRight: '0.1em solid #c6c6c6', padding: '0.5em' }}
                 ></Typography>
-            <Grid item xs={3}>
-                Receieve your package
+            <Grid item xs={3} style = {{fontSize: '1em'}}>
+                Receieve Your Package
             </Grid>
           </Grid>
         </div>

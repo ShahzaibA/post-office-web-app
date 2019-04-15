@@ -90,7 +90,7 @@ class Navbar extends Component {
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
                                     <Fragment>
                                         <li><a href="/send_package" class="MenuContents"><Link to="/send_package">Send Package</Link></a></li>
-                                        <li class='LoginNav' ><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
+                                        <li><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
                                     </Fragment>
                                 ) : ([<Fragment></Fragment>
                                 ])}
@@ -99,19 +99,19 @@ class Navbar extends Component {
                                         <li><a href="/send_package" class="MenuContents"><Link to="/send_package">Send Package</Link></a></li>
                                         <li><a href="/invoice" class="MenuContents"><Link to="/invoice">Invoice</Link></a></li>
                                         <li><a href="/user_profile" class="MenuContents"><Link to="/user_profile">Profile</Link></a></li>
-                                        <li class='LoginNav' ><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
+                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
                                     </Fragment>
                                 ) : (<Fragment></Fragment>)}
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') !== null && localStorage.getItem('job_title') === 'Manager' ? (
                                     <Fragment>
                                         <EmployeeNavBar employee_email={(this.state.employee_email)} />
-                                        <li class='LoginNav' ><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
+                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
                                     </Fragment>
                                 ) : (<Fragment></Fragment>)}
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') !== null && localStorage.getItem('job_title') === 'Driver' ? (
                                     <Fragment>
                                         <li><a href="/deliveries"><Link to="/deliveries">Deliveries</Link></a></li>
-                                        <li class='LoginNav' ><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
+                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
                                     </Fragment>
                                 ) : (<Fragment></Fragment>)}
 
@@ -127,10 +127,10 @@ class Navbar extends Component {
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') === null ? (
                                     <Fragment>
                                         <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>
-                                        <li class='LoginNav' ><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
+                                        <li><a href="/login"><Link to="/login" class='LoginNav'>Login</Link></a></li>
                                     </Fragment>
                                 ) : ([<Fragment></Fragment>
-                                ])}
+                                ])} 
                                 {localStorage.getItem('sender_ID') != null && localStorage.getItem('employee_email') == null ? (
                                     [
                                         <li><a href="/send_package"><Link to="/send_package">Send Package</Link></a></li>,
@@ -142,13 +142,13 @@ class Navbar extends Component {
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') !== null && localStorage.getItem('job_title') === 'Manager' ? (
                                     <Fragment>
                                         <EmployeeNavBar employee_email={(this.state.employee_email)} />
-                                        <li class='LoginNav' ><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
+                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
                                     </Fragment>
                                 ) : (<Fragment></Fragment>)}
                                 {localStorage.getItem('sender_ID') === null && localStorage.getItem('employee_email') !== null && localStorage.getItem('job_title') === 'Driver' ? (
                                     <Fragment>
                                         <li><a href="/deliveries"><Link to="/deliveries">Deliveries</Link></a></li>
-                                        <li class='LoginNav' ><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
+                                        <li><a href="/"><Link to="/" onClick={this.processLogout} class='LoginNav'>Logout</Link></a></li>
                                     </Fragment>
                                 ) : (<Fragment></Fragment>)}
                             </ul>
