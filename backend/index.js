@@ -239,8 +239,26 @@ app.get('/get_report', function (req, res) {
     })
 });
 
+app.get('/get_total_income', function (req, res) {
 
+    let date1 = req.query.date1;
+    let date2 = req.query.date2;
 
+    let q = `SELECT
+	            sum(invoice.Price) AS Total
+            FROM postoffice.invoice
+            WHERE (invoice.Date BETWEEN '${date1}' AND '${date2}')
+            `;
+
+    connection.query(q, function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json(results);
+        }
+    })
+});
 
 
 

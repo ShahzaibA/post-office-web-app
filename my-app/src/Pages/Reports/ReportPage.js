@@ -16,6 +16,7 @@ class ReportPage extends Component {
             date1: null,
             date2: null,
             results: [],
+            total_Revenue: "$0",
         };
         this.handleDate1 = this.handleDate1.bind(this)
         this.handleDate2 = this.handleDate2.bind(this)
@@ -41,11 +42,30 @@ class ReportPage extends Component {
                     date1: this.state.date1,
                     date2: this.state.date2,
                 }
+
+            //     
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
             fetch(url)
                 .then(res => res.json())
                 .then(res => this.setState({ results: res }))
 
+            var url = new URL("http://localhost:4000/get_total_income"),
+                params = {
+                    date1: this.state.date1,
+                    date2: this.state.date2,
+                }
+
+            //     
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+            fetch(url)
+                .then(res => res.json())
+                .then(res => {
+                    if (res[0].Total !== null) {
+                        this.setState({ total_Revenue: '$' + res[0].Total })
+                    } else {
+                        this.setState({ total_Revenue: '$0'})
+                    }
+                })
         }
     }
 
@@ -75,6 +95,9 @@ class ReportPage extends Component {
                                     onClick={this.handleButton}
                                 />
                             </Grid>
+                        </Grid>
+                        <Grid>
+                            Total Revenue between selected dates: {this.state.total_Revenue}
                         </Grid>
                         <Grid>
                             <SimpleTable
