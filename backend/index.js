@@ -334,12 +334,21 @@ app.post('/create_order', (req, res) => {
         }
     })
 
-    // add sender to sender table if not exists
-    connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
-        if (err) {
-            console.log(err);
-        }
-    })
+    if (sender_apartment === '') {
+        // add sender w/o apt to sender table if not exists
+        connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+        })
+    } else {
+        // add sender w/ apt to sender table if not exists
+        connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, Apt, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, '${sender_apartment}' as Apt, (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+        })
+    }
 
     // create invoice associated with the sender 
     connection.query(`INSERT INTO postoffice.invoice (Sender_ID, Price, Tender_ID, Date, Time, PackageQuantity) VALUES((SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), ${price}, 1, curdate(), now(), ${quantity})`, function (err, results) {
@@ -348,20 +357,40 @@ app.post('/create_order', (req, res) => {
         }
         else {
             query_res = results;
-            // query to create package
-            connection.query(`INSERT INTO postoffice.package (Invoice_ID, Sender_ID, ShipForm_ID, Weight, ReceiverFirstName, ReceiverLastName, ReceiverAddr, ReceiverCity_ID, ReceiverState_ID, ReceiverZip, ReceiverCountry_ID) VALUES (${query_res.insertId},(SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), (SELECT ShipForm_ID FROM postoffice.shipform WHERE ShipForm='${package_type}'), ${package_weight}, '${receiver_firstName}', '${receiver_lastName}', '${receiver_address}', (SELECT City_ID FROM postoffice.cities WHERE City_Name='${receiver_city}'), (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${receiver_state}'), '${receiver_zip}', (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${receiver_country}'))`, function (err, results) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    // create initial awaiting arrival status
-                    connection.query(`INSERT INTO postoffice.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES ((SELECT Status_ID FROM postoffice.status WHERE Status_Type='Awaiting Arrival'), curdate(), now(), (SELECT Hub_ID from postoffice.Hub WHERE State_ID=(SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}')), ${results.insertId}) `)
-                    return res.json({
-                        invoice_ID: query_res.insertId,
-                        tracking_ID: results.insertId
-                    })
-                }
-            })
+
+            if (receiver_apartment === '') {
+                // query to create package for receiver w/o apt
+                connection.query(`INSERT INTO postoffice.package (Invoice_ID, Sender_ID, ShipForm_ID, Weight, ReceiverFirstName, ReceiverLastName, ReceiverAddr, ReceiverCity_ID, ReceiverState_ID, ReceiverZip, ReceiverCountry_ID) VALUES (${query_res.insertId},(SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), (SELECT ShipForm_ID FROM postoffice.shipform WHERE ShipForm='${package_type}'), ${package_weight}, '${receiver_firstName}', '${receiver_lastName}', '${receiver_address}', (SELECT City_ID FROM postoffice.cities WHERE City_Name='${receiver_city}'), (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${receiver_state}'), '${receiver_zip}', (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${receiver_country}'))`, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        // create initial awaiting arrival status
+                        connection.query(`INSERT INTO postoffice.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES ((SELECT Status_ID FROM postoffice.status WHERE Status_Type='Awaiting Arrival'), curdate(), now(), (SELECT Hub_ID from postoffice.Hub WHERE State_ID=(SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}')), ${results.insertId}) `)
+                        return res.json({
+                            invoice_ID: query_res.insertId,
+                            tracking_ID: results.insertId
+                        })
+                    }
+                })
+
+            }
+            else {
+                // query to create package for receiver w/ apt
+                connection.query(`INSERT INTO postoffice.package (Invoice_ID, Sender_ID, ShipForm_ID, Weight, ReceiverFirstName, ReceiverLastName, ReceiverAddr, ReceiverCity_ID, ReceiverState_ID, ReceiverZip, ReceiverCountry_ID, ReceiverApt) VALUES (${query_res.insertId},(SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), (SELECT ShipForm_ID FROM postoffice.shipform WHERE ShipForm='${package_type}'), ${package_weight}, '${receiver_firstName}', '${receiver_lastName}', '${receiver_address}', (SELECT City_ID FROM postoffice.cities WHERE City_Name='${receiver_city}'), (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${receiver_state}'), '${receiver_zip}', (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${receiver_country}'), '${receiver_apartment}')`, function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        // create initial awaiting arrival status
+                        connection.query(`INSERT INTO postoffice.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES ((SELECT Status_ID FROM postoffice.status WHERE Status_Type='Awaiting Arrival'), curdate(), now(), (SELECT Hub_ID from postoffice.Hub WHERE State_ID=(SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}')), ${results.insertId}) `)
+                        return res.json({
+                            invoice_ID: query_res.insertId,
+                            tracking_ID: results.insertId
+                        })
+                    }
+                })
+            }
         }
     })
 })
@@ -384,12 +413,21 @@ app.post('/create_user', (req, res) => {
         }
         else {
             if (results.length === 0) {
-                // add sender to sender table if not exists
-                connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}', '${sender_lastName}', '${sender_address}', (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}'),  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}'), '${sender_zip}', (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}'), '${sender_email}', '${sender_phone}') AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
-                    if (err) {
-                        console.log(err);
-                    }
-                })
+                if (sender_apartment === '') {
+                    // add sender w/o apt to sender table if not exists
+                    connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
+                } else {
+                    // add sender w/ apt to sender table if not exists
+                    connection.query(`INSERT INTO postoffice.sender (FName, LName, Addr1, Apt, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, '${sender_apartment}' as Apt, (SELECT City_ID FROM postoffice.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM postoffice.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM postoffice.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
+                }
 
                 // create new account linked to a sender
                 connection.query(`INSERT INTO postoffice.sendercredentials (Username, Password, Sender_ID) VALUES ('${username}', '${password}', (SELECT Sender_ID from postoffice.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'))`, function (err, results) {
@@ -739,7 +777,7 @@ app.post('/create_driver_employee', (req, res) => {
 
 app.post('/get_sender_information', (req, res) => {
     const { Sender_ID } = req.body;
-    connection.query(`SELECT FName, LName, Addr1, City_Name, State_Abbr, Zip, Country_Name, Email, Phone
+    connection.query(`SELECT FName, LName, Addr1, Apt, City_Name, State_Abbr, Zip, Country_Name, Email, Phone
     FROM postoffice.Sender
     LEFT JOIN postoffice.Cities ON postoffice.Cities.City_ID=postoffice.Sender.City_ID
     LEFT JOIN postoffice.States ON postoffice.States.State_ID=postoffice.Sender.State_ID
