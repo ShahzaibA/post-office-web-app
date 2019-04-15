@@ -103,7 +103,9 @@ class ArrivalScan extends Component {
             <TableCell align="right">{Shipping_City}</TableCell>
             <TableCell align="right">{Shipping_State_Abbr}</TableCell>
             <TableCell align="right">{Shipping_Zip}</TableCell>
-            <TableCell align="right"><Button size='sm' variant="outline-danger" onClick={() => this.arrivalScan(Package_ID, Hub_ID)} >Scan Arrival</Button></TableCell>
+            <TableCell align="right">
+                <Button size='sm' variant="outline-danger" onClick={() => this.arrivalScan(Package_ID, Hub_ID)} >Scan Arrival</Button>
+            </TableCell>
         </TableRow>
 
     render() {

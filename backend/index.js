@@ -45,7 +45,7 @@ app.post('/get_shipstatus', (req, res) => {
     LEFT JOIN postoffice.Status ON postoffice.Status.Status_ID = postoffice.ShipStatus.Status_ID
     LEFT JOIN postoffice.Package ON postoffice.Package.Package_ID = postoffice.ShipStatus.Package_ID
     WHERE postoffice.ShipStatus.Package_ID = '${package_id}'
-    ORDER BY postoffice.ShipStatus.Package_ID DESC, postoffice.ShipStatus.Date DESC, postoffice.ShipStatus.Time DESC, postoffice.Status.Status_ID DESC`
+    ORDER BY postoffice.ShipStatus.ShipStatus_ID DESC, postoffice.ShipStatus.Date DESC, postoffice.ShipStatus.Time DESC, postoffice.Status.Status_ID DESC`
         , function (err, results) {
             if (err) {
                 console.log(err);
