@@ -71,6 +71,9 @@ class Login extends React.Component {
                     localStorage.setItem('job_title', result.data[0].JobTitle)
                     this.setState({ loggedIn: true })
                 }
+                else{
+                    this.setState({auth: false})
+                }
             })
             .catch(err => this.setState({auth:false}))
     }

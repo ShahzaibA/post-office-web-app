@@ -72,8 +72,11 @@ class Login extends React.Component {
                     localStorage.setItem('sender_ID', result.data[0].Sender_ID);
                     this.setState({ loggedIn: true })
                 }
+                else{
+                    this.setState({auth: false})
+                }
             })
-            .catch(err => this.setState({auth:false}))
+            .catch(err => this.setState({auth: false}))
     }
 
     handleChange = (name, val) => {
