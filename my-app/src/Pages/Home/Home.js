@@ -44,7 +44,7 @@ export default class HomeCarousel extends Component {
             </div>
           </div >
         </div>
-        <div class = "container" style = {{width: '100%', alignContent: 'center', textAlign: 'center', paddingTop: '100px', paddingBottom: '100px'}}>
+        <div class = "container" style = {{width: '100%', alignContent: 'center', textAlign: 'center', paddingTop: '80px', paddingBottom: '120px'}}>
           <h1 style = {{fontSize: '4em'}}>HOW DO I SHIPIT?</h1>
           <Grid container spacing={24} justify="center" style = {{width: '100%', alignContent: 'center', textAlign: 'center', padding: '30px'}}>
               <Grid item xs={3} style = {{fontSize: '1em'}}>

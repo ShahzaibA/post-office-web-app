@@ -32,6 +32,10 @@ class EmployeeNavBarMenu extends React.Component {
           aria-owns={anchorEl ? 'simple-menu' : undefined}
           aria-haspopup="true"
           onClick={this.handleClick}
+          style = {{height: "5px !important", fontSize: "14px", 
+          fontWeight: 800, fontFamily: "'Work Sans', sans-serif",
+          top: '0 !important', width: '0% !important', lineHeight: 1.5,
+          }}
         >
           Employee
         </Button>

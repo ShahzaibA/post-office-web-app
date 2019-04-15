@@ -64,7 +64,7 @@ class Navbar extends Component {
         const { anchorEl } = this.state;
         return (
             <header style={{ maxWidth: '100%' }}>
-                {this.state.width < 1200 ? (
+                {this.state.width < 1000 ? (
                     <div class="container" style={{ alignContent: 'center', margin: '0 auto', maxWidth: '100%' }}>
                         <a href="/"><Link to="/"><img class='logo' src={logo} alt="ShipIt" /></Link></a>
                         <div class='ShipItMenu'>
