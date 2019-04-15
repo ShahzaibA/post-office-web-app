@@ -51,7 +51,6 @@ class Login extends React.Component {
         sender_ID: "",
         loggedIn: false,
         auth: true,
-        fetch: true,
         info: [],
     }
 

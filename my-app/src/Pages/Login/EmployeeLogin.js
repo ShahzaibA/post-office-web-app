@@ -72,10 +72,10 @@ class Login extends React.Component {
                     this.setState({ loggedIn: true })
                 }
                 else{
-                    this.setState({auth: false})
+                    this.setState({ auth: false })
                 }
             })
-            .catch(err => this.setState({auth:false}))
+            .catch(err => this.setState({ auth: false }))
     }
 
     handleChange = (name, val) => {
