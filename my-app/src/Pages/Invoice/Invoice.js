@@ -45,13 +45,13 @@ class Invoice extends React.Component {
     }
 
     getFromLocal_Invoice() {
-        this.setState({InvoiceID: localStorage.getItem("sender_ID")});
+        this.state.InvoiceID = localStorage.getItem("sender_ID");
         //We do not remove the current "logged in" user here.
         //localStorage.removeItem("InvoiceID");
     }
 
     componentDidMount() {
-        this.setState({first: 0});
+        this.state.first = 0;
         this.getFromLocal_Invoice();
         this.getInvoice();
     }
@@ -91,7 +91,7 @@ class Invoice extends React.Component {
 
     checkFirst() {
         if (this.state.first < this.state.numPerRow) {
-            this.setState({first:this.state.first+1});
+            this.state.first = this.state.first+1;
             //return { fontWeight: 'bold', backgroundColor: '#ededed' };
         }
         else {

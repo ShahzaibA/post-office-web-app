@@ -80,7 +80,7 @@ class Tracking extends React.Component {
 
     checkFirst() {
         if (this.state.first < this.state.numPerRow) {
-            this.state.first = this.state.first+= 1;
+            this.state.first = this.state.first+1;
             return { fontWeight: 'bold', backgroundColor: '#ededed' };
         }
         else {
