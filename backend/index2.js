@@ -39,7 +39,7 @@ app.post('/get_shipstatus', (req, res) => {
     const { package_id } = req.body;
 
     connection.query(`
-    SELECT mydb.ShipStatus.Package_ID, mydb.shipstatus.ShipStatus_ID, mydb.ShipStatus.Date, mydb.ShipStatus.Time, mydb.Hub.Addr, mydb.Status.Status_ID, mydb.Status.Status_Type, mydb.Package.ReceiverAddr
+    SELECT mydb.ShipStatus.Package_ID, mydb.ShipStatus.ShipStatus_ID, mydb.ShipStatus.Date, mydb.ShipStatus.Time, mydb.Hub.Addr, mydb.Status.Status_ID, mydb.Status.Status_Type, mydb.Package.ReceiverAddr
     FROM mydb.ShipStatus
     LEFT JOIN mydb.Hub ON mydb.Hub.Hub_ID = mydb.ShipStatus.Hub_ID OR mydb.ShipStatus.Hub_ID = NULL
     LEFT JOIN mydb.Status ON mydb.Status.Status_ID = mydb.ShipStatus.Status_ID
@@ -81,7 +81,7 @@ app.post('/get_invoices', (req, res) => {
 });
 
 app.get('/get_status_types', (req, res) => {
-    connection.query('SELECT Status_Type FROM mydb.status', function (err, results) {
+    connection.query('SELECT Status_Type FROM mydb.Status', function (err, results) {
         if (err) {
             res.send(err);
         }
@@ -97,14 +97,14 @@ app.get('/get_status_types', (req, res) => {
 
 //Victor Query->
 app.get('/get_user', (req, res) => {
-    connection.query(`SELECT Username FROM sendercredentials WHERE Sender_ID = "${req.query.sender_ID}";`, function (err, results) {
+    connection.query(`SELECT Username FROM SenderCredentials WHERE Sender_ID = "${req.query.sender_ID}";`, function (err, results) {
         if (err) {
             res.send(err);
         }
         else if (results.length !== 0) {
             //console.log("Results array not empty");
             let myusername = results[0].Username
-            connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID,Country_ID, ZIP, Phone, Apt, Email FROM sender WHERE Sender_ID = ${req.query.sender_ID}`, function (err, results) {
+            connection.query(`SELECT FName, LName, Addr1, Addr2, City_ID, State_ID,Country_ID, ZIP, Phone, Apt, Email FROM mydb.Sender WHERE Sender_ID = ${req.query.sender_ID}`, function (err, results) {
                 //console.log(results);
                 if (err) {
                     res.send(err);
@@ -133,7 +133,7 @@ app.get('/get_user', (req, res) => {
 
 
 app.get('/get_cities', (req, res) => {
-    connection.query('SELECT * FROM mydb.cities', function (err, results) {
+    connection.query('SELECT * FROM mydb.Cities', function (err, results) {
         if (err) {
             res.send(err);
         }
@@ -146,7 +146,7 @@ app.get('/get_cities', (req, res) => {
 });
 
 app.get('/get_countries', (req, res) => {
-    connection.query('SELECT * FROM mydb.countries', function (err, results) {
+    connection.query('SELECT * FROM mydb.Countries', function (err, results) {
         if (err) {
             res.send(err);
         }
@@ -164,29 +164,29 @@ app.post('/edit_user', (req, res) => {
 
 
     // insert senders city into lookup table if not exists
-    connection.query(`INSERT INTO mydb.cities (City_Name) SELECT * FROM (SELECT '${sender_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM mydb.cities WHERE City_Name='${sender_city}') LIMIT 1`, function (err, results) {
+    connection.query(`INSERT INTO mydb.Cities (City_Name) SELECT * FROM (SELECT '${sender_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM mydb.Cities WHERE City_Name='${sender_city}') LIMIT 1`, function (err, results) {
         if (err) {
             console.log(err);
         } else {
-            connection.query(`SELECT City_ID from mydb.cities WHERE City_Name='${sender_city}'`, function (err, results) {
+            connection.query(`SELECT City_ID from mydb.Cities WHERE City_Name='${sender_city}'`, function (err, results) {
                 if (err) {
                     console.log(err);
                 } else {
                     let city_id = results[0].City_ID
 
-                    connection.query(`SELECT State_ID from mydb.states WHERE State_Abbr='${sender_state}'`, function (err, results) {
+                    connection.query(`SELECT State_ID from mydb.States WHERE State_Abbr='${sender_state}'`, function (err, results) {
                         if (err) {
                             console.log(err);
                         } else {
                             let state_id = results[0].State_ID
 
-                            connection.query(`SELECT Country_ID from mydb.countries WHERE Country_Name='${sender_country}'`, function (err, results) {
+                            connection.query(`SELECT Country_ID from mydb.Countries WHERE Country_Name='${sender_country}'`, function (err, results) {
                                 if (err) {
                                     console.log(err);
                                 } else {
                                     let country_id = results[0].Country_ID
 
-                                    connection.query(`UPDATE mydb.sender 
+                                    connection.query(`UPDATE mydb.Sender 
                                                       SET Addr1='${sender_address}', 
                                                       Addr2='${sender_address2}', 
                                                       City_ID=${city_id}, 
@@ -225,18 +225,18 @@ app.get('/get_report', function (req, res) {
 
     let q =
         `SELECT 
-            shipstatus.Hub_ID,
-            hub.Addr,
-            hub.Zip,
+            mydb.ShipStatus.Hub_ID,
+            mydb.Hub.Addr,
+            mydb.Hub.Zip,
             COUNT(*) AS Total_Packages
         FROM
-            mydb.shipstatus
+            mydb.ShipStatus
                 JOIN
-            mydb.status ON shipstatus.Status_ID = status.Status_ID
+            mydb.Status ON mydb.ShipStatus.Status_ID = Status.Status_ID
                 JOIN
-            mydb.hub ON shipstatus.Hub_ID = hub.Hub_ID
-        WHERE (status.Status_Type = '${status_type}') AND (shipstatus.Date BETWEEN '${date1}' AND '${date2}')
-        GROUP BY mydb.shipstatus.Hub_ID
+            mydb.Hub ON Shipstatus.Hub_ID = Hub.Hub_ID
+        WHERE (mydb.Status.Status_Type = '${status_type}') AND (mydb.ShipStatus.Date BETWEEN '${date1}' AND '${date2}')
+        GROUP BY mydb.ShipStatus.Hub_ID
         `;
     connection.query(q, function (err, results) {
         if (err) {
@@ -254,8 +254,8 @@ app.get('/get_total_income', function (req, res) {
     let date2 = req.query.date2;
 
     let q = `SELECT
-	            sum(invoice.Price) AS Total
-            FROM mydb.invoice
+	            sum(mydb.Invoice.Price) AS Total
+            FROM mydb.Invoice
             WHERE (invoice.Date BETWEEN '${date1}' AND '${date2}')
             `;
 
@@ -275,7 +275,7 @@ app.get('/get_total_income', function (req, res) {
 
 
 app.get('/get_packages', (req, res) => {
-    connection.query('SELECT * FROM mydb.package', function (err, results) {
+    connection.query('SELECT * FROM mydb.Package', function (err, results) {
         if (err) {
             res.send(err);
         }
@@ -301,7 +301,7 @@ app.get('/get_states', (req, res) => {
 });
 
 app.get('/get_package_types', (req, res) => {
-    connection.query('SELECT * FROM mydb.shipform', function (err, results) {
+    connection.query('SELECT * FROM mydb.ShipForm', function (err, results) {
         if (err) {
             res.send(err);
         }
@@ -321,14 +321,14 @@ app.post('/create_order', (req, res) => {
 
 
     // insert senders city into lookup table if not exists
-    connection.query(`INSERT INTO mydb.cities (City_Name) SELECT * FROM (SELECT '${sender_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM mydb.cities WHERE City_Name='${sender_city}') LIMIT 1`, function (err, results) {
+    connection.query(`INSERT INTO mydb.Cities (City_Name) SELECT * FROM (SELECT '${sender_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM mydb.Cities WHERE City_Name='${sender_city}') LIMIT 1`, function (err, results) {
         if (err) {
             console.log(err);
         }
     })
 
     // insert receivers city into lookup table if not exists
-    connection.query(`INSERT INTO mydb.cities (City_Name) SELECT * FROM (SELECT '${receiver_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM mydb.cities WHERE City_Name='${receiver_city}') LIMIT 1`, function (err, results) {
+    connection.query(`INSERT INTO mydb.Cities (City_Name) SELECT * FROM (SELECT '${receiver_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM mydb.Cities WHERE City_Name='${receiver_city}') LIMIT 1`, function (err, results) {
         if (err) {
             console.log(err);
         }
@@ -336,14 +336,14 @@ app.post('/create_order', (req, res) => {
 
     if (sender_apartment === '') {
         // add sender w/o apt to sender table if not exists
-        connection.query(`INSERT INTO mydb.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, (SELECT City_ID FROM mydb.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM mydb.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM mydb.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM mydb.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+        connection.query(`INSERT INTO mydb.Sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, (SELECT City_ID FROM mydb.Cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM mydb.States WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM mydb.Countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM mydb.Sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
             if (err) {
                 console.log(err);
             }
         })
     } else {
         // add sender w/ apt to sender table if not exists
-        connection.query(`INSERT INTO mydb.sender (FName, LName, Addr1, Apt, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, '${sender_apartment}' as Apt, (SELECT City_ID FROM mydb.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM mydb.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM mydb.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM mydb.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+        connection.query(`INSERT INTO mydb.Sender (FName, LName, Addr1, Apt, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, '${sender_apartment}' as Apt, (SELECT City_ID FROM mydb.Cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM mydb.States WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM mydb.Countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM mydb.Sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
             if (err) {
                 console.log(err);
             }
@@ -351,7 +351,7 @@ app.post('/create_order', (req, res) => {
     }
 
     // create invoice associated with the sender 
-    connection.query(`INSERT INTO mydb.invoice (Sender_ID, Price, Tender_ID, Date, Time, PackageQuantity) VALUES((SELECT Sender_ID from mydb.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), ${price}, 1, curdate(), now(), ${quantity})`, function (err, results) {
+    connection.query(`INSERT INTO mydb.Invoice (Sender_ID, Price, Tender_ID, Date, Time, PackageQuantity) VALUES((SELECT Sender_ID from mydb.Sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), ${price}, 1, curdate(), now(), ${quantity})`, function (err, results) {
         if (err) {
             console.log(err);
         }
@@ -360,13 +360,13 @@ app.post('/create_order', (req, res) => {
 
             if (receiver_apartment === '') {
                 // query to create package for receiver w/o apt
-                connection.query(`INSERT INTO mydb.package (Invoice_ID, Sender_ID, ShipForm_ID, Weight, ReceiverFirstName, ReceiverLastName, ReceiverAddr, ReceiverCity_ID, ReceiverState_ID, ReceiverZip, ReceiverCountry_ID) VALUES (${query_res.insertId},(SELECT Sender_ID from mydb.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), (SELECT ShipForm_ID FROM mydb.shipform WHERE ShipForm='${package_type}'), ${package_weight}, '${receiver_firstName}', '${receiver_lastName}', '${receiver_address}', (SELECT City_ID FROM mydb.cities WHERE City_Name='${receiver_city}'), (SELECT State_ID FROM mydb.states WHERE State_Abbr='${receiver_state}'), '${receiver_zip}', (SELECT Country_ID FROM mydb.countries WHERE Country_Name='${receiver_country}'))`, function (err, results) {
+                connection.query(`INSERT INTO mydb.Package (Invoice_ID, Sender_ID, ShipForm_ID, Weight, ReceiverFirstName, ReceiverLastName, ReceiverAddr, ReceiverCity_ID, ReceiverState_ID, ReceiverZip, ReceiverCountry_ID) VALUES (${query_res.insertId},(SELECT Sender_ID from mydb.Sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), (SELECT ShipForm_ID FROM mydb.ShipForm WHERE ShipForm='${package_type}'), ${package_weight}, '${receiver_firstName}', '${receiver_lastName}', '${receiver_address}', (SELECT City_ID FROM mydb.Cities WHERE City_Name='${receiver_city}'), (SELECT State_ID FROM mydb.States WHERE State_Abbr='${receiver_state}'), '${receiver_zip}', (SELECT Country_ID FROM mydb.Countries WHERE Country_Name='${receiver_country}'))`, function (err, results) {
                     if (err) {
                         console.log(err);
                     }
                     else {
                         // create initial awaiting arrival status
-                        connection.query(`INSERT INTO mydb.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES ((SELECT Status_ID FROM mydb.status WHERE Status_Type='Awaiting Arrival'), curdate(), now(), (SELECT Hub_ID from mydb.Hub WHERE State_ID=(SELECT State_ID FROM mydb.states WHERE State_Abbr='${sender_state}')), ${results.insertId}) `)
+                        connection.query(`INSERT INTO mydb.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES ((SELECT Status_ID FROM mydb.Status WHERE Status_Type='Awaiting Arrival'), curdate(), now(), (SELECT Hub_ID from mydb.Hub WHERE State_ID=(SELECT State_ID FROM mydb.States WHERE State_Abbr='${sender_state}')), ${results.insertId}) `)
                         return res.json({
                             invoice_ID: query_res.insertId,
                             tracking_ID: results.insertId
@@ -377,13 +377,13 @@ app.post('/create_order', (req, res) => {
             }
             else {
                 // query to create package for receiver w/ apt
-                connection.query(`INSERT INTO mydb.package (Invoice_ID, Sender_ID, ShipForm_ID, Weight, ReceiverFirstName, ReceiverLastName, ReceiverAddr, ReceiverCity_ID, ReceiverState_ID, ReceiverZip, ReceiverCountry_ID, ReceiverApt) VALUES (${query_res.insertId},(SELECT Sender_ID from mydb.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), (SELECT ShipForm_ID FROM mydb.shipform WHERE ShipForm='${package_type}'), ${package_weight}, '${receiver_firstName}', '${receiver_lastName}', '${receiver_address}', (SELECT City_ID FROM mydb.cities WHERE City_Name='${receiver_city}'), (SELECT State_ID FROM mydb.states WHERE State_Abbr='${receiver_state}'), '${receiver_zip}', (SELECT Country_ID FROM mydb.countries WHERE Country_Name='${receiver_country}'), '${receiver_apartment}')`, function (err, results) {
+                connection.query(`INSERT INTO mydb.Package (Invoice_ID, Sender_ID, ShipForm_ID, Weight, ReceiverFirstName, ReceiverLastName, ReceiverAddr, ReceiverCity_ID, ReceiverState_ID, ReceiverZip, ReceiverCountry_ID, ReceiverApt) VALUES (${query_res.insertId},(SELECT Sender_ID from mydb.Sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'), (SELECT ShipForm_ID FROM mydb.ShipForm WHERE ShipForm='${package_type}'), ${package_weight}, '${receiver_firstName}', '${receiver_lastName}', '${receiver_address}', (SELECT City_ID FROM mydb.Cities WHERE City_Name='${receiver_city}'), (SELECT State_ID FROM mydb.States WHERE State_Abbr='${receiver_state}'), '${receiver_zip}', (SELECT Country_ID FROM mydb.Countries WHERE Country_Name='${receiver_country}'), '${receiver_apartment}')`, function (err, results) {
                     if (err) {
                         console.log(err);
                     }
                     else {
                         // create initial awaiting arrival status
-                        connection.query(`INSERT INTO mydb.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES ((SELECT Status_ID FROM mydb.status WHERE Status_Type='Awaiting Arrival'), curdate(), now(), (SELECT Hub_ID from mydb.Hub WHERE State_ID=(SELECT State_ID FROM mydb.states WHERE State_Abbr='${sender_state}')), ${results.insertId}) `)
+                        connection.query(`INSERT INTO mydb.ShipStatus (Status_ID, Date, Time, Hub_ID, Package_ID) VALUES ((SELECT Status_ID FROM mydb.Status WHERE Status_Type='Awaiting Arrival'), curdate(), now(), (SELECT Hub_ID from mydb.Hub WHERE State_ID=(SELECT State_ID FROM mydb.States WHERE State_Abbr='${sender_state}')), ${results.insertId}) `)
                         return res.json({
                             invoice_ID: query_res.insertId,
                             tracking_ID: results.insertId
@@ -400,14 +400,14 @@ app.post('/create_user', (req, res) => {
         sender_zip, sender_country, sender_email, sender_phone } = req.body;
 
     // insert senders city into lookup table if not exists
-    connection.query(`INSERT INTO mydb.cities (City_Name) SELECT * FROM (SELECT '${sender_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM mydb.cities WHERE City_Name='${sender_city}') LIMIT 1`, function (err, results) {
+    connection.query(`INSERT INTO mydb.Cities (City_Name) SELECT * FROM (SELECT '${sender_city}') AS tmp WHERE NOT EXISTS (SELECT City_Name FROM mydb.Cities WHERE City_Name='${sender_city}') LIMIT 1`, function (err, results) {
         if (err) {
             console.log(err);
         }
     })
 
     // check to see if that username or email exists in the db
-    connection.query(`SELECT * FROM mydb.sendercredentials WHERE Username='${username}'`, function (err, results) {
+    connection.query(`SELECT * FROM mydb.SenderCredentials WHERE Username='${username}'`, function (err, results) {
         if (err) {
             console.log(err);
         }
@@ -415,14 +415,14 @@ app.post('/create_user', (req, res) => {
             if (results.length === 0) {
                 if (sender_apartment === '') {
                     // add sender w/o apt to sender table if not exists
-                    connection.query(`INSERT INTO mydb.sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, (SELECT City_ID FROM mydb.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM mydb.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM mydb.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM mydb.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+                    connection.query(`INSERT INTO mydb.Sender (FName, LName, Addr1, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, (SELECT City_ID FROM mydb.Cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM mydb.States WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM mydb.Countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM mydb.Sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
                         if (err) {
                             console.log(err);
                         }
                     })
                 } else {
                     // add sender w/ apt to sender table if not exists
-                    connection.query(`INSERT INTO mydb.sender (FName, LName, Addr1, Apt, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, '${sender_apartment}' as Apt, (SELECT City_ID FROM mydb.cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM mydb.states WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM mydb.countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM mydb.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
+                    connection.query(`INSERT INTO mydb.Sender (FName, LName, Addr1, Apt, City_ID, State_ID, ZIP, Country_ID, Email, Phone) SELECT * FROM (SELECT '${sender_firstName}' as FName, '${sender_lastName}' as LName, '${sender_address}' as Addr, '${sender_apartment}' as Apt, (SELECT City_ID FROM mydb.Cities WHERE City_Name='${sender_city}') as City_ID,  (SELECT State_ID FROM mydb.States WHERE State_Abbr='${sender_state}') as State_ID, '${sender_zip}' as Zip, (SELECT Country_ID FROM mydb.Countries WHERE Country_Name='${sender_country}') as Country_ID, '${sender_email}' as Email, '${sender_phone}' as Phone) AS tmp WHERE NOT EXISTS (SELECT FName, LName, Addr1, Email FROM mydb.Sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Addr1='${sender_address}' AND Email='${sender_email}') LIMIT 1`, function (err, results) {
                         if (err) {
                             console.log(err);
                         }
@@ -430,7 +430,7 @@ app.post('/create_user', (req, res) => {
                 }
 
                 // create new account linked to a sender
-                connection.query(`INSERT INTO mydb.sendercredentials (Username, Password, Sender_ID) VALUES ('${username}', '${password}', (SELECT Sender_ID from mydb.sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'))`, function (err, results) {
+                connection.query(`INSERT INTO mydb.SenderCredentials (Username, Password, Sender_ID) VALUES ('${username}', '${password}', (SELECT Sender_ID from mydb.Sender WHERE FName='${sender_firstName}' AND LName='${sender_lastName}' AND Email='${sender_email}' AND Addr1='${sender_address}'))`, function (err, results) {
                     if (err) {
                         console.log(err);
                     }
@@ -452,7 +452,7 @@ app.post('/create_user', (req, res) => {
 
 app.post('/login_user', (req, res) => {
     const { username, password } = req.body;
-    connection.query(`SELECT * FROM mydb.senderCredentials WHERE Username='${username}' AND Password='${password}'`, function (err, results) {
+    connection.query(`SELECT * FROM mydb.SenderCredentials WHERE Username='${username}' AND Password='${password}'`, function (err, results) {
         if (err) {
             console.log(err);
         }

@@ -80,7 +80,7 @@ class Tracking extends React.Component {
 
     checkFirst() {
         if (this.state.first < this.state.numPerRow) {
-            this.state.first += 1;
+            this.setState({first:this.state.first+1});
             return { fontWeight: 'bold', backgroundColor: '#ededed' };
         }
         else {
@@ -125,7 +125,7 @@ class Tracking extends React.Component {
                                     < TableRow>
                                         <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
                                         <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                        <TableCell align="left" style={this.checkFirst()}>{row.Status_Type == "Delivered" ? row.ReceiverAddr : row.Addr}</TableCell>
+                                        <TableCell align="left" style={this.checkFirst()}>{row.Status_Type === "Delivered" ? row.ReceiverAddr : row.Addr}</TableCell>
                                         <TableCell align="left" style={this.checkFirst()}>{row.Status_Type}</TableCell>
                                     </TableRow>
                                 ))}
