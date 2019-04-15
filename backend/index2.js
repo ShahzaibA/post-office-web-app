@@ -36,7 +36,7 @@ app.post('/get_shipstatus', (req, res) => {
     LEFT JOIN mydb.Status ON mydb.Status.Status_ID = mydb.ShipStatus.Status_ID
     LEFT JOIN mydb.Package ON mydb.Package.Package_ID = mydb.ShipStatus.Package_ID
     WHERE mydb.ShipStatus.Package_ID = '${package_id}'
-    ORDER BY mydb.ShipStatus.Date DESC, mydb.ShipStatus.Time DESC, mydb.Status.Status_ID DESC`
+    ORDER BY mydb.ShipStatus.Package_ID DESC, mydb.ShipStatus.Date DESC, mydb.ShipStatus.Time DESC, mydb.Status.Status_ID DESC`
         , function (err, results) {
             if (err) {
                 console.log(err);
