@@ -3,10 +3,8 @@ import DatePickers from './Components/DatePickers'
 import SimpleSelect from './Components/SimpleSelect'
 import SimpleTable from './Components/SimpleTable'
 import ContainedButtons from './Components/ContainedButtons'
-import { Paper, Divider } from '@material-ui/core';
+import { Paper} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-
-
 
 class ReportPage extends Component {
     constructor(props) {
@@ -36,7 +34,7 @@ class ReportPage extends Component {
     handleButton(e) {
         if (this.state.status_type !== null && this.state.date1 !== null && this.state.date2 !== null) {
 
-            var url = new URL("http://localhost:4000/get_report"),
+            var url = new URL("http://68.183.131.116:4000/get_report"),
                 params = {
                     status_type: this.state.status_type,
                     date1: this.state.date1,
@@ -49,7 +47,7 @@ class ReportPage extends Component {
                 .then(res => res.json())
                 .then(res => this.setState({ results: res }))
 
-            var url = new URL("http://localhost:4000/get_total_income"),
+            var url = new URL("http://68.183.131.116:4000/get_total_income"),
                 params = {
                     date1: this.state.date1,
                     date2: this.state.date2,

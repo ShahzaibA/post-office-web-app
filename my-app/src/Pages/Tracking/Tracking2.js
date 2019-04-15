@@ -41,18 +41,18 @@ class Tracking extends React.Component {
     }
 
     getFromLocal_Tracking() {
-        this.state.TrackingID = localStorage.getItem("Tracking_ID");
+        this.setState({TrackingID: localStorage.getItem("Tracking_ID")});
     }
 
     componentDidMount() {
-        this.state.first = 0;
-        this.state.TrackingID = 0;
+        this.setState({first: 0});
+        this.setState({TrackingID: 0});
         this.getFromLocal_Tracking();
         this.getShipStatus();
     }
 
     getShipStatus() {
-        fetch('http://localhost:4000/get_shipstatus', {
+        fetch('http://68.183.131.116:4000/get_shipstatus', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

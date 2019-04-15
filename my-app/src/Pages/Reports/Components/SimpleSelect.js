@@ -2,12 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -44,7 +41,7 @@ class SimpleSelect extends React.Component {
     });
 
     //get_status_types
-    fetch('http://localhost:4000/get_status_types')
+    fetch('http://68.183.131.116:4000/get_status_types')
       .then(res => res.json())
       .then(res => {
         let newstate = res.status_types.map(x => x.Status_Type);

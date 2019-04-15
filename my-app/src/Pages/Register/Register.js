@@ -76,7 +76,7 @@ class Register extends React.Component {
     }
 
     getStates() {
-        fetch('http://localhost:4000/get_states'
+        fetch('http://68.183.131.116:4000/get_states'
         )
             .then(res => res.json())
             .then(Response => this.setState({ states: Response.states }))
@@ -84,7 +84,7 @@ class Register extends React.Component {
     }
 
     sendRegistrationInfo = () => {
-        fetch('http://localhost:4000/create_user', {
+        fetch('http://68.183.131.116:4000/create_user', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

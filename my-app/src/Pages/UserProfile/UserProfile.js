@@ -84,22 +84,22 @@ class UserProfile extends Component {
     let tempState = {}
 
 
-    var url = new URL("http://localhost:4000/get_user"),
+    var url = new URL("http://68.183.131.116:4000/get_user"),
       params = { sender_ID: localStorage.getItem('sender_ID') }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     fetch(url)
       .then(res => res.json())
       .then(res => Object.assign(tempState, res))
       .then(() => {
-        fetch('http://localhost:4000/get_states')
+        fetch('http://68.183.131.116:4000/get_states')
           .then(res => res.json())
           .then(res => Object.assign(tempState, res))
           .then(() => {
-            fetch('http://localhost:4000/get_cities')
+            fetch('http://68.183.131.116:4000/get_cities')
               .then(res => res.json())
               .then(res => Object.assign(tempState, res))
               .then(() => {
-                fetch('http://localhost:4000/get_countries')
+                fetch('http://68.183.131.116:4000/get_countries')
                   .then(res => res.json())
                   .then(res => Object.assign(tempState, res))
                   .then(() => {
@@ -123,14 +123,6 @@ class UserProfile extends Component {
           .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
-
-
-
-
-
-
-
-
   }
 
 
@@ -176,7 +168,7 @@ class UserProfile extends Component {
     /*     { username, password, sender_firstName, sender_lastName, sender_address, sender_apartment, sender_city, sender_state,
           sender_zip, sender_country, sender_email, sender_phone, sender_id } */
 
-    fetch('http://localhost:4000/edit_user', {
+    fetch('http://68.183.131.116:4000/edit_user', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
