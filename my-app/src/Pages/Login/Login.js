@@ -8,6 +8,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import { DialogContent } from '@material-ui/core';
 
 const styles = theme => ({
     main: {
@@ -47,7 +50,9 @@ class Login extends React.Component {
         password: "",
         sender_ID: "",
         loggedIn: false,
-        info: []
+        auth: true,
+        fetch: true,
+        info: [],
     }
 
     loginUser = () => {
@@ -67,13 +72,28 @@ class Login extends React.Component {
                     localStorage.setItem('sender_ID', result.data[0].Sender_ID);
                     this.setState({ loggedIn: true })
                 }
+                else{
+                    setTimeout(
+                        function(){
+                            this.setState({auth: false})
+                        }
+                        .bind(this)
+                        .then(this.setState({auth:true}))
+                    ,1000)
+                }
             })
-            .catch(err => console.log(err))
+            .catch(err => this.setState({auth:false}))
     }
 
     handleChange = (name, val) => {
         this.setState({ [name]: val });
     }
+
+    handleClose = () => {
+        this.setState({
+            auth: true,
+        });
+    };
 
     render() {
         const { classes } = this.props;
@@ -117,6 +137,15 @@ class Login extends React.Component {
                                 >
                                     Sign in
                             </Button>
+                            <Dialog
+                                open={!this.state.auth}
+                                onClose={this.handleClose}>
+                                <DialogTitle>
+                                    <DialogContent>
+                                        Invalid username or password.
+                                    </DialogContent>
+                                </DialogTitle>
+                            </Dialog>
                             </form>
                         </Paper>
                         <Typography style={{ marginTop: '10px' }}>Don't Have an Account?&ensp;

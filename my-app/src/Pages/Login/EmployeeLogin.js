@@ -8,6 +8,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import { DialogContent } from '@material-ui/core';
 
 const styles = theme => ({
     main: {
@@ -46,6 +49,7 @@ class Login extends React.Component {
         employee_email: "",
         password: "",
         loggedIn: false,
+        auth: true,
         info: []
     }
 
@@ -67,13 +71,28 @@ class Login extends React.Component {
                     localStorage.setItem('job_title', result.data[0].JobTitle)
                     this.setState({ loggedIn: true })
                 }
+                else{
+                    setTimeout(
+                        function(){
+                            this.setState({auth: false})
+                        }
+                        .bind(this)
+                        .then(this.setState({auth:true}))
+                    ,1000)
+                }
             })
-            .catch(err => console.log(err))
+            .catch(err => this.setState({auth:false}))
     }
 
     handleChange = (name, val) => {
         this.setState({ [name]: val });
     }
+
+    handleClose = () => {
+        this.setState({
+            auth: true,
+        });
+    };
 
     render() {
         const { classes } = this.props;
@@ -83,7 +102,7 @@ class Login extends React.Component {
         }
         else {
             return (
-                <main className={classes.main}>
+                <main className={classes.main} style ={{paddingBottom: '60px'}}>
                     <CssBaseline />
                     <Paper className={classes.paper}>
                         <Typography component="h1" variant="h5">
@@ -116,6 +135,15 @@ class Login extends React.Component {
                             >
                                 Sign in
                             </Button>
+                            <Dialog
+                                open={!this.state.auth}
+                                onClose={this.handleClose}>
+                                <DialogTitle>
+                                    <DialogContent>
+                                        Invalid username or password.
+                                    </DialogContent>
+                                </DialogTitle>
+                            </Dialog>
                         </form>
                     </Paper>
                 </main>
