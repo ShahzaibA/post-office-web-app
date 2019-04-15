@@ -80,7 +80,7 @@ class ManageEmployees extends React.Component {
     };
 
     getEmployees() {
-        fetch('http://localhost:4000/get_employees', {
+        fetch('http://68.183.131.116:4000/get_employees', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -97,7 +97,7 @@ class ManageEmployees extends React.Component {
 
     createEmployee = () => {
         console.log("Creating Employee");
-        fetch('http://localhost:4000/create_employee', {
+        fetch('http://68.183.131.116:4000/create_employee', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -117,7 +117,7 @@ class ManageEmployees extends React.Component {
     }
 
     createDriverEmployee = () => {
-        fetch('http://localhost:4000/create_driver_employee', {
+        fetch('http://68.183.131.116:4000/create_driver_employee', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -138,13 +138,13 @@ class ManageEmployees extends React.Component {
     }
 
     getJobTitles() {
-        fetch('http://localhost:4000/get_job_titles')
+        fetch('http://68.183.131.116:4000/get_job_titles')
             .then(res => res.json())
             .then(result => this.setState({ job_titles: result.data }))
     }
 
     getHubs() {
-        fetch('http://localhost:4000/get_hubs')
+        fetch('http://68.183.131.116:4000/get_hubs')
             .then(res => res.json())
             .then(result => this.setState({ hubs: result.data }))
     }

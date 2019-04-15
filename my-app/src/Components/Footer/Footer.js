@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import './Footer.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Link } from 'react-router-dom';
 import logo from '../Navbar/logo.png';
 import { Divider } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';

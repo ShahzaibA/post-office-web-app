@@ -94,7 +94,7 @@ class SendPackage extends React.Component {
   }
 
   getStates() {
-    fetch('http://localhost:4000/get_states'
+    fetch('http://68.183.131.116:4000/get_states'
     )
       .then(res => res.json())
       .then(Response => this.setState({ states: Response.states }))
@@ -102,7 +102,7 @@ class SendPackage extends React.Component {
   }
 
   getPackageTypes() {
-    fetch('http://localhost:4000/get_package_types'
+    fetch('http://68.183.131.116:4000/get_package_types'
     )
       .then(res => res.json())
       .then(Response => this.setState({ package_types: Response.package_types }))
@@ -111,7 +111,7 @@ class SendPackage extends React.Component {
 
   getSenderInformation() {
     if (localStorage.getItem('sender_ID') !== null) {
-      fetch('http://localhost:4000/get_sender_information', {
+      fetch('http://68.183.131.116:4000/get_sender_information', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +139,7 @@ class SendPackage extends React.Component {
   }
 
   sendPackageData = () => {
-    fetch('http://localhost:4000/create_order', {
+    fetch('http://68.183.131.116:4000/create_order', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

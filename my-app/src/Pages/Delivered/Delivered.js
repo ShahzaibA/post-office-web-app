@@ -52,7 +52,7 @@ class Delivered extends Component {
     };
 
     getPackagesToDeliver = () => {
-        fetch('http://localhost:4000/get_deliveries', {
+        fetch('http://68.183.131.116:4000/get_deliveries', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -67,7 +67,7 @@ class Delivered extends Component {
     }
 
     deliver(Package_ID) {
-        fetch('http://localhost:4000/delivered', {
+        fetch('http://68.183.131.116:4000/delivered', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

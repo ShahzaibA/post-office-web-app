@@ -86,7 +86,7 @@ class AssignDelivery extends Component {
     };
 
     getStates() {
-        fetch('http://localhost:4000/get_states'
+        fetch('http://68.183.131.116:4000/get_states'
         )
             .then(res => res.json())
             .then(Response => this.setState({ states: Response.states }))
@@ -94,7 +94,7 @@ class AssignDelivery extends Component {
     }
 
     getDrivers() {
-        fetch('http://localhost:4000/get_drivers', {
+        fetch('http://68.183.131.116:4000/get_drivers', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -109,7 +109,7 @@ class AssignDelivery extends Component {
     }
 
     getPackagesToDeliver() {
-        fetch('http://localhost:4000/get_packages_to_deliver', {
+        fetch('http://68.183.131.116:4000/get_packages_to_deliver', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -125,7 +125,7 @@ class AssignDelivery extends Component {
     }
 
     sendOutForDelivery = () => {
-        fetch('http://localhost:4000/send_out_for_delivery', {
+        fetch('http://68.183.131.116:4000/send_out_for_delivery', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

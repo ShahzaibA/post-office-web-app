@@ -57,7 +57,7 @@ class Invoice extends React.Component {
     }
 
     getInvoice() {
-        fetch('http://localhost:4000/get_invoices', {
+        fetch('http://68.183.131.116:4000/get_invoices', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

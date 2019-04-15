@@ -13,8 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Button } from 'react-bootstrap';
 import Grow from '@material-ui/core/Grow';
-import Collapse from '@material-ui/core/Collapse';
-import { Done, ArrowRightAlt, DirectionsCar, TrendingUpRounded } from '@material-ui/icons';
+import { Done } from '@material-ui/icons';
 
 const styles = theme => ({
     root: {
@@ -64,7 +63,7 @@ class ArrivalScan extends Component {
     };
 
     getStates() {
-        fetch('http://localhost:4000/get_states'
+        fetch('http://68.183.131.116:4000/get_states'
         )
             .then(res => res.json())
             .then(Response => this.setState({ states: Response.states }))
@@ -72,7 +71,7 @@ class ArrivalScan extends Component {
     }
 
     getPackagesAwaitingArrival() {
-        fetch('http://localhost:4000/get_packages_awaiting_arrival', {
+        fetch('http://68.183.131.116:4000/get_packages_awaiting_arrival', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -90,7 +89,7 @@ class ArrivalScan extends Component {
         this.setState({ activeButton: Package_ID })
         setTimeout(
             function () {
-                fetch('http://localhost:4000/arrival_scan', {
+                fetch('http://68.183.131.116:4000/arrival_scan', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

@@ -86,7 +86,7 @@ class RoutePackage extends Component {
     };
 
     getStates() {
-        fetch('http://localhost:4000/get_states'
+        fetch('http://68.183.131.116:4000/get_states'
         )
             .then(res => res.json())
             .then(Response => this.setState({ states: Response.states }))
@@ -94,7 +94,7 @@ class RoutePackage extends Component {
     }
 
     getDrivers() {
-        fetch('http://localhost:4000/get_drivers', {
+        fetch('http://68.183.131.116:4000/get_drivers', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -109,7 +109,7 @@ class RoutePackage extends Component {
     }
 
     getArrivedPackages() {
-        fetch('http://localhost:4000/get_arrived_packages', {
+        fetch('http://68.183.131.116:4000/get_arrived_packages', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -125,7 +125,7 @@ class RoutePackage extends Component {
     }
 
     postRoutedPackage = () => {
-        fetch('http://localhost:4000/in_transit_scan', {
+        fetch('http://68.183.131.116:4000/in_transit_scan', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
