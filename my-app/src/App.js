@@ -27,11 +27,11 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App" style={{ height: '100%', minHeight: '100vh', paddingBottom: '200px', position: 'relative' }}>
+        <div className="App" style={{ minHeight: '100vh', paddingBottom: '200px', position: 'relative' }}>
           <Navbar />
           <Route exact path='/' component={Home} />
           <Route exact path='/tracking' component={Tracking} />
-          <Route exact path='/send_package' component={SendPackage} />
+          <Route exact path='/send_package' component={SendPackage}/>
           <Route exact path='/user_profile' component={UserProfile} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Registration} />

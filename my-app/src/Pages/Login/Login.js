@@ -83,7 +83,7 @@ class Login extends React.Component {
         }
         else {
             return (
-                <div className="bg">
+                <div className="bg" style ={{paddingBottom: '60px'}}>
                     <main className={classes.main}>
                         <CssBaseline />
                         <Paper className={classes.paper}>

@@ -57,6 +57,7 @@ class Navbar extends Component {
         localStorage.removeItem('job_title');
         this.setState({ job_title: null });
         localStorage.removeItem('Tracking_ID');
+        window.location.replace('/');
     }
 
     render() {
