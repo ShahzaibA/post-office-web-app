@@ -41,7 +41,7 @@ class Tracking extends React.Component {
     }
 
     getFromLocal_Tracking() {
-        this.setState({TrackingID: localStorage.getItem("Tracking_ID")});
+        this.state.TrackingID = localStorage.getItem("Tracking_ID");
     }
 
     componentDidMount() {

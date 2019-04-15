@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-
+import { MarkunreadMailbox, } from '@material-ui/icons';
 
 export default class HomeCarousel extends Component {
   state = {
@@ -27,7 +27,7 @@ export default class HomeCarousel extends Component {
         <div className='home-page-bg'>
           <div class='container' style={{ padding: "5vw", paddingTop: "170px", margin: "0 auto" }}>
             <div flex style={{ position: "relative", padding: "20px", margin: "0 auto", width: "85%", top: '10%' }}>
-              <h1 fluid style={{ color: "black", fontWeight: 700, fontSize: '3.5vw' }}>Check Package Status</h1>
+              <h1 fluid style={{ color: "black", fontWeight: 700, fontSize: '3.5vw' }}>Track my Package!</h1>
               <InputGroup className="mb-3" size="lg">
                 <FormControl placeholder="Tracking ID"
                   style={{ fontSize: '1.5vw' }}
@@ -45,10 +45,13 @@ export default class HomeCarousel extends Component {
           </div >
         </div>
         <div class = "container" style = {{width: '100%', alignContent: 'center', textAlign: 'center', paddingTop: '50px', paddingBottom: '50px'}}>
-          <h1>WHAT WE DO</h1>
-          <Grid container spacing={24} style = {{width: '100%', alignContent: 'center', textAlign: 'center'}}>
+          <h1 style = {{fontSize: '3em'}}>HOW DO I SHIPIT?</h1>
+          <Grid container spacing={24} justify="center" style = {{width: '100%', alignContent: 'center', textAlign: 'center', padding: '30px'}}>
               <Grid item xs={3}>
-                Send us a package 
+                  Send us a package 
+                  <Grid>
+                  <MarkunreadMailbox></MarkunreadMailbox>
+                  </Grid>
               </Grid>
               <Typography
                 type="title"
