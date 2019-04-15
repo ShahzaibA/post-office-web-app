@@ -45,7 +45,6 @@ class Tracking extends React.Component {
     }
 
     componentDidMount() {
-        this.state.first= 0;
         this.state.TrackingID= 0;
         this.getFromLocal_Tracking();
         this.getShipStatus();

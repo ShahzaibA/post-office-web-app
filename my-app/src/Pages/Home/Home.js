@@ -55,7 +55,7 @@ export default class HomeCarousel extends Component {
               </Grid>
               <Typography
                 type="title"
-                color="inherit"
+                color="grey"
                 style={{ borderRight: '0.1em solid black', padding: '0.5em' }}
                 ></Typography>
             <Grid item xs={3}>
@@ -63,7 +63,7 @@ export default class HomeCarousel extends Component {
             </Grid>
               <Typography
                 type="title"
-                color="inherit"
+                color="grey"
                 style={{ borderRight: '0.1em solid black', padding: '0.5em' }}
                 ></Typography>
             <Grid item xs={3}>
