@@ -12,6 +12,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Button } from 'react-bootstrap';
+import Grow from '@material-ui/core/Grow';
+import Collapse from '@material-ui/core/Collapse';
+import { Done, ArrowRightAlt, DirectionsCar, TrendingUpRounded } from '@material-ui/icons';
 
 const styles = theme => ({
     root: {
@@ -47,6 +50,8 @@ class ArrivalScan extends Component {
         packages: [],
         states: [],
         hub_location: "",
+        activeButton: "",
+        disabled: false,
     }
 
     componentDidMount() {
@@ -82,18 +87,25 @@ class ArrivalScan extends Component {
     }
 
     arrivalScan(Package_ID, Hub_ID) {
-        fetch('http://localhost:4000/arrival_scan', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                Package_ID: Package_ID,
-                Hub_ID: Hub_ID,
-            })
-        })
-            .then(() => this.getPackagesAwaitingArrival())
-            .catch(err => console.log(err))
+        this.setState({ activeButton: Package_ID })
+        setTimeout(
+            function () {
+                fetch('http://localhost:4000/arrival_scan', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        Package_ID: Package_ID,
+                        Hub_ID: Hub_ID,
+                    })
+                })
+                    .then(() => this.getPackagesAwaitingArrival())
+                    .catch(err => console.log(err))
+            }
+                .bind(this),
+            2000
+        );
     }
 
     renderPackageList = ({ Package_ID, Shipping_Address, Shipping_City, Shipping_State_Abbr, Shipping_Zip, Hub_ID }) =>
@@ -104,7 +116,17 @@ class ArrivalScan extends Component {
             <TableCell align="right">{Shipping_State_Abbr}</TableCell>
             <TableCell align="right">{Shipping_Zip}</TableCell>
             <TableCell align="right">
-                <Button size='sm' variant="outline-danger" onClick={() => this.arrivalScan(Package_ID, Hub_ID)} >Scan Arrival</Button>
+                {this.state.activeButton !== Package_ID ?
+                    (<Button id={'Button-' + Package_ID} size='sm' variant="outline-danger" onClick={() => this.arrivalScan(Package_ID, Hub_ID)} >
+                        Scan Arrival
+                    </Button>) :
+                    (<Button disabled={true} size='sm' variant="outline-danger">
+                        <Grow in={true} style={{ transformOrigin: '0 0 0' }} {...(true ? { timeout: 1000, } : {})}>
+                            <Done>Scanned</Done>
+                        </Grow>
+                    </Button>
+                    )
+                }
             </TableCell>
         </TableRow>
 
