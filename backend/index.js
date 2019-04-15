@@ -110,7 +110,7 @@ app.get('/get_user', (req, res) => {
                     res.send(err);
                 }
                 else if (results.length !== 0) {
-                    console.log(results)
+                    //console.log(results)
                     return res.json({
                         username: myusername,
                         sender_firstName: results[0].FName,
@@ -186,11 +186,20 @@ app.post('/edit_user', (req, res) => {
                                 } else {
                                     let country_id = results[0].Country_ID
 
-                                    connection.query(`UPDATE postoffice.sender SET Addr1='${sender_address}', Addr2='${sender_address2}', City_ID=${city_id}, State_ID=${state_id}, ZIP=${sender_zip} , Country_ID=${country_id} WHERE Sender_ID = ${sender_id};`, function (err, results) {
+                                    connection.query(`UPDATE postoffice.sender 
+                                                      SET Addr1='${sender_address}', 
+                                                      Addr2='${sender_address2}', 
+                                                      City_ID=${city_id}, 
+                                                      State_ID=${state_id}, 
+                                                      ZIP=${sender_zip}, 
+                                                      Country_ID=${country_id},
+                                                      Apt=${sender_apartment},
+                                                      Phone=${sender_phone}
+                                                      WHERE Sender_ID = ${sender_id};`, function (err, results) {
                                         if (err) {
                                             console.log(err);
                                         } else {
-                                            console.log('done');
+                                            //console.log('done');
                                             return res
 
 
