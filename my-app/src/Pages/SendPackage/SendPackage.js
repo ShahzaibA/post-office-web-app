@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -242,7 +241,7 @@ class SendPackage extends React.Component {
       <div className='send-package-page-bg'>
         <React.Fragment>
           <CssBaseline />
-          <main className={classes.layout}>
+          <main className={classes.layout} style = {{height: '100%'}}>
             <Paper className={classes.paper}>
               <Typography component="h1" variant="h4" align="center">
                 Send Package
