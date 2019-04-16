@@ -41,12 +41,11 @@ class Tracking extends React.Component {
     }
 
     getFromLocal_Tracking() {
-        this.setState({TrackingID: localStorage.getItem("Tracking_ID")});
+        this.state.TrackingID = localStorage.getItem("Tracking_ID");
     }
 
     componentDidMount() {
-        this.setState({first: 0});
-        this.setState({TrackingID: 0});
+        this.state.TrackingID= 0;
         this.getFromLocal_Tracking();
         this.getShipStatus();
     }
@@ -80,7 +79,7 @@ class Tracking extends React.Component {
 
     checkFirst() {
         if (this.state.first < this.state.numPerRow) {
-            this.setState({first:this.state.first+1});
+            this.state.first = this.state.first+1;
             return { fontWeight: 'bold', backgroundColor: '#ededed' };
         }
         else {

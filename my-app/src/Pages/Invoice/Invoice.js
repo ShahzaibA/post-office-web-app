@@ -45,13 +45,13 @@ class Invoice extends React.Component {
     }
 
     getFromLocal_Invoice() {
-        this.setState({InvoiceID: localStorage.getItem("sender_ID")});
+        this.state.InvoiceID = localStorage.getItem("sender_ID");
         //We do not remove the current "logged in" user here.
         //localStorage.removeItem("InvoiceID");
     }
 
     componentDidMount() {
-        this.setState({first: 0});
+        this.state.first = 0;
         this.getFromLocal_Invoice();
         this.getInvoice();
     }
@@ -73,7 +73,7 @@ class Invoice extends React.Component {
     }
 
     getID() {
-        this.setState({curID:this.state.curID+1});
+        this.state.curID = this.state.curID+1;
         return this.state.curID - 1;
     }
 
@@ -91,7 +91,7 @@ class Invoice extends React.Component {
 
     checkFirst() {
         if (this.state.first < this.state.numPerRow) {
-            this.setState({first:this.state.first+1});
+            this.state.first = this.state.first+1;
             //return { fontWeight: 'bold', backgroundColor: '#ededed' };
         }
         else {
@@ -138,7 +138,7 @@ class Invoice extends React.Component {
                                                 <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
                                                 <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
                                                 <TableCell align="left" style={this.checkFirst()}>
-                                                    <ul align="left"><a href="/tracking" data-id={this.getID()} onClick={() => this.setTrackingID(row.Package_ID)} >{row.Package_ID}</a></ul>
+                                                    <ul align="left"><a href="/tracking" onClick={() => this.setTrackingID(row.Package_ID)} >{row.Package_ID}</a></ul>
                                                 </TableCell>
                                                 <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
                                                 <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>

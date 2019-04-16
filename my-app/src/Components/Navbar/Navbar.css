@@ -17,6 +17,7 @@ body {
   white-space: nowrap;
   box-sizing: content-box;
   margin: '0 auto';
+  text-align: center;
 }
 
 .ShipItMenu{

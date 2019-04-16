@@ -72,16 +72,10 @@ class Login extends React.Component {
                     this.setState({ loggedIn: true })
                 }
                 else{
-                    setTimeout(
-                        function(){
-                            this.setState({auth: false})
-                        }
-                        .bind(this)
-                        .then(this.setState({auth:true}))
-                    ,1000)
+                    this.setState({ auth: false })
                 }
             })
-            .catch(err => this.setState({auth:false}))
+            .catch(err => this.setState({ auth: false }))
     }
 
     handleChange = (name, val) => {
