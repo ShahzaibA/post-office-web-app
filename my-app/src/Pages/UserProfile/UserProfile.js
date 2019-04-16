@@ -6,6 +6,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   appBar: {
@@ -66,6 +73,8 @@ class UserProfile extends Component {
       username: "",
       password: "",
       edit: false,
+      open: false,
+      new_password: '',
     };
 
     // This binding is necessary to make `this` work in the callback
@@ -125,6 +134,69 @@ class UserProfile extends Component {
       .catch(err => console.log(err))
   }
 
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  updatePassword = () => {
+    fetch('http://68.183.131.116:4000/update_user_password', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Sender_ID: localStorage.getItem('sender_ID'),
+        New_Password: this.state.new_password,
+      })
+    })
+      .then(this.handleClose)
+      .catch(err => console.log(err))
+  }
+
+  changePassword() {
+    return (
+      <div>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title"></DialogTitle>
+          <DialogContent>
+            <Grid container spacing={24}>
+              <Grid item xs={12}>
+                <TextField
+                  autoFocus
+                  id="new_password"
+                  label="Enter a new password"
+                  name="new_password"
+                  type="new_password"
+                  fullWidth
+                  onChange={e => this.handleChange(e.target.name, e.target.value)}
+                />
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              color="secondary"
+              onClick={this.updatePassword}>
+              Change Password
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+    )
+  }
+
 
   AccountEdit() {
     let tempState = {};
@@ -137,16 +209,19 @@ class UserProfile extends Component {
           <Button variant="contained" color="secondary" onClick={this.handleEditClick}>
             Edit
           </Button>
+          <Button variant="contained" color="danger" onClick={this.handleClickOpen}>
+            Change Password
+          </Button>
         </div>
       )
     else
       return (
         <div>
           <UserEdit handleChange={this.handleChange} val={tempState} />
-          <Button variant="contained" color="secondary" href="/user_profile">
+          <Button variant="contained" color="primary" href="/user_profile">
             Cancel
           </Button>
-          <Button variant="contained" color="primary" onClick={this.handleSubmitClick}>
+          <Button variant="contained" color="secondary" onClick={this.handleSubmitClick}>
             Submit
           </Button>
 
@@ -198,6 +273,7 @@ class UserProfile extends Component {
 
   render() {
     const { classes } = this.props;
+    console.log(this.state.new_password);
     return (
 
       <React.Fragment>
@@ -208,6 +284,7 @@ class UserProfile extends Component {
               Account Info
         </Typography>
             {this.AccountEdit()}
+            {this.changePassword()}
           </Paper>
         </main>
       </React.Fragment>
