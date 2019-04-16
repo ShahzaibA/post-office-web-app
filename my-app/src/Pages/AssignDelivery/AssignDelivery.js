@@ -50,7 +50,7 @@ const styles = theme => ({
 class AssignDelivery extends Component {
     state = {
         packages: [],
-        states: [],
+        hubs: [],
         status_types: [],
         drivers: [],
         hub_location: "",
@@ -59,12 +59,11 @@ class AssignDelivery extends Component {
         route_to_state: "",
         Shipping_State_Abbr: "",
         driver_ID: "",
-
     }
 
     componentDidMount() {
         this.getPackagesToDeliver();
-        this.getStates();
+        this.getHubs();
     }
 
     handleChange = (name, val) => {
@@ -85,11 +84,11 @@ class AssignDelivery extends Component {
         });
     };
 
-    getStates() {
-        fetch('http://68.183.131.116:4000/get_states'
+    getHubs() {
+        fetch('http://68.183.131.116:4000/get_hubs'
         )
             .then(res => res.json())
-            .then(Response => this.setState({ states: Response.states }))
+            .then(Response => this.setState({ hubs: Response.data }))
             .catch(err => console.log(err))
     }
 
@@ -223,9 +222,9 @@ class AssignDelivery extends Component {
                                     value={this.state.hub_location}
                                     onChange={e => this.handleChange(e.target.name, e.target.value)}
                                 >
-                                    {this.state.states.map(option => (
-                                        <MenuItem key={option.State_Abbr} value={option.State_Abbr}>
-                                            {option.State_Abbr}
+                                    {this.state.hubs.map(hub => (
+                                        <MenuItem key={hub.State_Abbr} value={hub.State_Abbr}>
+                                            {hub.Addr + ", " + hub.City_Name + ", " + hub.State_Abbr + ", " + hub.Zip}
                                         </MenuItem>
                                     ))}
                                 </Select>

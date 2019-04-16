@@ -50,7 +50,7 @@ const styles = theme => ({
 class RoutePackage extends Component {
     state = {
         packages: [],
-        states: [],
+        hubs: [],
         status_types: [],
         drivers: [],
         hub_location: "",
@@ -64,7 +64,7 @@ class RoutePackage extends Component {
 
     componentDidMount() {
         this.getArrivedPackages();
-        this.getStates();
+        this.getHubs();
     }
 
     handleChange = (name, val) => {
@@ -86,10 +86,10 @@ class RoutePackage extends Component {
     };
 
     getStates() {
-        fetch('http://68.183.131.116:4000/get_states'
+        fetch('http://68.183.131.116:4000/get_hubs'
         )
             .then(res => res.json())
-            .then(Response => this.setState({ states: Response.states }))
+            .then(Response => this.setState({ hubs: Response.data }))
             .catch(err => console.log(err))
     }
 
@@ -172,9 +172,9 @@ class RoutePackage extends Component {
                             onChange={e => this.handleChange(e.target.name, e.target.value)}
 
                         >
-                            {this.state.states.map(option => (
-                                <MenuItem key={option.State_Abbr} value={option.State_Abbr}>
-                                    {option.State_Abbr}
+                            {this.state.hubs.map(hub => (
+                                <MenuItem key={hub.State_Abbr} value={hub.State_Abbr}>
+                                    {hub.Addr + ", " + hub.City_Name + ", " + hub.State_Abbr + ", " + hub.Zip}
                                 </MenuItem>
                             ))}
                         </TextField>
@@ -241,9 +241,9 @@ class RoutePackage extends Component {
                                     value={this.state.hub_location}
                                     onChange={e => this.handleChange(e.target.name, e.target.value)}
                                 >
-                                    {this.state.states.map(option => (
-                                        <MenuItem key={option.State_Abbr} value={option.State_Abbr}>
-                                            {option.State_Abbr}
+                                    {this.state.hubs.map(hub => (
+                                        <MenuItem key={hub.State_Abbr} value={hub.State_Abbr}>
+                                            {hub.Addr + ", " + hub.City_Name + ", " + hub.State_Abbr + ", " + hub.Zip}
                                         </MenuItem>
                                     ))}
                                 </Select>
