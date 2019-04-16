@@ -734,7 +734,8 @@ app.get('/get_hubs', (req, res) => {
     connection.query(`SELECT mydb.Hub.Hub_ID, mydb.Hub.Addr, mydb.Cities.City_Name, mydb.States.State_Abbr, mydb.Hub.Zip
     FROM mydb.Hub
     LEFT JOIN mydb.Cities ON mydb.Hub.City_ID=mydb.Cities.City_ID
-    LEFT JOIN mydb.States ON mydb.Hub.State_ID=mydb.States.State_ID`, function (err, results) {
+    LEFT JOIN mydb.States ON mydb.Hub.State_ID=mydb.States.State_ID
+    ORDER BY State_Abbr`, function (err, results) {
             if (err) {
                 console.log(err);
             }
