@@ -22,6 +22,9 @@ function ShipTo(props) {
                         name="receiver_firstName"
                         value={props.val.receiver_firstName}
                         label="First name"
+                        inputProps={{
+                            maxLength: 18,
+                        }}
                         fullWidth
                         autoComplete="fname"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -34,6 +37,9 @@ function ShipTo(props) {
                         name="receiver_lastName"
                         value={props.val.receiver_lastName}
                         label="Last name"
+                        inputProps={{
+                            maxLength: 18,
+                        }}
                         fullWidth
                         autoComplete="lname"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -46,6 +52,9 @@ function ShipTo(props) {
                         name="receiver_address"
                         value={props.val.receiver_address}
                         label="Address line"
+                        inputProps={{
+                            maxLength: 32,
+                        }}
                         fullWidth
                         autoComplete="address-line"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -55,8 +64,12 @@ function ShipTo(props) {
                     <TextField
                         id="receiver_apartment"
                         name="receiver_apartment"
+                        type="number"
                         value={props.val.receiver_apartment}
                         label="Apartment, suite, unit, building, floor, etc."
+                        inputProps={{
+                            maxLength: 11,
+                        }}
                         fullWidth
                         autoComplete="apartment"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -69,6 +82,9 @@ function ShipTo(props) {
                         name="receiver_city"
                         value={props.val.receiver_city}
                         label="City"
+                        inputProps={{
+                            maxLength: 24,
+                        }}
                         fullWidth
                         autoComplete="address-level2"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -98,8 +114,12 @@ function ShipTo(props) {
                         required
                         id="receiver_zip"
                         name="receiver_zip"
+                        type="number"
                         value={props.val.receiver_zip}
                         label="Zip / Postal code"
+                        inputProps={{
+                            maxLength: 5,
+                        }}
                         fullWidth
                         autoComplete="postal-code"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}

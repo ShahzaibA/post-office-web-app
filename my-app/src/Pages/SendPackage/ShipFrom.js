@@ -22,6 +22,9 @@ function ShipFrom(props) {
                         name="sender_firstName"
                         value={props.val.sender_firstName}
                         label="First name"
+                        inputProps={{
+                            maxLength: 18,
+                        }}
                         fullWidth
                         autoComplete="fname"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -34,6 +37,9 @@ function ShipFrom(props) {
                         name="sender_lastName"
                         value={props.val.sender_lastName}
                         label="Last name"
+                        inputProps={{
+                            maxLength: 18,
+                        }}
                         fullWidth
                         autoComplete="lname"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -46,6 +52,9 @@ function ShipFrom(props) {
                         name="sender_address"
                         value={props.val.sender_address}
                         label="Address line 1"
+                        inputProps={{
+                            maxLength: 32,
+                        }}
                         fullWidth
                         autoComplete="address-line"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -57,6 +66,9 @@ function ShipFrom(props) {
                         name="sender_apartment"
                         value={props.val.sender_apartment}
                         label="Apartment, suite, unit, building, floor, etc."
+                        inputProps={{
+                            maxLength: 11,
+                        }}
                         fullWidth
                         autoComplete="apartment"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -69,6 +81,9 @@ function ShipFrom(props) {
                         name="sender_city"
                         value={props.val.sender_city}
                         label="City"
+                        inputProps={{
+                            maxLength: 24,
+                        }}
                         fullWidth
                         autoComplete="address-level2"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -99,8 +114,12 @@ function ShipFrom(props) {
                         required
                         id="sender_zip"
                         name="sender_zip"
+                        type="number"
                         value={props.val.sender_zip}
                         label="Zip / Postal code"
+                        inputProps={{
+                            maxLength: 5,
+                        }}
                         fullWidth
                         autoComplete="postal-code"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -132,6 +151,9 @@ function ShipFrom(props) {
                         name="sender_email"
                         value={props.val.sender_email}
                         label="Email"
+                        inputProps={{
+                            maxLength: 32,
+                        }}
                         fullWidth
                         autoComplete="email"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}
@@ -142,8 +164,12 @@ function ShipFrom(props) {
                         required
                         id="sender_phone"
                         name="sender_phone"
+                        type="number"
                         value={props.val.sender_phone}
                         label="Phone"
+                        inputProps={{
+                            maxLength: 10,
+                        }}
                         fullWidth
                         autoComplete="phone"
                         onChange={e => props.handleChange(e.target.name, e.target.value)}

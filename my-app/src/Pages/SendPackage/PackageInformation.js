@@ -36,6 +36,7 @@ function PackageInformation(props) {
                         required
                         id="package_weight"
                         name="package_weight"
+                        type="number"
                         value={props.val.package_weight}
                         label="Weight (in lbs)"
                         fullWidth
