@@ -806,7 +806,7 @@ app.post('/get_sender_information', (req, res) => {
 app.post('/update_user_password', (req, res) => {
     const { Sender_ID, New_Password } = req.body;
     connection.query(`UPDATE mydb.SenderCredentials
-    SET Password='${New_Password}'
+    SET Password='${New_Password}', Date_Updated=null
     WHERE Sender_ID=${Sender_ID}`, function (err, results) {
             if (err) {
                 console.log(err);
