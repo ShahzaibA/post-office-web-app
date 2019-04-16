@@ -64,6 +64,7 @@ function ShipFrom(props) {
                     <TextField
                         id="sender_apartment"
                         name="sender_apartment"
+                        type="number"
                         value={props.val.sender_apartment}
                         label="Apartment, suite, unit, building, floor, etc."
                         inputProps={{
