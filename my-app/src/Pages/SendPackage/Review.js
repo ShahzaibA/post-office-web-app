@@ -79,10 +79,15 @@ function Review(props) {
             <Grid container spacing={16}>
                 <Grid item xs={12} sm={6}>
                     <Typography variant="h6" gutterBottom className={classes.title}>
-                        Shipping
-          </Typography>
-                    <Typography gutterBottom>John Smith</Typography>
-                    <Typography gutterBottom>{addresses.join(', ')}</Typography>
+                        Ship From
+                    </Typography>
+                    <Typography gutterBottom>{props.val.sender_firstName + ' ' + props.val.sender_lastName}</Typography>
+                    <Typography gutterBottom>{props.val.sender_address + ', ' + props.val.sender_city + ', ' + props.val.sender_state + ' ' + props.val.sender_zip}</Typography>
+                    <Typography variant="h6" gutterBottom className={classes.title}>
+                        Ship To
+                    </Typography>
+                    <Typography gutterBottom>{props.val.receiver_firstName + ' ' + props.val.receiver_lastName}</Typography>
+                    <Typography gutterBottom>{props.val.receiver_address + ', ' + props.val.receiver_city + ', ' + props.val.receiver_state + ' ' + props.val.receiver_zip}</Typography>
                 </Grid>
                 <Grid item container direction="column" xs={12} sm={6}>
                     <Typography variant="h6" gutterBottom className={classes.title}>
