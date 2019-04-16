@@ -12,3 +12,20 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+
+.override{
+  background-color: #f7f7f7;
+  max-width: 100%;
+  align-content: center; 
+  text-align: center;
+  padding-top: 80px;
+  padding-bottom: 40px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin: 0px !important;
+  width: 100% !important;
+}
+
+.icons{
+  font-size: small;
+}
