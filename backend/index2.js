@@ -232,9 +232,9 @@ app.get('/get_report', function (req, res) {
         FROM
             mydb.ShipStatus
                 JOIN
-            mydb.Status ON mydb.ShipStatus.Status_ID = Status.Status_ID
+            mydb.Status ON mydb.ShipStatus.Status_ID = mydb.Status.Status_ID
                 JOIN
-            mydb.Hub ON Shipstatus.Hub_ID = Hub.Hub_ID
+            mydb.Hub ON mydb.ShipStatus.Hub_ID = mydb.Hub.Hub_ID
         WHERE (mydb.Status.Status_Type = '${status_type}') AND (mydb.ShipStatus.Date BETWEEN '${date1}' AND '${date2}')
         GROUP BY mydb.ShipStatus.Hub_ID
         `;
