@@ -173,7 +173,7 @@ class AssignDelivery extends Component {
                         >
                             {this.state.drivers.map(option => (
                                 <MenuItem key={option.ID} value={option.ID}>
-                                    {option.ID}
+                                    {option.FName + ' ' + option.LName}
                                 </MenuItem>
                             ))}
                         </TextField>

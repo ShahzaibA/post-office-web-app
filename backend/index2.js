@@ -574,7 +574,7 @@ app.post('/arrival_scan', (req, res) => {
 
 app.post('/get_drivers', (req, res) => {
     const { Hub_Location } = req.body;
-    connection.query(`SELECT ID
+    connection.query(`SELECT ID, FName, LName
     FROM mydb.Employee
     LEFT JOIN mydb.JobTitles ON mydb.Employee.JobTitles_ID=mydb.JobTitles.JobTitle_ID
     WHERE mydb.JobTitles.JobTitle='Driver'`, function (err, results) {
