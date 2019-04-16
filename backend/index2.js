@@ -256,7 +256,7 @@ app.get('/get_total_income', function (req, res) {
     let q = `SELECT
 	            sum(mydb.Invoice.Price) AS Total
             FROM mydb.Invoice
-            WHERE (invoice.Date BETWEEN '${date1}' AND '${date2}')
+            WHERE (mydb.Invoice.Date BETWEEN '${date1}' AND '${date2}')
             `;
 
     connection.query(q, function (err, results) {
