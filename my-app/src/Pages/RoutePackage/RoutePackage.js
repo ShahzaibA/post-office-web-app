@@ -85,7 +85,7 @@ class RoutePackage extends Component {
         });
     };
 
-    getStates() {
+    getHubs() {
         fetch('http://68.183.131.116:4000/get_hubs'
         )
             .then(res => res.json())
