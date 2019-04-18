@@ -813,6 +813,20 @@ app.post('/update_user_password', (req, res) => {
             }
             else {
                 res.send('success');
+                connection.query(`
+                SELECT Date_Updated 
+                FROM mydb.SenderCredentials 
+                WHERE Sender_ID=${Sender_ID}`, function (err, results) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            return res.json({
+                                data: results
+                            })
+                        }
+                    }
+                )
             }
         })
 })

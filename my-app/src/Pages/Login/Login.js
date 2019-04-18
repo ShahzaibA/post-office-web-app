@@ -71,11 +71,11 @@ class Login extends React.Component {
                     localStorage.setItem('sender_ID', result.data[0].Sender_ID);
                     this.setState({ loggedIn: true })
                 }
-                else{
-                    this.setState({auth: false})
+                else {
+                    this.setState({ auth: false })
                 }
             })
-            .catch(err => this.setState({auth: false}))
+            .catch(err => this.setState({ auth: false }))
     }
 
     handleChange = (name, val) => {
@@ -96,7 +96,7 @@ class Login extends React.Component {
         }
         else {
             return (
-                <div className="bg" style ={{paddingBottom: '60px'}}>
+                <div className="bg" style={{ paddingBottom: '60px' }}>
                     <main className={classes.main}>
                         <CssBaseline />
                         <Paper className={classes.paper}>
@@ -130,15 +130,15 @@ class Login extends React.Component {
                                 >
                                     Sign in
                             </Button>
-                            <Dialog
-                                open={!this.state.auth}
-                                onClose={this.handleClose}>
-                                <DialogTitle>
-                                    <DialogContent>
-                                        Invalid username or password.
+                                <Dialog
+                                    open={!this.state.auth}
+                                    onClose={this.handleClose}>
+                                    <DialogTitle>
+                                        <DialogContent>
+                                            Invalid username or password.
                                     </DialogContent>
-                                </DialogTitle>
-                            </Dialog>
+                                    </DialogTitle>
+                                </Dialog>
                             </form>
                         </Paper>
                         <Typography style={{ marginTop: '10px' }}>Don't Have an Account?&ensp;
