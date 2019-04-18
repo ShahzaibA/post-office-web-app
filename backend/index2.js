@@ -812,7 +812,6 @@ app.post('/update_user_password', (req, res) => {
                 console.log(err);
             }
             else {
-                console.log(results);
                 connection.query(`
                 SELECT Date_Updated 
                 FROM mydb.SenderCredentials 
@@ -829,6 +828,26 @@ app.post('/update_user_password', (req, res) => {
                 )
             }
         })
+})
+
+app.post('/get_last', (req, res) => {
+    const { Sender_ID } = req.body;
+    connection.query(`
+    SELECT Date_Updated 
+    FROM mydb.SenderCredentials 
+    WHERE Sender_ID=${Sender_ID}`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                if (results.length !== 0) {
+                    return res.json({
+                        LastUpdated: results[0].Date_Updated
+                    })
+                }
+            }
+        }
+    )
 })
 
 app.listen(4000, () => {

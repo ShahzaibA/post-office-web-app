@@ -76,7 +76,6 @@ class UserProfile extends Component {
       new_password: '',
       openDate: false,
       LastUpdated: "empty",
-      couldChange: false,
     };
 
     // This binding is necessary to make `this` work in the callback
@@ -86,6 +85,7 @@ class UserProfile extends Component {
 
   componentDidMount() {
     this.getUserInfo();
+    this.getLastPass();
   }
 
   getUserInfo() {
@@ -161,17 +161,33 @@ class UserProfile extends Component {
       .then(res => res.json())
       .then(result => {
         if (result.data.length !== 0) {
+          this.setState({ first: true })
           this.setState({ LastUpdated: result.data[0].Date_Updated })
-          this.setState({ couldChange: true })
-          this.setState({ openDate: true })
-        }
-        else {
-          this.setState({ couldChange: false })
-          this.setState({ openDate: true })
         }
       })
       .then(this.handleClose)
       .catch(err => console.log(err))
+  }
+
+  getLastPass() {
+    fetch('http://68.183.131.116:4000/get_last', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Sender_ID: localStorage.getItem('sender_ID'),
+      })
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.data.length !== 0) {
+          this.setState({ first: true })
+          this.setState({ LastUpdated: result })
+        }
+      })
+      .catch(err => console.log(err))
+
   }
 
   changePassword() {
@@ -213,26 +229,18 @@ class UserProfile extends Component {
     )
   }
 
+  translateDate(feed) {
+    return feed.substring(5, 7) + "/" + feed.substring(8, 10) + "/" + feed.substring(0, 4);
+  }
+
   NotifyAfterTrigger() {
     return (
       <div>
-        <Dialog
-          open={this.state.openDate}
-          onClose={this.handleCloseDate}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title"></DialogTitle>
-          <DialogContent>
-            <Grid container spacing={24}>
-              <Grid item xs={12}>
-                {this.state.couldChange ?
-                  (<Fragment>Password has been changed at: {this.state.LastUpdated}</Fragment>)
-                  :
-                  (<Fragment>We could not change your password :(</Fragment>)}
-              </Grid>
-            </Grid>
-          </DialogContent>
-        </Dialog>
+        <Grid container spacing={24}>
+          <Grid item xs={12}>
+            Last password was changed on: {() => this.translateDate(this.state.LastUpdated)}
+          </Grid>
+        </Grid>
       </div>)
   }
 
