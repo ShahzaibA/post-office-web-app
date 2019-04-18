@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import UserInfo from './UserInfo';
 import UserEdit from './UserEdit';
 import Button from '@material-ui/core/Button';
@@ -6,7 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -75,6 +74,8 @@ class UserProfile extends Component {
       edit: false,
       open: false,
       new_password: '',
+      openDate: false,
+      LastUpdated: "empty",
     };
 
     // This binding is necessary to make `this` work in the callback
@@ -83,16 +84,12 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
-
     this.getUserInfo();
-
-
+    this.getLastPass();
   }
 
   getUserInfo() {
     let tempState = {}
-
-
     var url = new URL("http://68.183.131.116:4000/get_user"),
       params = { sender_ID: localStorage.getItem('sender_ID') }
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
@@ -142,6 +139,14 @@ class UserProfile extends Component {
     this.setState({ open: false });
   };
 
+  handleClickOpenDate = () => {
+    this.setState({ openDate: true });
+  }
+
+  handleCloseDate = () => {
+    this.setState({ openDate: false });
+  }
+
   updatePassword = () => {
     fetch('http://68.183.131.116:4000/update_user_password', {
       method: "POST",
@@ -153,8 +158,35 @@ class UserProfile extends Component {
         New_Password: this.state.new_password,
       })
     })
+      .then(res => res.json())
+      .then(result => {
+        if (result.data.length !== 0) {
+          this.setState({ LastUpdated: result.data[0].Date_Updated })
+        }
+      })
       .then(this.handleClose)
       .catch(err => console.log(err))
+  }
+
+  getLastPass() {
+    fetch('http://68.183.131.116:4000/get_last', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Sender_ID: localStorage.getItem('sender_ID'),
+      })
+    })
+      .then(res => res.json())
+      .then(result => {
+        console.log(result)
+        if (result.LastUpdated.length !== 0) {
+          this.setState({ LastUpdated: result.LastUpdated })
+        }
+      })
+      .catch(err => console.log(err))
+
   }
 
   changePassword() {
@@ -193,8 +225,22 @@ class UserProfile extends Component {
           </DialogActions>
         </Dialog>
       </div>
-
     )
+  }
+
+  translateDate(feed) {
+    return feed.substring(5, 7) + "/" + feed.substring(8, 10) + "/" + feed.substring(0, 4);
+  }
+
+  NotifyAfterTrigger() {
+    return (
+      <div>
+        <Grid container spacing={24} style={{ padding: 20 }}>
+          <Grid item xs={12}>
+            Last password was changed on: {this.translateDate(this.state.LastUpdated)}
+          </Grid>
+        </Grid>
+      </div>)
   }
 
 
@@ -224,10 +270,7 @@ class UserProfile extends Component {
           <Button variant="contained" color="secondary" onClick={this.handleSubmitClick}>
             Submit
           </Button>
-
         </div>
-
-
       )
   }
 
@@ -270,12 +313,10 @@ class UserProfile extends Component {
     this.setState(Object.assign(this.state, { edit: false }))
   }
 
-
   render() {
     const { classes } = this.props;
     console.log(this.state.new_password);
     return (
-
       <React.Fragment>
         <CssBaseline />
         <main className={classes.layout}>
@@ -285,23 +326,10 @@ class UserProfile extends Component {
         </Typography>
             {this.AccountEdit()}
             {this.changePassword()}
+            {this.NotifyAfterTrigger()}
           </Paper>
         </main>
       </React.Fragment>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     );
   }
 }
