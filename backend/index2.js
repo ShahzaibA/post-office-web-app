@@ -228,8 +228,9 @@ app.get('/get_report', function (req, res) {
             mydb.ShipStatus.Hub_ID,
             mydb.Hub.Addr,
             mydb.Hub.Zip,
+            mydb.ShipStatus.Driver_ID,
             COUNT(*) AS Total_Packages
-        FROM
+        FROM 
             mydb.ShipStatus
                 JOIN
             mydb.Status ON mydb.ShipStatus.Status_ID = mydb.Status.Status_ID
@@ -247,6 +248,48 @@ app.get('/get_report', function (req, res) {
         }
     })
 });
+
+app.get('/get_driver_report', function (req, res) {
+
+    let date1 = req.query.date1;
+    let date2 = req.query.date2;
+
+    q =
+        `SELECT 
+        mydb.employee.FName,
+        mydb.employee.LName,
+        mydb.employee.Email,
+        mydb.ShipStatus.Package_ID,
+        mydb.ShipStatus.Status_ID,
+        mydb.ShipStatus.Driver_ID,
+        mydb.ShipStatus.Date,
+        mydb.employee.Hub_ID,
+        COUNT(*) AS 'Num_Package'
+    FROM
+        mydb.ShipStatus
+            JOIN
+        mydb.employee ON mydb.ShipStatus.Driver_ID = mydb.employee.ID
+            JOIN
+        mydb.hub ON mydb.employee.Hub_ID = mydb.hub.Hub_ID
+    WHERE
+        mydb.ShipStatus.Status_ID = (SELECT 
+                Status_ID
+            FROM
+                mydb.Status
+            WHERE
+                Status_Type = 'Delivered')
+            AND (mydb.ShipStatus.Date BETWEEN '${date1}' AND '${date2}')
+    GROUP BY mydb.ShipStatus.Driver_ID`
+
+    connection.query(q, function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            return res.json(results);
+        }
+    })
+})
 
 app.get('/get_total_income', function (req, res) {
 

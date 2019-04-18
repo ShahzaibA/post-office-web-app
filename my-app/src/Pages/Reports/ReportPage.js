@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react';
 import DatePickers from './Components/DatePickers'
 import SimpleSelect from './Components/SimpleSelect'
 import SimpleTable from './Components/SimpleTable'
+import SimpleTableDriver from './Components/SimpleTableDriver'
 import ContainedButtons from './Components/ContainedButtons'
-import { Paper} from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
 class ReportPage extends Component {
@@ -14,6 +15,7 @@ class ReportPage extends Component {
             date1: null,
             date2: null,
             results: [],
+            driver_results: [],
             total_Revenue: "$0",
         };
         this.handleDate1 = this.handleDate1.bind(this)
@@ -40,19 +42,19 @@ class ReportPage extends Component {
                     date1: this.state.date1,
                     date2: this.state.date2,
                 }
-
             //     
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
             fetch(url)
                 .then(res => res.json())
                 .then(res => this.setState({ results: res }))
 
+
+
             var url = new URL("http://68.183.131.116:4000/get_total_income"),
                 params = {
                     date1: this.state.date1,
                     date2: this.state.date2,
                 }
-
             //     
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
             fetch(url)
@@ -61,9 +63,20 @@ class ReportPage extends Component {
                     if (res[0].Total !== null) {
                         this.setState({ total_Revenue: '$' + res[0].Total })
                     } else {
-                        this.setState({ total_Revenue: '$0'})
+                        this.setState({ total_Revenue: '$0' })
                     }
                 })
+
+            var url = new URL("http://68.183.131.116:4000/get_driver_report"),
+                params = {
+                    date1: this.state.date1,
+                    date2: this.state.date2,
+                }
+            //     
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+            fetch(url)
+                .then(res => res.json())
+                .then(res => this.setState({ driver_results: res }))
         }
     }
 
@@ -73,7 +86,7 @@ class ReportPage extends Component {
             <Fragment>
                 <div class="container" style={{ padding: 50 }}>
                     <Paper style={{ padding: 50 }}>
-                        <h1>Reports</h1>
+                        <h1>Hub Reports</h1>
                         <Grid container justify="center" style={{ textAlign: 'center' }}>
                             <Grid style={{ padding: "20px" }} item>
                                 <DatePickers
@@ -100,6 +113,12 @@ class ReportPage extends Component {
                         <Grid>
                             <SimpleTable
                                 results={this.state.results}
+                            />
+                        </Grid>
+                        <h1 style={{ marginTop: "50px" }}>Driver Report</h1>
+                        <Grid>
+                            <SimpleTableDriver
+                                results={this.state.driver_results}
                             />
                         </Grid>
                     </Paper>
