@@ -161,7 +161,6 @@ class UserProfile extends Component {
       .then(res => res.json())
       .then(result => {
         if (result.data.length !== 0) {
-          this.setState({ first: true })
           this.setState({ LastUpdated: result.data[0].Date_Updated })
         }
       })
@@ -181,9 +180,9 @@ class UserProfile extends Component {
     })
       .then(res => res.json())
       .then(result => {
-        if (result.data.length !== 0) {
-          this.setState({ first: true })
-          this.setState({ LastUpdated: result })
+        console.log(result)
+        if (result.LastUpdated.length !== 0) {
+          this.setState({ LastUpdated: result.LastUpdated })
         }
       })
       .catch(err => console.log(err))
@@ -238,7 +237,7 @@ class UserProfile extends Component {
       <div>
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            Last password was changed on: {() => this.translateDate(this.state.LastUpdated)}
+            Last password was changed on: {this.translateDate(this.state.LastUpdated)}
           </Grid>
         </Grid>
       </div>)
@@ -313,7 +312,6 @@ class UserProfile extends Component {
 
     this.setState(Object.assign(this.state, { edit: false }))
   }
-
 
   render() {
     const { classes } = this.props;
