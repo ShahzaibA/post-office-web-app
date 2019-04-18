@@ -812,7 +812,7 @@ app.post('/update_user_password', (req, res) => {
                 console.log(err);
             }
             else {
-                res.send('success');
+                console.log(results);
                 connection.query(`
                 SELECT Date_Updated 
                 FROM mydb.SenderCredentials 
