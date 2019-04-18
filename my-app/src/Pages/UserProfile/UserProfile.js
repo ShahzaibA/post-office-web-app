@@ -235,7 +235,7 @@ class UserProfile extends Component {
   NotifyAfterTrigger() {
     return (
       <div>
-        <Grid container spacing={24}>
+        <Grid container spacing={24} style={{ padding: 20 }}>
           <Grid item xs={12}>
             Last password was changed on: {this.translateDate(this.state.LastUpdated)}
           </Grid>
