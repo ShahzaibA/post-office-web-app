@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -38,15 +38,11 @@ class Tracking extends React.Component {
         data: [],
         numPerRow: 4,
         first: 0,
-    }
-
-    getFromLocal_Tracking() {
-        this.state.TrackingID = localStorage.getItem("Tracking_ID");
+        done: true,
     }
 
     componentDidMount() {
-        this.state.TrackingID= 0;
-        this.getFromLocal_Tracking();
+        this.state.TrackingID = localStorage.getItem("Tracking_ID");
         this.getShipStatus();
     }
 
@@ -61,10 +57,19 @@ class Tracking extends React.Component {
             })
         })
             .then(res => res.json())
-            .then(result => this.setState({ data: result.data }))
-            .catch(err => console.log(err))
-
+            .then(result => {
+                if (result.data.length !== 0) {
+                    this.setState({ done: false })
+                    this.setState({ data: result.data })
+                }
+                else {
+                    this.setState({ TrackingID: -1 })
+                    this.setState({ done: false })
+                }
+            })
+            .catch(err => this.setState({ TrackingID: -1 }))
     }
+
     translateTime(time) {
         if (parseInt(time.substring(0, 2)) < 13) {
             if (parseInt(time.substring(0, 2)) < 10) {
@@ -79,7 +84,7 @@ class Tracking extends React.Component {
 
     checkFirst() {
         if (this.state.first < this.state.numPerRow) {
-            this.state.first = this.state.first+1;
+            this.state.first = this.state.first + 1;
             return { fontWeight: 'bold', backgroundColor: '#ededed' };
         }
         else {
@@ -90,47 +95,51 @@ class Tracking extends React.Component {
     render() {
         const { classes } = this.props;
         return (
-            < div className={classes.wrapper} >
-                {this.state.TrackingID < 1 || this.state.data.length < 1 ?
-                    (<Paper>
-                        <Typography variant="h3" as="div" align="center" style={{ padding: 50 }} >
-                            Sorry, we could not find that package.
-                    </Typography>
-
-                        <Typography variant="h5" as="div" align="center" style={{ padding: 50 }}>
-                            Try your search again from <a href="/"><Link to="/">Home.</Link></a>
-                        </Typography>
-                    </Paper>) :
-
-                    (<Paper className={classes.root} style={{ padding: 50 }}>
-                        <Typography variant="h3" as="div" align="left" >
-                            TrackingID - #{this.state.TrackingID}
-                        </Typography>
-                        <Divider className={classes.overrider}></Divider>
-                        <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
-                            Tracking Details:
+            < div className={classes.wrapper} style={{ paddingBottom: 20 }}>
+                {this.state.done ?
+                    (<Fragment>
+                        <Paper className={classes.root} style={{ padding: 50 }}><h1 fontWeight={1000}>Loading...</h1></Paper>
+                    </Fragment>) :
+                    (<Fragment>{this.state.TrackingID > 0 ? (
+                        <Paper className={classes.root} style={{ padding: 50 }}>
+                            <Typography variant="h3" as="div" align="left" >
+                                TrackingID - #{this.state.TrackingID}
                             </Typography>
-                        <Table className={classes.table}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="left">Time</TableCell>
-                                    <TableCell align="left">Date</TableCell>
-                                    <TableCell align="left">Location</TableCell>
-                                    <TableCell align="left">Status</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.data.map(row => (
-                                    < TableRow>
-                                        <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
-                                        <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                        <TableCell align="left" style={this.checkFirst()}>{row.Status_Type === "Delivered" ? row.ReceiverAddr : row.Addr}</TableCell>
-                                        <TableCell align="left" style={this.checkFirst()}>{row.Status_Type}</TableCell>
+                            <Divider className={classes.overrider}></Divider>
+                            <Typography variant="h5" as="div" align="left" fontWeight={600} fontSize="h1.fontSize" >
+                                Tracking Details:
+                            </Typography>
+                            <Table className={classes.table}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="left">Time</TableCell>
+                                        <TableCell align="left">Date</TableCell>
+                                        <TableCell align="left">Location</TableCell>
+                                        <TableCell align="left">Status</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Paper >)
+                                </TableHead>
+                                <TableBody>
+                                    {this.state.data.map(row => (
+                                        < TableRow>
+                                            <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
+                                            <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
+                                            <TableCell align="left" style={this.checkFirst()}>{row.Status_Type === "Delivered" ? row.ReceiverAddr : row.Addr}</TableCell>
+                                            <TableCell align="left" style={this.checkFirst()}>{row.Status_Type}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Paper >) : (<Paper>
+                            <Typography variant="h3" as="div" align="center" style={{ padding: 50 }} >
+                                Sorry, we could not find that package.
+                                </Typography>
+
+                            <Typography variant="h5" as="div" align="center" style={{ padding: 50 }}>
+                                Try your search again from <a href="/"><Link to="/">Home.</Link></a>
+                            </Typography>
+                        </Paper>)}
+                    </Fragment>
+                    )
                 }
             </div >
         )

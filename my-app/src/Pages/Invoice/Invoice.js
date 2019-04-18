@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -41,7 +41,8 @@ class Invoice extends React.Component {
         FName: "",
         LName: "",
         curID: 0,
-        trackingIDS: []
+        trackingIDS: [],
+        done: true,
     }
 
     getFromLocal_Invoice() {
@@ -67,13 +68,22 @@ class Invoice extends React.Component {
             })
         })
             .then(res => res.json())
-            .then(result => this.setState({ data: result.data, FName: result.data[0].FName, LName: result.data[0].LName }))
-            .catch(err => console.log(err))
+            .then(result => {
+                if (result.data.length !== 0) {
+                    this.setState({ done: false })
+                    this.setState({ data: result.data, FName: result.data[0].FName, LName: result.data[0].LName })
+                }
+                else {
+                    this.setState({ InvoiceID: -1 })
+                    this.setState({ done: false })
+                }
+            })
+            .catch(err => this.setState({ InvoiceID: -1 }))
 
     }
 
     getID() {
-        this.state.curID = this.state.curID+1;
+        this.state.curID = this.state.curID + 1;
         return this.state.curID - 1;
     }
 
@@ -91,7 +101,7 @@ class Invoice extends React.Component {
 
     checkFirst() {
         if (this.state.first < this.state.numPerRow) {
-            this.state.first = this.state.first+1;
+            this.state.first = this.state.first + 1;
             //return { fontWeight: 'bold', backgroundColor: '#ededed' };
         }
         else {
@@ -105,53 +115,63 @@ class Invoice extends React.Component {
     render() {
         const { classes } = this.props;
         return (
-            this.state.InvoiceID === "0" ? (<div className={classes.wrapper}>
-                <Paper style={{ padding: 50 }}>
-                    <Typography variant="h1" as="div" align="center" >
-                        No invoices could be found.
-                    </Typography>
-                </Paper>
-            </div>) :
-                (
-                    <div className='invoice-page-bg'>
+            <Fragment>
+                {this.state.done ?
+                    (<Fragment><div className='invoice-page-bg'>
                         <div className={classes.wrapper}>
-                            <Paper className={classes.root} style={{ padding: 50 }}>
-                                <Typography variant="h3" as="div" align="left" >
-                                    Invoices for {this.state.FName} {this.state.LName}
-                                </Typography>
-                                <Divider className={classes.overrider}></Divider>
-                                <Table className={classes.table}>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align="left">Date</TableCell>
-                                            <TableCell align="left">Time</TableCell>
-                                            <TableCell align="left">TrackingID</TableCell>
-                                            <TableCell align="left">Receiver Name</TableCell>
-                                            <TableCell align="left">Receiver Address</TableCell>
-                                            <TableCell align="left">Price</TableCell>
-                                            <TableCell align="left">Weight</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {this.state.data.map(row => (
-                                            <TableRow key={row.id} >
-                                                <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
-                                                <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
-                                                <TableCell align="left" style={this.checkFirst()}>
-                                                    <ul align="left"><a href="/tracking" onClick={() => this.setTrackingID(row.Package_ID)} >{row.Package_ID}</a></ul>
-                                                </TableCell>
-                                                <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
-                                                <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
-                                                <TableCell align="left" style={this.checkFirst()}>${row.Price}</TableCell>
-                                                <TableCell align="left" style={this.checkFirst()}>{row.Weight} lb</TableCell>
+                            <Paper className={classes.root} style={{ padding: 50 }}><h1 fontWeight={1000}>Loading...</h1></Paper></div>
+                    </div></Fragment>) :
+                    (<Fragment>{this.state.InvoiceID > 0 ? (
+                        <div className='invoice-page-bg'>
+                            <div className={classes.wrapper}>
+                                <Paper className={classes.root} style={{ padding: 50 }}>
+                                    <Typography variant="h3" as="div" align="left" >
+                                        Invoices for {this.state.FName} {this.state.LName}
+                                    </Typography>
+                                    <Divider className={classes.overrider}></Divider>
+                                    <Table className={classes.table}>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="left">Date</TableCell>
+                                                <TableCell align="left">Time</TableCell>
+                                                <TableCell align="left">TrackingID</TableCell>
+                                                <TableCell align="left">Receiver Name</TableCell>
+                                                <TableCell align="left">Receiver Address</TableCell>
+                                                <TableCell align="left">Price</TableCell>
+                                                <TableCell align="left">Weight</TableCell>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </Paper >
+                                        </TableHead>
+                                        <TableBody>
+                                            {this.state.data.map(row => (
+                                                <TableRow key={row.id} >
+                                                    <TableCell align="left" style={this.checkFirst()}>{row.Date.substring(5, 7) + "/" + row.Date.substring(8, 10) + "/" + row.Date.substring(0, 4)}</TableCell>
+                                                    <TableCell align="left" style={this.checkFirst()}>{this.translateTime(row.Time)} </TableCell>
+                                                    <TableCell align="left" style={this.checkFirst()}>
+                                                        <ul align="left"><a href="/tracking" onClick={() => this.setTrackingID(row.Package_ID)} >{row.Package_ID}</a></ul>
+                                                    </TableCell>
+                                                    <TableCell align="left" style={this.checkFirst()}>{row.ReceiverFirstName} {row.ReceiverLastName}</TableCell>
+                                                    <TableCell align="left" style={this.checkFirst()}>{row.ReceiverAddr}</TableCell>
+                                                    <TableCell align="left" style={this.checkFirst()}>${row.Price}</TableCell>
+                                                    <TableCell align="left" style={this.checkFirst()}>{row.Weight} lb</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </Paper >
+                            </div>
+                        </div>) :
+                        (<div className={classes.wrapper}>
+                            <Paper style={{ padding: 50 }}>
+                                <Typography variant="h1" as="div" align="center" >
+                                    No invoices could be found.
+                    </Typography>
+                            </Paper>
                         </div>
-                    </div>
-                )
+                        )
+                    }</Fragment>
+                    )
+                }
+            </Fragment>
         )
     }
 }
