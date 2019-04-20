@@ -256,21 +256,21 @@ app.get('/get_driver_report', function (req, res) {
 
     q =
         `SELECT 
-        mydb.employee.FName,
-        mydb.employee.LName,
-        mydb.employee.Email,
+        mydb.Employee.FName,
+        mydb.Employee.LName,
+        mydb.Employee.Email,
         mydb.ShipStatus.Package_ID,
         mydb.ShipStatus.Status_ID,
         mydb.ShipStatus.Driver_ID,
         mydb.ShipStatus.Date,
-        mydb.employee.Hub_ID,
+        mydb.Employee.Hub_ID,
         COUNT(*) AS 'Num_Package'
     FROM
         mydb.ShipStatus
             JOIN
-        mydb.employee ON mydb.ShipStatus.Driver_ID = mydb.employee.ID
+        mydb.Employee ON mydb.ShipStatus.Driver_ID = mydb.Employee.ID
             JOIN
-        mydb.hub ON mydb.employee.Hub_ID = mydb.hub.Hub_ID
+        mydb.Hub ON mydb.Employee.Hub_ID = mydb.Hub.Hub_ID
     WHERE
         mydb.ShipStatus.Status_ID = (SELECT 
                 Status_ID
