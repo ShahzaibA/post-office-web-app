@@ -228,7 +228,6 @@ app.get('/get_report', function (req, res) {
             mydb.ShipStatus.Hub_ID,
             mydb.Hub.Addr,
             mydb.Hub.Zip,
-            mydb.ShipStatus.Driver_ID,
             COUNT(*) AS Total_Packages
         FROM 
             mydb.ShipStatus
