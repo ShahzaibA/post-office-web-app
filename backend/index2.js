@@ -258,10 +258,7 @@ app.get('/get_driver_report', function (req, res) {
         mydb.Employee.FName,
         mydb.Employee.LName,
         mydb.Employee.Email,
-        mydb.ShipStatus.Package_ID,
-        mydb.ShipStatus.Status_ID,
         mydb.ShipStatus.Driver_ID,
-        mydb.ShipStatus.Date,
         mydb.Employee.Hub_ID,
         COUNT(*) AS 'Num_Package'
     FROM
