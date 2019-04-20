@@ -285,6 +285,7 @@ app.get('/get_driver_report', function (req, res) {
             res.send(err);
         }
         else {
+            console.log(results)
             return res.json(results);
         }
     })
