@@ -32,9 +32,10 @@ class EmployeeNavBarMenu extends React.Component {
           aria-owns={anchorEl ? 'simple-menu' : undefined}
           aria-haspopup="true"
           onClick={this.handleClick}
-          style = {{height: "5px !important", fontSize: "14px", 
-          fontWeight: 800, fontFamily: "'Work Sans', sans-serif",
-          top: '0 !important', width: '0% !important', lineHeight: 1.5,
+          style={{
+            height: "5px !important", fontSize: "14px",
+            fontWeight: 800, fontFamily: "'Work Sans', sans-serif",
+            top: '0 !important', width: '0% !important', lineHeight: 1.5,
           }}
         >
           Employee
@@ -48,7 +49,6 @@ class EmployeeNavBarMenu extends React.Component {
           <MenuItem onClick={this.handleClose}><a href="/arrival_scan"><Link to="/arrival_scan">Arrival Scan</Link></a></MenuItem>
           <MenuItem onClick={this.handleClose}><a href="/route_packages"><Link to="/route_packages">Route Packages</Link></a></MenuItem>
           <MenuItem onClick={this.handleClose}><a href="/assign_delivery"><Link to="/assign_delivery">Assign Delivery</Link></a></MenuItem>
-          <MenuItem onClick={this.handleClose}><a href="/deliveries"><Link to="/deliveries">Deliveries</Link></a></MenuItem>
           <MenuItem onClick={this.handleClose}><a href="/manage_employees"><Link to="/manage_employees">Manage Employees</Link></a></MenuItem>
           <MenuItem onClick={this.handleClose}><a href="/reports"><Link to="/reports">Reports</Link></a></MenuItem>
         </Menu>
