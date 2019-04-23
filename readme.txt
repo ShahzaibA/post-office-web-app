@@ -16,6 +16,7 @@ Employee Login Credentials:
 
     ** If you create an employee, the email will be the entered email
         and password will be the LastName+FirstName+'pass'
+        i.e. 'John Doe' -> password is 'DoeJohnpass'
 
 General package flow pipeline:
     1. Package is scanned for arrival at the state package is being sent from.
