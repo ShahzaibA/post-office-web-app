@@ -25,4 +25,5 @@ General package flow pipeline:
     4. Send package out for delivery with a driver.
     5. Driver employee will see all of his/her packages and can mark as delivered.
     
-
+2 Reports:
+    You can find the reports in the employees page. Click on the "Employee" > "Reports".
