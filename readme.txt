@@ -1,5 +1,10 @@
 Website Url: www.shipit.ml:3000
 
+SQL Dump File is called PostofficeDump.sql and is inside of the root directory
+
+Index2.js inside of the backend folder contains all the queries we make from the backend
+/my-app/src contains all of the frontend code used for the website
+
 User Login Credentials (Can create your own): 
     // Already contains mock invoices and data
     username: Shahzaib
